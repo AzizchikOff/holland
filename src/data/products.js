@@ -82,7 +82,7 @@ export const products = [
     popular: false,
   },
   {
-    id: "kapsalan",
+    id: "kapsalan1",
     name: "Kapsalan lahm",
     category: "free",
     price: 75000,
@@ -90,7 +90,7 @@ export const products = [
     popular: false,
   },
   {
-    id: "kapsalan",
+    id: "kapsalan2",
     name: "Kapsalan qiyma",
     category: "free",
     price: 58000,
@@ -98,7 +98,7 @@ export const products = [
     popular: false,
   },
   {
-    id: "berlin-style",
+    id: "berlin-style1",
     name: "Berlin Style lahm",
     category: "free",
     price: 58000,
@@ -106,7 +106,7 @@ export const products = [
     popular: true,
   },
   {
-    id: "berlin-style",
+    id: "berlin-style2",
     name: "Berlin Style qiyma",
     category: "free",
     price: 45000,
