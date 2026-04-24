@@ -106,7 +106,7 @@ export const products = [
     popular: false,
   },
   {
-    id: "8",
+    id: "9",
     name: "Beef Box",
     category: "free",
     price: 55000,
@@ -114,7 +114,7 @@ export const products = [
     popular: false,
   },
   {
-    id: "9",
+    id: "10",
     name: "Chicken Burger",
     category: "burger",
     price: 35000,
@@ -122,7 +122,7 @@ export const products = [
     popular: false,
   },
   {
-    id: "10",
+    id: "11",
     name: "Hot-Dog classic",
     category: "hotdog",
     price: 15000,
@@ -130,7 +130,7 @@ export const products = [
     popular: false,
   },
   {
-    id: "11",
+    id: "12",
     name: "Hot-Dog canada",
     category: "hotdog",
     price: 20000,
@@ -138,7 +138,7 @@ export const products = [
     popular: false,
   },
   {
-    id: "12",
+    id: "13",
     name: "Kapsalan lahm",
     category: "free",
     price: 75000,
@@ -146,7 +146,7 @@ export const products = [
     popular: false,
   },
   {
-    id: "13",
+    id: "14",
     name: "Kapsalan qiyma",
     category: "free",
     price: 58000,
@@ -154,7 +154,7 @@ export const products = [
     popular: false,
   },
   {
-    id: "14",
+    id: "15",
     name: "Berlin Style lahm",
     category: "free",
     price: 58000,
@@ -162,7 +162,7 @@ export const products = [
     popular: true,
   },
   {
-    id: "15",
+    id: "16",
     name: "Berlin Style qiyma",
     category: "free",
     price: 48000,
@@ -170,7 +170,7 @@ export const products = [
     popular: true,
   },
   {
-    id: "16",
+    id: "17",
     name: "Briosh Steak Box",
     category: "free",
     price: 65000,
@@ -178,7 +178,7 @@ export const products = [
     popular: true,
   },
   {
-    id: "17",
+    id: "18",
     name: "Free-Dog",
     category: "hotdog",
     price: 28000,
@@ -186,7 +186,7 @@ export const products = [
     popular: true,
   },
   {
-    id: "18",
+    id: "19",
     name: "Bon file in ciabatta bread lahm",
     category: "burger",
     price: 48000,
@@ -194,7 +194,7 @@ export const products = [
     popular: false,
   },
   {
-    id: "19",
+    id: "20",
     name: "Bon file in ciabatta bread qiyma",
     category: "burger",
     price: 38000,
@@ -203,7 +203,7 @@ export const products = [
   },
 
   {
-    id: "20",
+    id: "21",
     name: "Berlin Sous",
     category: "sous",
     price: 4000,
@@ -211,7 +211,7 @@ export const products = [
     popular: false,
   },
   {
-    id: "21",
+    id: "22",
     name: "Burger sous",
     category: "sous",
     price: 4000,
@@ -219,7 +219,7 @@ export const products = [
     popular: false,
   },
   {
-    id: "22",
+    id: "23",
     name: "BBQ sous",
     category: "sous",
     price: 4000,
@@ -227,7 +227,7 @@ export const products = [
     popular: false,
   },
   {
-    id: "23",
+    id: "24",
     name: "Ketchup-Mayonez",
     category: "sous",
     price: 4000,
@@ -235,7 +235,7 @@ export const products = [
     popular: false,
   },
   {
-    id: "24",
+    id: "25",
     name: "Sprite-moxito 0.5L",
     category: "drink",
     price: 8000,
@@ -243,7 +243,7 @@ export const products = [
     popular: false,
   },
   {
-    id: "25",
+    id: "26",
     name: "Sprite 0.5L",
     category: "drink",
     price: 8000,
@@ -251,7 +251,7 @@ export const products = [
     popular: false,
   },
   {
-    id: "26",
+    id: "27",
     name: "Sprite 0.25L",
     category: "drink",
     price: 7000,
@@ -259,7 +259,7 @@ export const products = [
     popular: false,
   },
   {
-    id: "27",
+    id: "28",
     name: "Fanta 0.25L",
     category: "drink",
     price: 7000,
@@ -267,7 +267,7 @@ export const products = [
     popular: false,
   },
   {
-    id: "28",
+    id: "29",
     name: "Fanta 0.5L",
     category: "drink",
     price: 10000,
@@ -275,7 +275,7 @@ export const products = [
     popular: false,
   },
   {
-    id: "29",
+    id: "30",
     name: "Fanta 0.25L",
     category: "drink",
     price: 10000,
@@ -283,7 +283,7 @@ export const products = [
     popular: false,
   },
   {
-    id: "30",
+    id: "31",
     name: "Fanta 0.5L",
     category: "drink",
     price: 8000,
@@ -291,7 +291,7 @@ export const products = [
     popular: false,
   },
   {
-    id: "31",
+    id: "32",
     name: "Coca Cola 0.25L",
     category: "drink",
     price: 7000,
@@ -299,7 +299,7 @@ export const products = [
     popular: false,
   },
   {
-    id: "32",
+    id: "33",
     name: "Coca Cola 0.5L",
     category: "drink",
     price: 10000,
@@ -307,7 +307,7 @@ export const products = [
     popular: false,
   },
   {
-    id: "33",
+    id: "34",
     name: "Coca Cola 0.25L",
     category: "drink",
     price: 10000,
@@ -315,7 +315,7 @@ export const products = [
     popular: false,
   },
   {
-    id: "34",
+    id: "35",
     name: "Fuse Tea 0.5L",
     category: "drink",
     price: 10000,
@@ -323,7 +323,7 @@ export const products = [
     popular: false,
   },
   {
-    id: "35",
+    id: "36",
     name: "Fuse Tea 0.5L",
     category: "drink",
     price: 8000,
@@ -331,7 +331,7 @@ export const products = [
     popular: false,
   },
   {
-    id: "36",
+    id: "37",
     name: "Bonaqua 0.5L",
     category: "drink",
     price: 3000,
@@ -339,7 +339,7 @@ export const products = [
     popular: false,
   },
   {
-    id: "37",
+    id: "38",
     name: "Cappy Pulpy 0.5L",
     category: "drink",
     price: 8000,
