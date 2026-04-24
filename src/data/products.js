@@ -92,7 +92,7 @@ export const products = [
   {
     id: "7",
     name: "Chicken cheese",
-    category: "burger",
+    category: "free",
     price: 42000,
     image: Chickencheese,
     popular: false,
