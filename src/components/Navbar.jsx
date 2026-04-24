@@ -91,11 +91,11 @@ export default function Navbar() {
             {/* Actions */}
             <div className="flex items-center gap-2">
               <a
-                href="tel:+998781297000"
+                href="tel:+998906999595"
                 className="hidden md:inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gray-50 text-gray-700 hover:bg-red-600 hover:text-white transition-colors text-sm font-medium"
               >
                 <Phone size={18} strokeWidth={1.8} />
-                +998 (93) 911 16 36
+                +998 (90) 699 95 95
               </a>
 
               <Link
@@ -185,12 +185,12 @@ export default function Navbar() {
           </Link>
 
           <a
-            href="tel:+998939111636"
+            href="tel:+998906999595"
             className="mt-2 flex items-center justify-between gap-3 px-4 py-4 rounded-2xl bg-gray-50 text-gray-800 hover:bg-red-600 hover:text-white transition-colors"
           >
             <span className="inline-flex items-center gap-3">
               <Phone size={22} strokeWidth={1.8} />
-              +998 (93) 911 16 36
+              +998 (90) 699 95 95
             </span>
             <span className="text-sm opacity-75">Qo'ng'iroq →</span>
           </a>

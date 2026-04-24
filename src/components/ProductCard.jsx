@@ -14,7 +14,7 @@ export default function ProductCard({ product }) {
           src={product.image}
           alt={product.name}
           loading="lazy"
-          className="w-full h-44 object-cover bg-gray-50"
+          className="w-full h-70 object-cover bg-gray-50"
         />
         {product.popular && (
           <span className="absolute top-3 left-3 bg-yellow-400 text-red-700 text-xs font-bold px-3 py-1 rounded-full">
