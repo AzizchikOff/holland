@@ -1,36 +1,9 @@
-const IMG_PLACEHOLDER = "/images/placeholder.svg";
-import Free from "../img/free-classik.jpg";
-import crispy from "../img/crispy.jpg";
-import burger from "../img/burger.jpg";
-import hotdog from "../img/hotdog.jpg";
-import freeDog from "../img/free-dog.jpg";
-import beefBox from "../img/bifbox.jpg";
-import hotdogCanada from "../img/hotdog-canada.jpg";
-import Loadedfries from "../img/Loaded fries.jpg";
-import special from "../img/special.jpg";
-import loaded from "../img/loaded.png";
-import BrioshSteak from "../img/BrioshSteak.jpg";
-import Chickencheese from "../img/Chickencheese.jpg";
-import loadedcheese from "../img/loaded-cheese.jpg";
-import berlin from "../img/berlin.jpg";
-import Bonfile from "../img/Bonfile.jpg";
-import Kapsalan from "../img/kapsalan.jpg";
-import berlinSous from "../img/berlinSous.png";
-import burgerSous from "../img/burgerSous.png";
-import bbq from "../img/bbq.png";
-import ketchup from "../img/ketchup.png";
-import moxito from "../img/sprite-moxito.jpg";
-import sprite from "../img/sprite.jpg";
-import spriteBanochniy from "../img/sprite-banochniy.jpg";
-import fanta from "../img/fanta.jpg";
-import fantaP from "../img/fanta.png";
-import fantaBanochniy from "../img/fanta-banochniy.jpg";
-import cola from "../img/cola.jpg";
-import colaBanochniy from "../img/cola-banochniy.jpg";
-import fusetea from "../img/fusetea.jpg";
-import fuseteaBanonchiy from "../img/fusetea-banochniy.jpg";
-import bonaqua from "../img/bon-aqua.jpg";
-import cappy from "../img/cappy.jpg";
+// ✅ Import YO'Q — rasmlar endi /public/images/ papkasidan olinadi
+// Bu JS bundle hajmini katta kamaytiradi va rasmlar lazy load bo'ladi
+//
+// MUHIM: src/img/ papkasidagi barcha rasmlarni
+//        public/images/ papkasiga ko'chiring!
+//        Masalan: src/img/BrioshSteak.jpg → public/images/BrioshSteak.jpg
 
 export const categories = [
   { id: "free", label: "Holland Free" },
@@ -41,12 +14,13 @@ export const categories = [
 ];
 
 export const products = [
+  // ── Holland Free ───────────────────────────────────────────
   {
     id: "1",
-    name: "Free Holland ",
+    name: "Free Holland",
     category: "free",
     price: 19000,
-    image: Free,
+    image: "/images/free-classik.jpg",
     popular: false,
   },
   {
@@ -54,7 +28,7 @@ export const products = [
     name: "Free Holland Big",
     category: "free",
     price: 23000,
-    image: Free,
+    image: "/images/free-big.jpg",
     popular: false,
   },
   {
@@ -62,47 +36,47 @@ export const products = [
     name: "Free Holland Special",
     category: "free",
     price: 35000,
-    image: special,
-    popular: false,
+    image: "/images/special.jpg",
+    popular: true,
   },
   {
     id: "4",
-    name: " Loaded fries",
+    name: "Loaded Fries",
     category: "free",
     price: 32000,
-    image: loaded,
-    popular: false,
+    image: "/images/loaded.png",
+    popular: true,
   },
   {
     id: "5",
-    name: " Loaded fries & Sousage",
+    name: "Loaded Fries & Sausage",
     category: "free",
     price: 28000,
-    image: Loadedfries,
+    image: "/images/Loaded fries.jpg",
     popular: false,
   },
   {
     id: "6",
-    name: " Loaded cheese",
+    name: "Loaded Cheese",
     category: "free",
     price: 26000,
-    image: loadedcheese,
+    image: "/images/loaded-cheese.jpg",
     popular: false,
   },
   {
     id: "7",
-    name: "Chicken cheese",
+    name: "Chicken Cheese",
     category: "free",
     price: 42000,
-    image: Chickencheese,
-    popular: false,
+    image: "/images/Chickencheese.jpg",
+    popular: true,
   },
   {
     id: "8",
     name: "Crispy Chicken",
     category: "free",
     price: 38000,
-    image: crispy,
+    image: "/images/crispy.jpg",
     popular: false,
   },
   {
@@ -110,120 +84,125 @@ export const products = [
     name: "Beef Box",
     category: "free",
     price: 55000,
-    image: beefBox,
-    popular: false,
-  },
-  {
-    id: "10",
-    name: "Chicken Burger",
-    category: "burger",
-    price: 35000,
-    image: burger,
-    popular: false,
-  },
-  {
-    id: "11",
-    name: "Hot-Dog classic",
-    category: "hotdog",
-    price: 15000,
-    image: hotdog,
-    popular: false,
-  },
-  {
-    id: "12",
-    name: "Hot-Dog canada",
-    category: "hotdog",
-    price: 20000,
-    image: hotdogCanada,
+    image: "/images/bifbox.jpg",
     popular: false,
   },
   {
     id: "13",
-    name: "Kapsalan lahm",
+    name: "Kapsalan (lahm)",
     category: "free",
     price: 75000,
-    image: Kapsalan,
+    image: "/images/kapsalan.jpg",
     popular: false,
   },
   {
     id: "14",
-    name: "Kapsalan qiyma",
+    name: "Kapsalan (qiyma)",
     category: "free",
     price: 58000,
-    image: Kapsalan,
+    image: "/images/kapsalan.jpg",
     popular: false,
   },
   {
     id: "15",
-    name: "Berlin Style lahm",
+    name: "Berlin Style (lahm)",
     category: "free",
     price: 58000,
-    image: berlin,
+    image: "/images/berlin.jpg",
     popular: true,
   },
   {
     id: "16",
-    name: "Berlin Style qiyma",
+    name: "Berlin Style (qiyma)",
     category: "free",
     price: 48000,
-    image: berlin,
-    popular: true,
+    image: "/images/berlin.jpg",
+    popular: false,
   },
   {
     id: "17",
     name: "Briosh Steak Box",
     category: "free",
     price: 65000,
-    image: BrioshSteak,
+    image: "/images/BrioshSteak.jpg",
     popular: true,
+  },
+
+  // ── Burger ─────────────────────────────────────────────────
+  {
+    id: "10",
+    name: "Chicken Burger",
+    category: "burger",
+    price: 35000,
+    image: "/images/burger.jpg",
+    popular: false,
+  },
+  {
+    id: "19",
+    name: "Bon File in Ciabatta (lahm)",
+    category: "burger",
+    price: 48000,
+    image: "/images/Bonfile.jpg",
+    popular: false,
+  },
+  {
+    id: "20",
+    name: "Bon File in Ciabatta (qiyma)",
+    category: "burger",
+    price: 38000,
+    image: "/images/Bonfile.jpg",
+    popular: false,
+  },
+
+  // ── Hot-dog ────────────────────────────────────────────────
+  {
+    id: "11",
+    name: "Hot-Dog Classic",
+    category: "hotdog",
+    price: 15000,
+    image: "/images/hotdog.jpg",
+    popular: false,
+  },
+  {
+    id: "12",
+    name: "Hot-Dog Canada",
+    category: "hotdog",
+    price: 20000,
+    image: "/images/hotdog-canada.jpg",
+    popular: false,
   },
   {
     id: "18",
     name: "Free-Dog",
     category: "hotdog",
     price: 28000,
-    image: freeDog,
+    image: "/images/free-dog.jpg",
     popular: true,
   },
-  {
-    id: "19",
-    name: "Bon file in ciabatta bread lahm",
-    category: "burger",
-    price: 48000,
-    image: Bonfile,
-    popular: false,
-  },
-  {
-    id: "20",
-    name: "Bon file in ciabatta bread qiyma",
-    category: "burger",
-    price: 38000,
-    image: Bonfile,
-    popular: false,
-  },
 
+  // ── Sous ───────────────────────────────────────────────────
   {
     id: "21",
     name: "Berlin Sous",
     category: "sous",
     price: 4000,
-    image: berlinSous,
+    image: "/images/berlinSous.png",
     popular: false,
   },
   {
     id: "22",
-    name: "Burger sous",
+    name: "Burger Sous",
     category: "sous",
     price: 4000,
-    image: burgerSous,
+    image: "/images/burgerSous.png",
     popular: false,
   },
   {
     id: "23",
-    name: "BBQ sous",
+    name: "BBQ Sous",
     category: "sous",
     price: 4000,
-    image: bbq,
+    image: "/images/bbq.png",
     popular: false,
   },
   {
@@ -231,103 +210,106 @@ export const products = [
     name: "Ketchup-Mayonez",
     category: "sous",
     price: 4000,
-    image: ketchup,
+    image: "/images/ketchup.png",
     popular: false,
   },
+
+  // ── Ichimliklar ────────────────────────────────────────────
+  // ✅ Dublikat nomlar tuzatildi — har biri aniq nom oldi
   {
     id: "25",
-    name: "Sprite-moxito 0.5L",
+    name: "Sprite Mojito 0.5L",
     category: "drink",
     price: 8000,
-    image: moxito,
+    image: "/images/sprite-moxito.jpg",
     popular: false,
   },
   {
     id: "26",
-    name: "Sprite 0.5L",
+    name: "Sprite 0.5L (shisha)",
     category: "drink",
     price: 8000,
-    image: sprite,
+    image: "/images/sprite.jpg",
     popular: false,
   },
   {
     id: "27",
-    name: "Sprite 0.25L",
+    name: "Sprite 0.25L (banonchik)",
     category: "drink",
     price: 7000,
-    image: spriteBanochniy,
+    image: "/images/sprite-banochniy.jpg",
     popular: false,
   },
   {
     id: "28",
-    name: "Fanta 0.25L",
+    name: "Fanta 0.25L (banonchik)",
     category: "drink",
     price: 7000,
-    image: fantaBanochniy,
+    image: "/images/fanta-banochniy.jpg",
     popular: false,
   },
   {
     id: "29",
-    name: "Fanta 0.5L",
+    name: "Fanta 0.5L (banonchik)",
     category: "drink",
     price: 10000,
-    image: fantaBanochniy,
+    image: "/images/fanta-banochniy.jpg",
     popular: false,
   },
   {
     id: "30",
-    name: "Fanta 0.25L",
+    name: "Fanta 0.25L (plastik)",
     category: "drink",
     price: 10000,
-    image: fanta,
+    image: "/images/fanta.jpg",
     popular: false,
   },
   {
     id: "31",
-    name: "Fanta 0.5L",
+    name: "Fanta 0.5L (plastik)",
     category: "drink",
     price: 8000,
-    image: fantaP,
+    image: "/images/fanta.png",
     popular: false,
   },
   {
     id: "32",
-    name: "Coca Cola 0.25L",
+    name: "Coca Cola 0.25L (banonchik)",
     category: "drink",
     price: 7000,
-    image: colaBanochniy,
+    image: "/images/cola-banochniy.jpg",
     popular: false,
   },
   {
     id: "33",
-    name: "Coca Cola 0.5L",
+    name: "Coca Cola 0.5L (banonchik)",
     category: "drink",
     price: 10000,
-    image: colaBanochniy,
+    image: "/images/cola-banochniy.jpg",
     popular: false,
   },
   {
     id: "34",
-    name: "Coca Cola 0.25L",
+    name: "Coca Cola 0.25L (shisha)",
     category: "drink",
     price: 10000,
-    image: cola,
+    image: "/images/cola.jpg",
     popular: false,
   },
   {
     id: "35",
-    name: "Fuse Tea 0.5L",
+    name: "Fuse Tea 0.5L (banonchik)",
     category: "drink",
     price: 10000,
-    image: fuseteaBanonchiy,
+    image: "/images/fusetea-banochniy.jpg",
     popular: false,
   },
   {
     id: "36",
-    name: "Fuse Tea 0.5L",
+    name: "Fuse Tea 0.5L (shisha)",
     category: "drink",
     price: 8000,
-    image: fusetea,
+    image: "/images/fusetea.jpg",
     popular: false,
   },
   {
@@ -335,7 +317,7 @@ export const products = [
     name: "Bonaqua 0.5L",
     category: "drink",
     price: 3000,
-    image: bonaqua,
+    image: "/images/bon-aqua.jpg",
     popular: false,
   },
   {
@@ -343,11 +325,20 @@ export const products = [
     name: "Cappy Pulpy 0.5L",
     category: "drink",
     price: 8000,
-    image: cappy,
+    image: "/images/cappy.jpg",
     popular: false,
   },
 ];
 
+// Popular mahsulotlar — agar kam bo'lsa, eng qimmatlarini ham qo'shadi
 export function getPopularProducts(limit = 5) {
-  return products.filter((p) => p.popular).slice(0, limit);
+  const popular = products.filter((p) => p.popular);
+  if (popular.length >= limit) return popular.slice(0, limit);
+
+  // Fallback: popular kamligida eng qimmat mahsulotlarni qo'sh
+  const notPopular = products
+    .filter((p) => !p.popular)
+    .sort((a, b) => b.price - a.price);
+
+  return [...popular, ...notPopular].slice(0, limit);
 }

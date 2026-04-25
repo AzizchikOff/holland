@@ -1,0 +1,53 @@
+# ✅ Netlify konfiguratsiya fayli
+# Bu faylni Holland/ papkasining ildiziga qo'ying (package.json yoniga)
+
+[build]
+  # Build buyrug'i
+  command = "npm run build"
+  # Netlify qaysi papkadan fayllarni olishi kerak
+  publish = "dist"
+  # Node versiyasi
+  environment = { NODE_VERSION = "20" }
+
+# ✅ SPA uchun — barcha yo'llar index.html ga ketadi (React Router ishlashi uchun)
+[[redirects]]
+  from   = "/*"
+  to     = "/index.html"
+  status = 200
+
+# ✅ Kesh sozlamalari — foydalanuvchi brauzeri rasmlar va JS ni keshlab oladi
+# assets/ — Vite hash qo'shadi (masalan: index-CohoOdcv.js)
+# Shuning uchun 1 yil kesh xavfsiz
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Rasmlar uchun ham uzoq kesh
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800, stale-while-revalidate=86400"
+
+# HTML fayllar uchun qisqa kesh (yangilanishlar tez ko'rinishi uchun)
+[[headers]]
+  for = "/"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/index.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# ✅ Xavfsizlik headerlari — Lighthouse Best Practices uchun
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options        = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy        = "strict-origin-when-cross-origin"
+    Permissions-Policy     = "camera=(), microphone=(), geolocation=()"
+
+# ✅ Gzip/Brotli — Netlify avtomatik qo'shadi, lekin plugin ham ishlatsa bo'ladi
+# (Netlify Edge avtomatik compress qiladi, qo'shimcha sozlash shart emas)
