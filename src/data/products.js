@@ -226,7 +226,7 @@ export const products = [
   },
   {
     id: "26",
-    name: "Sprite 0.5L (shisha)",
+    name: "Sprite 0.5L",
     category: "drink",
     price: 8000,
     image: "/images/sprite.jpg",
@@ -258,7 +258,7 @@ export const products = [
   },
   {
     id: "30",
-    name: "Fanta 0.25L (plastik)",
+    name: "Fanta 0.25L (shisha)",
     category: "drink",
     price: 10000,
     image: "/images/fanta.jpg",
@@ -266,7 +266,7 @@ export const products = [
   },
   {
     id: "31",
-    name: "Fanta 0.5L (plastik)",
+    name: "Fanta 0.5L",
     category: "drink",
     price: 8000,
     image: "/images/fanta.png",
@@ -306,7 +306,7 @@ export const products = [
   },
   {
     id: "36",
-    name: "Fuse Tea 0.5L (shisha)",
+    name: "Fuse Tea 0.5L (plastik)",
     category: "drink",
     price: 8000,
     image: "/images/fusetea.jpg",
