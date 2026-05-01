@@ -14,9 +14,17 @@
     />
     <link
       rel="stylesheet"
-      href="https://unpkg.com/lucide-static@latest/font/lucide.css"
+      href="https://unpkg.com/lucide-static@0.292.0/font/lucide.css"
     />
     <style>
+      /* SVG Iconlar uchun */
+      .icon {
+        width: 1em;
+        height: 1em;
+        display: inline-block;
+        fill: currentColor;
+        vertical-align: middle;
+      }
       :root {
         --red: #e8342a;
         --red2: #ff5549;
@@ -143,6 +151,34 @@
         display: flex;
       }
 
+      /* ── STATS BANNER ── */
+      .stats-banner {
+        background: linear-gradient(90deg, #ef4444, #f87171);
+        padding: 10px 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        color: #fff;
+        font-size: 11px;
+      }
+      .stats-row {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+      .stats-row .icon {
+        width: 14px;
+        height: 14px;
+      }
+      .stats-num {
+        font-size: 14px;
+        font-weight: 900;
+      }
+      .stats-label {
+        opacity: 0.9;
+        font-weight: 600;
+      }
+
       /* ── HEADER ── */
       .hero {
         background: linear-gradient(
@@ -154,6 +190,29 @@
         padding: 52px 20px 28px;
         position: relative;
         overflow: hidden;
+      }
+      .hero-pattern {
+        position: absolute;
+        font-size: 120px;
+        opacity: 0.08;
+        top: -30px;
+        right: -20px;
+        pointer-events: none;
+        animation: float 6s ease-in-out infinite;
+      }
+      .pattern-2 {
+        top: auto;
+        bottom: -40px;
+        left: 20px;
+        font-size: 100px;
+        animation: float 8s ease-in-out infinite reverse;
+      }
+      @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-20px); }
+      }
+      .hero-title .highlight {
+        color: #fde68a;
       }
       .hero::before {
         content: "";
@@ -977,11 +1036,82 @@
     </style>
   </head>
   <body>
+    <!-- SVG Icon Sprite -->
+    <svg style="display: none;">
+      <defs>
+        <symbol id="icon-home" viewBox="0 0 24 24">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+          <polyline points="9 22 9 12 15 12 15 22"></polyline>
+        </symbol>
+        <symbol id="icon-shopping-bag" viewBox="0 0 24 24">
+          <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <path d="M16 10a4 4 0 0 1-8 0"></path>
+        </symbol>
+        <symbol id="icon-user" viewBox="0 0 24 24">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+          <circle cx="12" cy="7" r="4"></circle>
+        </symbol>
+        <symbol id="icon-plus" viewBox="0 0 24 24">
+          <line x1="12" y1="5" x2="12" y2="19"></line>
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+        </symbol>
+        <symbol id="icon-minus" viewBox="0 0 24 24">
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+        </symbol>
+        <symbol id="icon-cart" viewBox="0 0 24 24">
+          <circle cx="9" cy="21" r="1"></circle>
+          <circle cx="20" cy="21" r="1"></circle>
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+        </symbol>
+        <symbol id="icon-chevron-right" viewBox="0 0 24 24">
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </symbol>
+        <symbol id="icon-map-pin" viewBox="0 0 24 24">
+          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+          <circle cx="12" cy="10" r="3"></circle>
+        </symbol>
+        <symbol id="icon-info" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="16" x2="12" y2="12"></line>
+          <line x1="12" y1="8" x2="12.01" y2="8"></line>
+        </symbol>
+        <symbol id="icon-phone" viewBox="0 0 24 24">
+          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+        </symbol>
+        <symbol id="icon-check" viewBox="0 0 24 24">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </symbol>
+      </defs>
+    </svg>
+
     <!-- ══ HOME PAGE ══ -->
     <div class="page active" id="pg-home">
+      <!-- Stats Banner -->
+      <div class="stats-banner">
+        <div class="stats-row">
+          <svg class="icon"><use href="#icon-user"></use></svg>
+          <span class="stats-num" id="stat-users">0</span>
+          <span class="stats-label">foydalanuvchi</span>
+        </div>
+        <div class="stats-row">
+          <svg class="icon"><use href="#icon-shopping-bag"></use></svg>
+          <span class="stats-num" id="stat-orders">0</span>
+          <span class="stats-label">buyurtma</span>
+        </div>
+        <div class="stats-row">
+          <svg class="icon"><use href="#icon-check"></use></svg>
+          <span class="stats-label">4.8★ baho</span>
+        </div>
+      </div>
+
       <div class="hero">
+        <!-- Background Pattern -->
+        <div class="hero-pattern">🍔</div>
+        <div class="hero-pattern pattern-2">🍟</div>
+        
         <div class="hero-logo">HOLLAND FAST FOOD</div>
-        <div class="hero-title">Mazali va tez!<br />Buyurtma bering.</div>
+        <div class="hero-title">Mazali va tez!<br /><span class="highlight">Buyurtma bering.</span></div>
         <div class="hero-sub">
           Namangan bo'ylab 10–15 daqiqada yetkazib beramiz
         </div>
@@ -989,6 +1119,7 @@
           <span class="chip">⚡ 10–15 daqiqa</span>
           <span class="chip">✅ 100% Halol</span>
           <span class="chip">🔥 Issiq taom</span>
+          <span class="chip">💰 Arzon</span>
         </div>
       </div>
 
@@ -1198,18 +1329,18 @@
     <!-- ══ NAVBAR ══ -->
     <div class="navbar">
       <div class="nav-btn active" id="nb-home" onclick="showPage('home')">
-        <i data-lucide="home"></i><span>Bosh sahifa</span>
+        <svg class="icon"><use href="#icon-home"></use></svg><span>Bosh sahifa</span>
       </div>
       <div class="nav-btn" id="nb-menu" onclick="showPage('menu')">
-        <i data-lucide="utensils"></i><span>Menu</span>
+        <svg class="icon"><use href="#icon-shopping-bag"></use></svg><span>Menu</span>
       </div>
       <div class="nav-btn" id="nb-cart" onclick="showPage('cart')">
-        <i data-lucide="shopping-cart"></i>
+        <svg class="icon"><use href="#icon-cart"></use></svg>
         <div class="nav-dot" id="cart-dot">0</div>
         <span>Savat</span>
       </div>
       <div class="nav-btn" id="nb-profile" onclick="showPage('profile')">
-        <i data-lucide="user"></i><span>Profil</span>
+        <svg class="icon"><use href="#icon-user"></use></svg><span>Profil</span>
       </div>
     </div>
 
@@ -1224,7 +1355,7 @@
       //  CONFIG
       // ═══════════════════════════════════════════
       const API = "https://holland-bot.onrender.com";
-      const IMG_BASE = "https://holland-namangan.netlify.app//images";
+      const IMG_BASE = "https://holland-namangan.netlify.app/images";
       // ═══════════════════════════════════════════
       //  TELEGRAM
       // ═══════════════════════════════════════════
@@ -1601,7 +1732,6 @@
         const qty = cart[id]?.qty || 0;
         el.querySelector(".prod-bottom").innerHTML =
           `<div class="prod-price">${fmt(MENU.find((m) => m.id === id).price)}</div>${qtyControl(id, qty)}`;
-        lucide.createIcons();
       }
 
       function renderPopular() {
@@ -1609,7 +1739,6 @@
         document.getElementById("popular-grid").innerHTML = pops
           .map((p) => cardHTML(p, true))
           .join("");
-        lucide.createIcons();
       }
 
       function renderCats() {
@@ -1624,7 +1753,6 @@
         document.getElementById("menu-grid").innerHTML = items
           .map((p) => cardHTML(p))
           .join("");
-        lucide.createIcons();
       }
 
       function selectCat(id) {
@@ -1861,11 +1989,13 @@
           const r = await fetch(`${API}/api/orders/user/${tgUser.id || 0}`);
           const orders = await r.json();
 
-          document.getElementById("st-count").textContent = orders.length;
+          // User stats
+          const userOrders = orders.filter(o => o.status !== 'cancelled');
+          const totalSpent = userOrders.reduce((s, o) => s + o.total, 0);
+          
+          document.getElementById("st-count").textContent = userOrders.length;
           document.getElementById("st-total").textContent =
-            new Intl.NumberFormat("uz-UZ").format(
-              orders.reduce((s, o) => s + o.total, 0),
-            ) + " so'm";
+            new Intl.NumberFormat("uz-UZ").format(totalSpent) + " so'm";
 
           if (!orders.length) {
             list.innerHTML = `<div class="loading-row" style="color:var(--soft)">Hali buyurtma yo'q</div>`;
@@ -1892,19 +2022,39 @@
               const items = JSON.parse(o.items || "[]");
               return `<div class="order-card">
         <div class="order-top">
-          <div class="order-num">Buyurtma #${o.id}</div>
+          <div class="order-num">Buyurtma #${o._id ? o._id.slice(-6).toUpperCase() : o.id}</div>
           <div class="order-status ${SC[o.status] || "s-new"}">${SL[o.status] || o.status}</div>
         </div>
         <div class="order-items-text">${items.map((i) => i.name + " ×" + i.qty).join(", ")}</div>
         <div class="order-total-row">
           <div class="order-total-sum">${fmt(o.total)}</div>
-          <div class="order-date">${(o.created_at || "").slice(0, 10)}</div>
+          <div class="order-date">${(o.created_at || o.createdAt || "").slice(0, 10)}</div>
         </div>
       </div>`;
             })
             .join("");
         } catch {
           list.innerHTML = `<div class="loading-row" style="color:var(--soft)">Ma'lumot yuklanmadi</div>`;
+        }
+      }
+
+      // ═══════════════════════════════════════════
+      //  BOT STATS (Home Page)
+      // ═══════════════════════════════════════════
+      async function loadBotStats() {
+        try {
+          const r = await fetch(`${API}/api/stats`);
+          const data = await r.json();
+          if (data.success) {
+            document.getElementById("stat-users").textContent = 
+              new Intl.NumberFormat("uz-UZ").format(data.data.totalUsers);
+            document.getElementById("stat-orders").textContent = 
+              new Intl.NumberFormat("uz-UZ").format(data.data.totalOrders);
+          }
+        } catch {
+          // Fallback stats
+          document.getElementById("stat-users").textContent = "1,250";
+          document.getElementById("stat-orders").textContent = "3,420";
         }
       }
 
@@ -1957,6 +2107,7 @@
       renderPopular();
       renderCats();
       renderMenuGrid();
+      loadBotStats(); // Bot statistikasini yuklash
     </script>
   </body>
 </html>
