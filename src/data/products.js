@@ -215,7 +215,6 @@ export const products = [
   },
 
   // ── Ichimliklar ────────────────────────────────────────────
-  // ✅ Dublikat nomlar tuzatildi — har biri aniq nom oldi
   {
     id: "25",
     name: "Sprite Mojito 0.5L",
@@ -234,7 +233,7 @@ export const products = [
   },
   {
     id: "27",
-    name: "Sprite 0.25L (banonchik)",
+    name: "Sprite 0.25L",
     category: "drink",
     price: 7000,
     image: "/images/sprite-banochniy.jpg",
@@ -242,7 +241,7 @@ export const products = [
   },
   {
     id: "28",
-    name: "Fanta 0.25L (banonchik)",
+    name: "Fanta 0.25L",
     category: "drink",
     price: 7000,
     image: "/images/fanta-banochniy.jpg",
@@ -250,7 +249,7 @@ export const products = [
   },
   {
     id: "29",
-    name: "Fanta 0.5L (banonchik)",
+    name: "Fanta 0.5L",
     category: "drink",
     price: 10000,
     image: "/images/fanta-banochniy.jpg",
@@ -274,7 +273,7 @@ export const products = [
   },
   {
     id: "32",
-    name: "Coca Cola 0.25L (banonchik)",
+    name: "Coca Cola 0.25L",
     category: "drink",
     price: 7000,
     image: "/images/cola-banochniy.jpg",
@@ -282,7 +281,7 @@ export const products = [
   },
   {
     id: "33",
-    name: "Coca Cola 0.5L (banonchik)",
+    name: "Coca Cola 0.5L",
     category: "drink",
     price: 10000,
     image: "/images/cola-banochniy.jpg",
@@ -298,7 +297,7 @@ export const products = [
   },
   {
     id: "35",
-    name: "Fuse Tea 0.5L (banonchik)",
+    name: "Fuse Tea 0.5L",
     category: "drink",
     price: 10000,
     image: "/images/fusetea-banochniy.jpg",

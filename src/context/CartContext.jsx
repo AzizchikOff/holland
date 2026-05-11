@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useMemo, useReducer } from "react";
+import { createContext, useContext, useEffect, useMemo, useReducer, useRef } from "react";
 
 const CartContext = createContext(null);
 
@@ -64,35 +64,39 @@ function loadInitialCart() {
 
 export function CartProvider({ children }) {
   const [state, dispatch] = useReducer(cartReducer, { items: {} });
+  const saveTimeoutRef = useRef(null);
 
   useEffect(() => {
     dispatch({ type: "HYDRATE", state: loadInitialCart() });
   }, []);
 
   useEffect(() => {
-    try {
-      localStorage.setItem("cart_v1", JSON.stringify(state));
-    } catch {
-      // ignore storage errors (private mode, quota, etc.)
+    if (saveTimeoutRef.current) {
+      clearTimeout(saveTimeoutRef.current);
     }
+    saveTimeoutRef.current = setTimeout(() => {
+      try {
+        localStorage.setItem("cart_v1", JSON.stringify(state));
+      } catch {
+        // ignore storage errors (private mode, quota, etc.)
+      }
+    }, 100);
+    return () => {
+      if (saveTimeoutRef.current) {
+        clearTimeout(saveTimeoutRef.current);
+      }
+    };
   }, [state]);
 
-  const itemsArray = useMemo(() => Object.values(state.items), [state.items]);
-  const totalItems = useMemo(
-    () => itemsArray.reduce((sum, it) => sum + (it.qty || 0), 0),
-    [itemsArray],
-  );
-  const totalPrice = useMemo(
-    () =>
-      itemsArray.reduce(
-        (sum, it) => sum + (it.qty || 0) * (it.product?.price || 0),
-        0,
-      ),
-    [itemsArray],
-  );
+  const value = useMemo(() => {
+    const itemsArray = Object.values(state.items);
+    const totalItems = itemsArray.reduce((sum, it) => sum + (it.qty || 0), 0);
+    const totalPrice = itemsArray.reduce(
+      (sum, it) => sum + (it.qty || 0) * (it.product?.price || 0),
+      0,
+    );
 
-  const value = useMemo(
-    () => ({
+    return {
       items: state.items,
       itemsArray,
       totalItems,
@@ -101,9 +105,8 @@ export function CartProvider({ children }) {
       removeFromCart: (productId) => dispatch({ type: "REMOVE", productId }),
       setQty: (productId, qty) => dispatch({ type: "SET_QTY", productId, qty }),
       clearCart: () => dispatch({ type: "CLEAR" }),
-    }),
-    [state.items, itemsArray, totalItems, totalPrice],
-  );
+    };
+  }, [state.items]);
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 }

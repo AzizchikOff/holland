@@ -24,7 +24,7 @@ export default defineConfig({
         drop_console: true,
         drop_debugger: true,
         dead_code: true,
-        passes: 2,
+        passes: 3,
       },
       mangle: {
         toplevel: true,
