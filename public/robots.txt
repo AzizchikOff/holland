@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://holland-namangan.netlify.app/sitemap.xml
