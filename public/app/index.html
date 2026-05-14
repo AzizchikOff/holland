@@ -410,11 +410,12 @@ if(tg){ tg.ready(); tg.expand(); tg.setHeaderColor?.('#E8342A'); }
 
 // ── PRODUCTS ──────────────────────────────
 const CATS=[
-  {id:"free",label:"🍟 Holland Free"},
-  {id:"burger",label:"🍔 Burger"},
-  {id:"hotdog",label:"🌭 Hot-dog"},
-  {id:"sous",label:"🫙 Sous"},
-  {id:"drink",label:"🥤 Ichimliklar"},
+  {id:"all",label:"Barchasi"},
+  {id:"free",label:"Holland Free"},
+  {id:"burger",label:"Burger"},
+  {id:"hotdog",label:"Hot-dog"},
+  {id:"sous",label:"Sous"},
+  {id:"drink",label:"Ichimliklar"},
 ];
 const MENU=[
   {id:"1", name:"Free Holland",           cat:"free",  price:19000,img:"free-classik.jpg",  popular:true},
@@ -457,7 +458,7 @@ function imgUrl(i){ return `${IMG_BASE}/${i}`; }
 function fmt(n){ return new Intl.NumberFormat('uz-UZ').format(n)+' so\'m'; }
 
 // ── CART ─────────────────────────────────
-let cart={}, activeCat='free';
+let cart={}, activeCat='all';
 function cartQty(){ return Object.values(cart).reduce((s,i)=>s+i.qty,0); }
 function cartTotal(){ return Object.values(cart).reduce((s,i)=>s+i.p.price*i.qty,0); }
 
@@ -523,7 +524,7 @@ function renderCats(){
     CATS.map(c=>`<button class="cat-btn${c.id===activeCat?' active':''}" onclick="selectCat('${c.id}')">${c.label}</button>`).join('');
 }
 function renderMenuGrid(){
-  document.getElementById('menu-grid').innerHTML=MENU.filter(m=>m.cat===activeCat).map(p=>cardHTML(p)).join('');
+  document.getElementById('menu-grid').innerHTML=MENU.filter(m=>activeCat==='all'||m.cat===activeCat).map(p=>cardHTML(p)).join('');
 }
 function selectCat(id){ activeCat=id; renderCats(); renderMenuGrid(); }
 
