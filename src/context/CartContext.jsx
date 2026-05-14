@@ -7,106 +7,104 @@ function cartReducer(state, action) {
     case "ADD": {
       const { product, qty = 1 } = action;
       const existing = state.items[product.id];
+      const nextQty = Math.min(99, (existing?.qty ?? 0) + qty);
       return {
         ...state,
         items: {
           ...state.items,
-          [product.id]: { product, qty: Math.min(99, (existing?.qty ?? 0) + qty) },
+          [product.id]: { product, qty: nextQty },
         },
       };
     }
     case "REMOVE": {
-      const next = { ...state.items };
-      delete next[action.productId];
-      return { ...state, items: next };
+      const { productId } = action;
+      const nextItems = { ...state.items };
+      delete nextItems[productId];
+      return { ...state, items: nextItems };
     }
     case "SET_QTY": {
-      const existing = state.items[action.productId];
+      const { productId, qty } = action;
+      const existing = state.items[productId];
       if (!existing) return state;
-      const qty = Math.max(0, Math.min(99, action.qty));
-      if (qty === 0) {
-        const next = { ...state.items };
-        delete next[action.productId];
-        return { ...state, items: next };
+      const nextQty = Math.max(0, Math.min(99, qty));
+      if (nextQty === 0) {
+        const nextItems = { ...state.items };
+        delete nextItems[productId];
+        return { ...state, items: nextItems };
       }
-      return { ...state, items: { ...state.items, [action.productId]: { ...existing, qty } } };
+      return {
+        ...state,
+        items: {
+          ...state.items,
+          [productId]: { ...existing, qty: nextQty },
+        },
+      };
     }
-    case "CLEAR":   return { ...state, items: {} };
-    case "HYDRATE": return action.state;
-    default:        return state;
+    case "CLEAR":
+      return { ...state, items: {} };
+    case "HYDRATE":
+      return action.state;
+    default:
+      return state;
   }
 }
 
-// localStorage + Telegram CloudStorage fallback
-function loadCart() {
+function loadInitialCart() {
   try {
-    // Telegram CloudStorage (async — faqat boshlang'ich qiymat uchun ishlamaydi, skip)
-    const raw = localStorage.getItem("cart_v2");
+    const raw = localStorage.getItem("cart_v1");
     if (!raw) return { items: {} };
     const parsed = JSON.parse(raw);
-    if (!parsed?.items || typeof parsed.items !== "object") return { items: {} };
+    if (!parsed || typeof parsed !== "object") return { items: {} };
+    if (!parsed.items || typeof parsed.items !== "object") return { items: {} };
     return { items: parsed.items };
   } catch {
     return { items: {} };
   }
 }
 
-function saveCart(state) {
-  try {
-    localStorage.setItem("cart_v2", JSON.stringify(state));
-  } catch {
-    // Private mode yoki kvota
-  }
-  // Telegram CloudStorage ga ham saqlaymiz (async)
-  try {
-    window.Telegram?.WebApp?.CloudStorage?.setItem(
-      "cart_v2",
-      JSON.stringify(state),
-      () => {}
-    );
-  } catch {}
-}
-
 export function CartProvider({ children }) {
   const [state, dispatch] = useReducer(cartReducer, { items: {} });
-  const timerRef = useRef(null);
+  const saveTimeoutRef = useRef(null);
 
-  // Boshlang'ich yuklash
   useEffect(() => {
-    const local = loadCart();
-    dispatch({ type: "HYDRATE", state: local });
-
-    // Telegram CloudStorage dan ham tekshiramiz
-    try {
-      window.Telegram?.WebApp?.CloudStorage?.getItem("cart_v2", (err, val) => {
-        if (!err && val) {
-          try {
-            const parsed = JSON.parse(val);
-            if (parsed?.items) dispatch({ type: "HYDRATE", state: parsed });
-          } catch {}
-        }
-      });
-    } catch {}
+    dispatch({ type: "HYDRATE", state: loadInitialCart() });
   }, []);
 
-  // Saqlash (debounce 200ms)
   useEffect(() => {
-    clearTimeout(timerRef.current);
-    timerRef.current = setTimeout(() => saveCart(state), 200);
-    return () => clearTimeout(timerRef.current);
+    if (saveTimeoutRef.current) {
+      clearTimeout(saveTimeoutRef.current);
+    }
+    saveTimeoutRef.current = setTimeout(() => {
+      try {
+        localStorage.setItem("cart_v1", JSON.stringify(state));
+      } catch {
+        // ignore storage errors (private mode, quota, etc.)
+      }
+    }, 100);
+    return () => {
+      if (saveTimeoutRef.current) {
+        clearTimeout(saveTimeoutRef.current);
+      }
+    };
   }, [state]);
 
   const value = useMemo(() => {
     const itemsArray = Object.values(state.items);
+    const totalItems = itemsArray.reduce((sum, it) => sum + (it.qty || 0), 0);
+    const totalPrice = itemsArray.reduce(
+      (sum, it) => sum + (it.qty || 0) * (it.product?.price || 0),
+      0,
+    );
+
     return {
-      items:         state.items,
+      items: state.items,
       itemsArray,
-      totalItems:    itemsArray.reduce((s, it) => s + (it.qty || 0), 0),
-      totalPrice:    itemsArray.reduce((s, it) => s + (it.qty || 0) * (it.product?.price || 0), 0),
-      addToCart:     (product, qty = 1) => dispatch({ type: "ADD", product, qty }),
-      removeFromCart:(productId)        => dispatch({ type: "REMOVE", productId }),
-      setQty:        (productId, qty)   => dispatch({ type: "SET_QTY", productId, qty }),
-      clearCart:     ()                 => dispatch({ type: "CLEAR" }),
+      totalItems,
+      totalPrice,
+      addToCart: (product, qty = 1) => dispatch({ type: "ADD", product, qty }),
+      removeFromCart: (productId) => dispatch({ type: "REMOVE", productId }),
+      setQty: (productId, qty) => dispatch({ type: "SET_QTY", productId, qty }),
+      clearCart: () => dispatch({ type: "CLEAR" }),
     };
   }, [state.items]);
 
