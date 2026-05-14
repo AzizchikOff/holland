@@ -1,559 +1,1918 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uz">
-<head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
-<title>Holland Fast Food</title>
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
-<style>
-:root{
-  --red:#E8342A;--red2:#ff5549;--green:#10b981;--yellow:#f59e0b;
-  --dark:#111827;--mid:#6b7280;--soft:#9ca3af;
-  --light:#f9fafb;--white:#fff;--border:#e5e7eb;
-  --r:16px;--r-sm:12px;
-  --sh:0 2px 16px rgba(0,0,0,.08);--sh-lg:0 8px 40px rgba(0,0,0,.14);
-}
-*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{height:100%;overflow:hidden;background:var(--light)}
-body{font-family:'Plus Jakarta Sans',sans-serif;color:var(--dark)}
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"
+    />
+    <title>Holland Fast Food</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --red: #e8342a;
+        --red2: #ff5549;
+        --green: #10b981;
+        --yellow: #f59e0b;
+        --dark: #111827;
+        --mid: #6b7280;
+        --soft: #9ca3af;
+        --light: #f9fafb;
+        --white: #fff;
+        --border: #e5e7eb;
+        --r: 16px;
+        --r-sm: 12px;
+        --sh: 0 2px 16px rgba(0, 0, 0, 0.08);
+        --sh-lg: 0 8px 40px rgba(0, 0, 0, 0.14);
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        -webkit-tap-highlight-color: transparent;
+      }
+      html,
+      body {
+        height: 100%;
+        overflow: hidden;
+        background: var(--light);
+      }
+      body {
+        font-family: "Plus Jakarta Sans", sans-serif;
+        color: var(--dark);
+      }
 
-.page{position:absolute;inset:0;bottom:68px;overflow-y:auto;overflow-x:hidden;display:none;flex-direction:column;-webkit-overflow-scrolling:touch;scrollbar-width:none}
-.page::-webkit-scrollbar{display:none}
-.page.active{display:flex}
-.fullpage{position:fixed;inset:0;z-index:200;background:var(--white);overflow-y:auto;display:none;flex-direction:column}
-.fullpage.active{display:flex}
+      .page {
+        position: absolute;
+        inset: 0;
+        bottom: 68px;
+        overflow-y: auto;
+        overflow-x: hidden;
+        display: none;
+        flex-direction: column;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+      }
+      .page::-webkit-scrollbar {
+        display: none;
+      }
+      .page.active {
+        display: flex;
+      }
+      .fullpage {
+        position: fixed;
+        inset: 0;
+        z-index: 200;
+        background: var(--white);
+        overflow-y: auto;
+        display: none;
+        flex-direction: column;
+      }
+      .fullpage.active {
+        display: flex;
+      }
 
-/* NAVBAR */
-.navbar{position:fixed;bottom:0;left:0;right:0;height:68px;background:var(--white);border-top:1.5px solid var(--border);display:flex;align-items:center;z-index:100;padding-bottom:env(safe-area-inset-bottom)}
-.nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;padding:8px 0;position:relative}
-.nav-icon{width:24px;height:24px;display:flex;align-items:center;justify-content:center}
-.nav-icon svg{width:22px;height:22px;stroke:var(--soft);transition:stroke .2s;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.nav-label{font-size:10px;font-weight:700;color:var(--soft);transition:color .2s}
-.nav-btn.active .nav-icon svg{stroke:var(--red)}
-.nav-btn.active .nav-label{color:var(--red)}
-.nav-dot{position:absolute;top:4px;right:calc(50% - 20px);min-width:18px;height:18px;padding:0 4px;background:var(--red);color:#fff;border-radius:9px;font-size:10px;font-weight:800;display:none;align-items:center;justify-content:center;border:2px solid var(--white)}
-.nav-dot.show{display:flex}
+      /* NAVBAR */
+      .navbar {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 68px;
+        background: var(--white);
+        border-top: 1.5px solid var(--border);
+        display: flex;
+        align-items: center;
+        z-index: 100;
+        padding-bottom: env(safe-area-inset-bottom);
+      }
+      .nav-btn {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 3px;
+        cursor: pointer;
+        padding: 8px 0;
+        position: relative;
+      }
+      .nav-icon {
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .nav-icon svg {
+        width: 22px;
+        height: 22px;
+        stroke: var(--soft);
+        transition: stroke 0.2s;
+        fill: none;
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .nav-label {
+        font-size: 10px;
+        font-weight: 700;
+        color: var(--soft);
+        transition: color 0.2s;
+      }
+      .nav-btn.active .nav-icon svg {
+        stroke: var(--red);
+      }
+      .nav-btn.active .nav-label {
+        color: var(--red);
+      }
+      .nav-dot {
+        position: absolute;
+        top: 4px;
+        right: calc(50% - 20px);
+        min-width: 18px;
+        height: 18px;
+        padding: 0 4px;
+        background: var(--red);
+        color: #fff;
+        border-radius: 9px;
+        font-size: 10px;
+        font-weight: 800;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        border: 2px solid var(--white);
+      }
+      .nav-dot.show {
+        display: flex;
+      }
 
-/* HERO */
-.hero{background:linear-gradient(145deg,#C0241A 0%,var(--red) 50%,var(--red2) 100%);padding:52px 20px 28px;position:relative;overflow:hidden}
-.hero::before{content:'';position:absolute;top:-40px;right:-40px;width:200px;height:200px;background:rgba(255,255,255,.06);border-radius:50%}
-.hero-logo{font-size:12px;font-weight:800;color:rgba(255,255,255,.7);letter-spacing:2.5px;text-transform:uppercase;margin-bottom:10px}
-.hero-title{font-size:28px;font-weight:900;color:#fff;line-height:1.2;margin-bottom:8px}
-.hero-sub{font-size:13px;color:rgba(255,255,255,.85);font-weight:500;margin-bottom:16px}
-.hero-chips{display:flex;gap:6px;flex-wrap:wrap}
-.chip{background:rgba(255,255,255,.18);color:#fff;padding:5px 12px;border-radius:20px;font-size:11px;font-weight:700;backdrop-filter:blur(4px)}
+      /* HERO */
+      .hero {
+        background: linear-gradient(
+          145deg,
+          #c0241a 0%,
+          var(--red) 50%,
+          var(--red2) 100%
+        );
+        padding: 52px 20px 28px;
+        position: relative;
+        overflow: hidden;
+      }
+      .hero::before {
+        content: "";
+        position: absolute;
+        top: -40px;
+        right: -40px;
+        width: 200px;
+        height: 200px;
+        background: rgba(255, 255, 255, 0.06);
+        border-radius: 50%;
+      }
+      .hero-logo {
+        font-size: 12px;
+        font-weight: 800;
+        color: rgba(255, 255, 255, 0.7);
+        letter-spacing: 2.5px;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+      }
+      .hero-title {
+        font-size: 28px;
+        font-weight: 900;
+        color: #fff;
+        line-height: 1.2;
+        margin-bottom: 8px;
+      }
+      .hero-sub {
+        font-size: 13px;
+        color: rgba(255, 255, 255, 0.85);
+        font-weight: 500;
+        margin-bottom: 16px;
+      }
+      .hero-chips {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+      }
+      .chip {
+        background: rgba(255, 255, 255, 0.18);
+        color: #fff;
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 11px;
+        font-weight: 700;
+        backdrop-filter: blur(4px);
+      }
 
-/* STATS BAR */
-.stats-bar{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:16px 20px 0}
-.stat-mini{background:var(--white);border-radius:var(--r-sm);padding:12px;text-align:center;box-shadow:var(--sh);transition:transform .3s}
-.stat-mini.pulse{animation:statpulse .4s ease}
-@keyframes statpulse{0%{transform:scale(1)}50%{transform:scale(1.08)}100%{transform:scale(1)}}
-.stat-mini-num{font-size:17px;font-weight:900;color:var(--red)}
-.stat-mini-label{font-size:10px;font-weight:700;color:var(--soft);margin-top:2px}
+      /* STATS BAR */
+      .stats-bar {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+        padding: 16px 20px 0;
+      }
+      .stat-mini {
+        background: var(--white);
+        border-radius: var(--r-sm);
+        padding: 12px;
+        text-align: center;
+        box-shadow: var(--sh);
+        transition: transform 0.3s;
+      }
+      .stat-mini.pulse {
+        animation: statpulse 0.4s ease;
+      }
+      @keyframes statpulse {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.08);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+      .stat-mini-num {
+        font-size: 17px;
+        font-weight: 900;
+        color: var(--red);
+      }
+      .stat-mini-label {
+        font-size: 10px;
+        font-weight: 700;
+        color: var(--soft);
+        margin-top: 2px;
+      }
 
-/* LIVE INDICATOR */
-.live-badge{display:flex;align-items:center;gap:6px;padding:6px 14px;background:rgba(255,255,255,.15);border-radius:20px;width:fit-content;margin-top:10px}
-.live-dot{width:8px;height:8px;border-radius:50%;background:#4ade80;animation:livepulse 1.5s infinite}
-@keyframes livepulse{0%,100%{opacity:1}50%{opacity:.3}}
-.live-text{font-size:11px;font-weight:700;color:rgba(255,255,255,.9)}
+      /* LIVE INDICATOR */
+      .live-badge {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 14px;
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: 20px;
+        width: fit-content;
+        margin-top: 10px;
+      }
+      .live-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #4ade80;
+        animation: livepulse 1.5s infinite;
+      }
+      @keyframes livepulse {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.3;
+        }
+      }
+      .live-text {
+        font-size: 11px;
+        font-weight: 700;
+        color: rgba(255, 255, 255, 0.9);
+      }
 
-/* BANNER */
-.banner{margin:16px 20px 0;border-radius:var(--r);background:linear-gradient(135deg,#fef3c7,#fde68a);padding:16px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px}
-.banner-text b{font-size:15px;font-weight:900;display:block;margin-bottom:2px;color:#92400e}
-.banner-text{font-size:13px;font-weight:600;color:#92400e}
-.banner-img{font-size:44px;flex-shrink:0}
+      /* BANNER */
+      .banner {
+        margin: 16px 20px 0;
+        border-radius: var(--r);
+        background: linear-gradient(135deg, #fef3c7, #fde68a);
+        padding: 16px 18px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+      .banner-text b {
+        font-size: 15px;
+        font-weight: 900;
+        display: block;
+        margin-bottom: 2px;
+        color: #92400e;
+      }
+      .banner-text {
+        font-size: 13px;
+        font-weight: 600;
+        color: #92400e;
+      }
+      .banner-img {
+        font-size: 44px;
+        flex-shrink: 0;
+      }
 
-/* MENU HEADER */
-.menu-header{background:linear-gradient(145deg,#C0241A,var(--red));padding:52px 20px 20px}
-.menu-header-sub{font-size:12px;font-weight:800;color:rgba(255,255,255,.7);letter-spacing:2px;text-transform:uppercase;margin-bottom:4px}
-.menu-header-title{font-size:22px;font-weight:900;color:#fff}
+      /* MENU HEADER */
+      .menu-header {
+        background: linear-gradient(145deg, #c0241a, var(--red));
+        padding: 52px 20px 20px;
+      }
+      .menu-header-sub {
+        font-size: 12px;
+        font-weight: 800;
+        color: rgba(255, 255, 255, 0.7);
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        margin-bottom: 4px;
+      }
+      .menu-header-title {
+        font-size: 22px;
+        font-weight: 900;
+        color: #fff;
+      }
 
-/* PAGE HEADER */
-.pg-header{background:var(--white);padding:52px 20px 16px;border-bottom:1.5px solid var(--border);position:sticky;top:0;z-index:10}
-.pg-header-row{display:flex;align-items:center;gap:12px}
-.back-btn{width:38px;height:38px;border-radius:var(--r-sm);background:var(--light);display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;flex-shrink:0}
-.back-btn svg{width:20px;height:20px;stroke:var(--dark);fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
-.pg-title{font-size:20px;font-weight:900}
+      /* PAGE HEADER */
+      .pg-header {
+        background: var(--white);
+        padding: 52px 20px 16px;
+        border-bottom: 1.5px solid var(--border);
+        position: sticky;
+        top: 0;
+        z-index: 10;
+      }
+      .pg-header-row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .back-btn {
+        width: 38px;
+        height: 38px;
+        border-radius: var(--r-sm);
+        background: var(--light);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        border: none;
+        flex-shrink: 0;
+      }
+      .back-btn svg {
+        width: 20px;
+        height: 20px;
+        stroke: var(--dark);
+        fill: none;
+        stroke-width: 2.5;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .pg-title {
+        font-size: 20px;
+        font-weight: 900;
+      }
 
-/* SECTION */
-.sec{padding:20px}
-.sec-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
-.sec-title{font-size:17px;font-weight:800}
-.sec-link{font-size:13px;font-weight:700;color:var(--red);cursor:pointer}
+      /* SECTION */
+      .sec {
+        padding: 20px;
+      }
+      .sec-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 14px;
+      }
+      .sec-title {
+        font-size: 17px;
+        font-weight: 800;
+      }
+      .sec-link {
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--red);
+        cursor: pointer;
+      }
 
-/* CATS */
-.cats{padding:16px 20px 0;display:flex;gap:8px;overflow-x:auto;scrollbar-width:none}
-.cats::-webkit-scrollbar{display:none}
-.cat-btn{white-space:nowrap;padding:9px 18px;border-radius:24px;font-size:13px;font-weight:700;border:2px solid var(--border);background:var(--white);color:var(--mid);cursor:pointer;font-family:inherit;transition:all .18s;flex-shrink:0}
-.cat-btn.active{background:var(--red);color:#fff;border-color:var(--red)}
+      /* CATS */
+      .cats {
+        padding: 16px 20px 0;
+        display: flex;
+        gap: 8px;
+        overflow-x: auto;
+        scrollbar-width: none;
+      }
+      .cats::-webkit-scrollbar {
+        display: none;
+      }
+      .cat-btn {
+        white-space: nowrap;
+        padding: 9px 18px;
+        border-radius: 24px;
+        font-size: 13px;
+        font-weight: 700;
+        border: 2px solid var(--border);
+        background: var(--white);
+        color: var(--mid);
+        cursor: pointer;
+        font-family: inherit;
+        transition: all 0.18s;
+        flex-shrink: 0;
+      }
+      .cat-btn.active {
+        background: var(--red);
+        color: #fff;
+        border-color: var(--red);
+      }
 
-/* PRODUCT GRID */
-.prod-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:14px 20px 20px}
-.prod-card{background:var(--white);border-radius:var(--r);box-shadow:var(--sh);overflow:hidden;display:flex;flex-direction:column;transition:transform .15s}
-.prod-card:active{transform:scale(.97)}
-.prod-img-wrap{position:relative;overflow:hidden}
-.prod-img{width:100%;aspect-ratio:1/1;object-fit:cover;background:#f3f4f6;display:block}
-.prod-badge{position:absolute;top:8px;left:8px;background:var(--red);color:#fff;font-size:10px;font-weight:800;padding:3px 8px;border-radius:20px}
-.prod-body{padding:10px 12px 12px;display:flex;flex-direction:column;gap:6px;flex:1}
-.prod-name{font-size:13px;font-weight:700;line-height:1.3;flex:1}
-.prod-bottom{display:flex;align-items:center;justify-content:space-between}
-.prod-price{font-size:14px;font-weight:900;color:var(--red)}
-.add-btn{width:32px;height:32px;border-radius:10px;background:var(--red);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.add-btn svg{width:16px;height:16px;stroke:#fff;fill:none;stroke-width:2.5;stroke-linecap:round}
-.qty-row{display:flex;align-items:center;gap:6px}
-.qty-btn{width:28px;height:28px;border-radius:8px;border:2px solid var(--border);background:var(--white);cursor:pointer;display:flex;align-items:center;justify-content:center}
-.qty-btn svg{width:12px;height:12px;fill:none;stroke:var(--dark);stroke-width:2.5;stroke-linecap:round}
-.qty-btn.plus{border-color:var(--red)}
-.qty-btn.plus svg{stroke:var(--red)}
-.qty-n{font-size:14px;font-weight:800;min-width:18px;text-align:center}
+      /* PRODUCT GRID */
+      .prod-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        padding: 14px 20px 20px;
+      }
+      .prod-card {
+        background: var(--white);
+        border-radius: var(--r);
+        box-shadow: var(--sh);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        transition: transform 0.15s;
+      }
+      .prod-card:active {
+        transform: scale(0.97);
+      }
+      .prod-img-wrap {
+        position: relative;
+        overflow: hidden;
+      }
+      .prod-img {
+        width: 100%;
+        aspect-ratio: 1/1;
+        object-fit: cover;
+        background: #f3f4f6;
+        display: block;
+      }
+      .prod-badge {
+        position: absolute;
+        top: 8px;
+        left: 8px;
+        background: var(--red);
+        color: #fff;
+        font-size: 10px;
+        font-weight: 800;
+        padding: 3px 8px;
+        border-radius: 20px;
+      }
+      .prod-body {
+        padding: 10px 12px 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        flex: 1;
+      }
+      .prod-name {
+        font-size: 13px;
+        font-weight: 700;
+        line-height: 1.3;
+        flex: 1;
+      }
+      .prod-bottom {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .prod-price {
+        font-size: 14px;
+        font-weight: 900;
+        color: var(--red);
+      }
+      .add-btn {
+        width: 32px;
+        height: 32px;
+        border-radius: 10px;
+        background: var(--red);
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+      .add-btn svg {
+        width: 16px;
+        height: 16px;
+        stroke: #fff;
+        fill: none;
+        stroke-width: 2.5;
+        stroke-linecap: round;
+      }
+      .qty-row {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .qty-btn {
+        width: 28px;
+        height: 28px;
+        border-radius: 8px;
+        border: 2px solid var(--border);
+        background: var(--white);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .qty-btn svg {
+        width: 12px;
+        height: 12px;
+        fill: none;
+        stroke: var(--dark);
+        stroke-width: 2.5;
+        stroke-linecap: round;
+      }
+      .qty-btn.plus {
+        border-color: var(--red);
+      }
+      .qty-btn.plus svg {
+        stroke: var(--red);
+      }
+      .qty-n {
+        font-size: 14px;
+        font-weight: 800;
+        min-width: 18px;
+        text-align: center;
+      }
 
-/* CART */
-.cart-empty{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:40px;text-align:center}
-.cart-empty svg{width:56px;height:56px;stroke:var(--border);fill:none;stroke-width:1.5}
-.cart-empty-title{font-size:18px;font-weight:800;color:var(--mid)}
-.cart-list{padding:16px 20px;display:flex;flex-direction:column;gap:10px}
-.cart-item{background:var(--white);border-radius:var(--r);padding:12px;display:flex;align-items:center;gap:12px;box-shadow:var(--sh)}
-.cart-item-img{width:64px;height:64px;border-radius:var(--r-sm);object-fit:cover;background:var(--light);flex-shrink:0}
-.cart-item-info{flex:1;min-width:0}
-.cart-item-name{font-size:13px;font-weight:700;margin-bottom:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.cart-item-price{font-size:13px;font-weight:800;color:var(--red)}
-.cart-footer{background:var(--white);border-top:1.5px solid var(--border);padding:14px 20px;padding-bottom:calc(14px + env(safe-area-inset-bottom))}
-.cart-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-.cart-label{font-size:14px;color:var(--mid);font-weight:600}
-.cart-sum{font-size:22px;font-weight:900}
+      /* CART */
+      .cart-empty {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        padding: 40px;
+        text-align: center;
+      }
+      .cart-empty svg {
+        width: 56px;
+        height: 56px;
+        stroke: var(--border);
+        fill: none;
+        stroke-width: 1.5;
+      }
+      .cart-empty-title {
+        font-size: 18px;
+        font-weight: 800;
+        color: var(--mid);
+      }
+      .cart-list {
+        padding: 16px 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .cart-item {
+        background: var(--white);
+        border-radius: var(--r);
+        padding: 12px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        box-shadow: var(--sh);
+      }
+      .cart-item-img {
+        width: 64px;
+        height: 64px;
+        border-radius: var(--r-sm);
+        object-fit: cover;
+        background: var(--light);
+        flex-shrink: 0;
+      }
+      .cart-item-info {
+        flex: 1;
+        min-width: 0;
+      }
+      .cart-item-name {
+        font-size: 13px;
+        font-weight: 700;
+        margin-bottom: 4px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .cart-item-price {
+        font-size: 13px;
+        font-weight: 800;
+        color: var(--red);
+      }
+      .cart-footer {
+        background: var(--white);
+        border-top: 1.5px solid var(--border);
+        padding: 14px 20px;
+        padding-bottom: calc(14px + env(safe-area-inset-bottom));
+      }
+      .cart-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+      }
+      .cart-label {
+        font-size: 14px;
+        color: var(--mid);
+        font-weight: 600;
+      }
+      .cart-sum {
+        font-size: 22px;
+        font-weight: 900;
+      }
 
-/* CHECKOUT */
-.checkout-body{padding:20px;display:flex;flex-direction:column;gap:16px;padding-bottom:100px}
-.form-group{display:flex;flex-direction:column;gap:6px}
-.form-label{font-size:13px;font-weight:700;color:var(--mid)}
-.form-input{padding:14px 16px;border-radius:var(--r-sm);border:2px solid var(--border);font-size:15px;font-family:inherit;font-weight:600;background:var(--white);outline:none;transition:border-color .2s;resize:none}
-.form-input:focus{border-color:var(--red)}
-.loc-card{background:var(--white);border-radius:var(--r);border:2px solid var(--border);overflow:hidden}
-.loc-option{display:flex;align-items:center;gap:14px;padding:16px;cursor:pointer;transition:background .15s;border-bottom:1px solid var(--border)}
-.loc-option:last-child{border-bottom:none}
-.loc-option:active{background:var(--light)}
-.loc-icon{width:44px;height:44px;border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.loc-icon.gps{background:#eff6ff}
-.loc-icon.gps svg{stroke:#3b82f6}
-.loc-icon.manual{background:#f0fdf4}
-.loc-icon.manual svg{stroke:var(--green)}
-.loc-icon svg{width:22px;height:22px;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.loc-text{flex:1}
-.loc-title{font-size:14px;font-weight:700}
-.loc-sub{font-size:12px;color:var(--soft);font-weight:500;margin-top:2px}
-.loc-arr svg{width:18px;height:18px;stroke:var(--soft);fill:none;stroke-width:2;stroke-linecap:round}
-.loc-result{background:var(--white);border-radius:var(--r-sm);border:2px solid var(--green);padding:12px 14px;display:none;gap:10px;align-items:flex-start}
-.loc-result.show{display:flex}
-.loc-result svg{width:18px;height:18px;stroke:var(--green);fill:none;stroke-width:2;flex-shrink:0;margin-top:1px}
-.loc-result-text{font-size:13px;font-weight:600;line-height:1.5}
-.gps-loading{display:none;align-items:center;gap:10px;padding:12px 14px;background:#eff6ff;border-radius:var(--r-sm);font-size:13px;font-weight:600;color:#1e40af}
-.gps-loading.show{display:flex}
-.order-summary{background:var(--white);border-radius:var(--r);padding:16px;box-shadow:var(--sh)}
-.sum-row{display:flex;justify-content:space-between;padding:6px 0}
-.sum-row+.sum-row{border-top:1px solid var(--border)}
-.sum-key{font-size:13px;color:var(--mid);font-weight:600}
-.sum-val{font-size:13px;font-weight:700}
-.sum-val.total{font-size:17px;font-weight:900}
-.checkout-footer{position:fixed;bottom:0;left:0;right:0;background:var(--white);padding:14px 20px;padding-bottom:calc(14px + env(safe-area-inset-bottom));border-top:1.5px solid var(--border)}
+      /* CHECKOUT */
+      .checkout-body {
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        padding-bottom: 100px;
+      }
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .form-label {
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--mid);
+      }
+      .form-input {
+        padding: 14px 16px;
+        border-radius: var(--r-sm);
+        border: 2px solid var(--border);
+        font-size: 15px;
+        font-family: inherit;
+        font-weight: 600;
+        background: var(--white);
+        outline: none;
+        transition: border-color 0.2s;
+        resize: none;
+      }
+      .form-input:focus {
+        border-color: var(--red);
+      }
+      .loc-card {
+        background: var(--white);
+        border-radius: var(--r);
+        border: 2px solid var(--border);
+        overflow: hidden;
+      }
+      .loc-option {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 16px;
+        cursor: pointer;
+        transition: background 0.15s;
+        border-bottom: 1px solid var(--border);
+      }
+      .loc-option:last-child {
+        border-bottom: none;
+      }
+      .loc-option:active {
+        background: var(--light);
+      }
+      .loc-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: var(--r-sm);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+      .loc-icon.gps {
+        background: #eff6ff;
+      }
+      .loc-icon.gps svg {
+        stroke: #3b82f6;
+      }
+      .loc-icon.manual {
+        background: #f0fdf4;
+      }
+      .loc-icon.manual svg {
+        stroke: var(--green);
+      }
+      .loc-icon svg {
+        width: 22px;
+        height: 22px;
+        fill: none;
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .loc-text {
+        flex: 1;
+      }
+      .loc-title {
+        font-size: 14px;
+        font-weight: 700;
+      }
+      .loc-sub {
+        font-size: 12px;
+        color: var(--soft);
+        font-weight: 500;
+        margin-top: 2px;
+      }
+      .loc-arr svg {
+        width: 18px;
+        height: 18px;
+        stroke: var(--soft);
+        fill: none;
+        stroke-width: 2;
+        stroke-linecap: round;
+      }
+      .loc-result {
+        background: var(--white);
+        border-radius: var(--r-sm);
+        border: 2px solid var(--green);
+        padding: 12px 14px;
+        display: none;
+        gap: 10px;
+        align-items: flex-start;
+      }
+      .loc-result.show {
+        display: flex;
+      }
+      .loc-result svg {
+        width: 18px;
+        height: 18px;
+        stroke: var(--green);
+        fill: none;
+        stroke-width: 2;
+        flex-shrink: 0;
+        margin-top: 1px;
+      }
+      .loc-result-text {
+        font-size: 13px;
+        font-weight: 600;
+        line-height: 1.5;
+      }
+      .gps-loading {
+        display: none;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 14px;
+        background: #eff6ff;
+        border-radius: var(--r-sm);
+        font-size: 13px;
+        font-weight: 600;
+        color: #1e40af;
+      }
+      .gps-loading.show {
+        display: flex;
+      }
+      .order-summary {
+        background: var(--white);
+        border-radius: var(--r);
+        padding: 16px;
+        box-shadow: var(--sh);
+      }
+      .sum-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 6px 0;
+      }
+      .sum-row + .sum-row {
+        border-top: 1px solid var(--border);
+      }
+      .sum-key {
+        font-size: 13px;
+        color: var(--mid);
+        font-weight: 600;
+      }
+      .sum-val {
+        font-size: 13px;
+        font-weight: 700;
+      }
+      .sum-val.total {
+        font-size: 17px;
+        font-weight: 900;
+      }
+      .checkout-footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: var(--white);
+        padding: 14px 20px;
+        padding-bottom: calc(14px + env(safe-area-inset-bottom));
+        border-top: 1.5px solid var(--border);
+      }
 
-/* PROFILE */
-.profile-hero{background:linear-gradient(145deg,#C0241A 0%,var(--red) 100%);padding:52px 20px 28px;text-align:center;color:#fff}
-.profile-avatar{width:76px;height:76px;border-radius:50%;background:rgba(255,255,255,.2);margin:0 auto 12px;display:flex;align-items:center;justify-content:center;font-size:32px;font-weight:900;border:3px solid rgba(255,255,255,.3)}
-.profile-name{font-size:20px;font-weight:900;margin-bottom:4px}
-.profile-username{font-size:13px;opacity:.8}
-.profile-stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:16px 20px}
-.stat-card{background:var(--white);border-radius:var(--r);padding:16px;text-align:center;box-shadow:var(--sh)}
-.stat-num{font-size:24px;font-weight:900;color:var(--red)}
-.stat-label{font-size:12px;font-weight:700;color:var(--soft);margin-top:4px}
+      /* PROFILE */
+      .profile-hero {
+        background: linear-gradient(145deg, #c0241a 0%, var(--red) 100%);
+        padding: 52px 20px 28px;
+        text-align: center;
+        color: #fff;
+      }
+      .profile-avatar {
+        width: 76px;
+        height: 76px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.2);
+        margin: 0 auto 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 32px;
+        font-weight: 900;
+        border: 3px solid rgba(255, 255, 255, 0.3);
+      }
+      .profile-name {
+        font-size: 20px;
+        font-weight: 900;
+        margin-bottom: 4px;
+      }
+      .profile-username {
+        font-size: 13px;
+        opacity: 0.8;
+      }
+      .profile-stats {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        padding: 16px 20px;
+      }
+      .stat-card {
+        background: var(--white);
+        border-radius: var(--r);
+        padding: 16px;
+        text-align: center;
+        box-shadow: var(--sh);
+      }
+      .stat-num {
+        font-size: 24px;
+        font-weight: 900;
+        color: var(--red);
+      }
+      .stat-label {
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--soft);
+        margin-top: 4px;
+      }
 
-/* ORDER CARD — real-time */
-.order-card{background:var(--white);border-radius:var(--r);padding:14px 16px;box-shadow:var(--sh);transition:all .3s}
-.order-card.updated{animation:orderflash .6s ease}
-@keyframes orderflash{0%{box-shadow:0 0 0 3px rgba(16,185,129,.5)}100%{box-shadow:var(--sh)}}
-.order-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
-.order-num{font-size:14px;font-weight:800}
-.order-status{font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;transition:all .3s}
-.s-new{background:#fef3c7;color:#92400e}
-.s-accepted{background:#dbeafe;color:#1e40af}
-.s-cooking{background:#fee2e2;color:#991b1b}
-.s-delivered{background:#d1fae5;color:#065f46}
-.s-cancelled{background:#f3f4f6;color:#6b7280}
-.order-items-text{font-size:12px;color:var(--soft);font-weight:500;margin-bottom:8px}
-.order-total-row{display:flex;align-items:center;justify-content:space-between}
-.order-total-sum{font-size:15px;font-weight:900}
-.order-date{font-size:11px;color:var(--soft)}
+      /* ORDER CARD — real-time */
+      .order-card {
+        background: var(--white);
+        border-radius: var(--r);
+        padding: 14px 16px;
+        box-shadow: var(--sh);
+        transition: all 0.3s;
+      }
+      .order-card.updated {
+        animation: orderflash 0.6s ease;
+      }
+      @keyframes orderflash {
+        0% {
+          box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.5);
+        }
+        100% {
+          box-shadow: var(--sh);
+        }
+      }
+      .order-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 8px;
+      }
+      .order-num {
+        font-size: 14px;
+        font-weight: 800;
+      }
+      .order-status {
+        font-size: 11px;
+        font-weight: 700;
+        padding: 4px 10px;
+        border-radius: 20px;
+        transition: all 0.3s;
+      }
+      .s-new {
+        background: #fef3c7;
+        color: #92400e;
+      }
+      .s-accepted {
+        background: #dbeafe;
+        color: #1e40af;
+      }
+      .s-cooking {
+        background: #fee2e2;
+        color: #991b1b;
+      }
+      .s-delivered {
+        background: #d1fae5;
+        color: #065f46;
+      }
+      .s-cancelled {
+        background: #f3f4f6;
+        color: #6b7280;
+      }
+      .order-items-text {
+        font-size: 12px;
+        color: var(--soft);
+        font-weight: 500;
+        margin-bottom: 8px;
+      }
+      .order-total-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .order-total-sum {
+        font-size: 15px;
+        font-weight: 900;
+      }
+      .order-date {
+        font-size: 11px;
+        color: var(--soft);
+      }
 
-/* STATUS PROGRESS */
-.status-progress{display:flex;align-items:center;gap:4px;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)}
-.sp-step{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px}
-.sp-dot{width:24px;height:24px;border-radius:50%;background:var(--border);display:flex;align-items:center;justify-content:center;font-size:11px;transition:all .3s}
-.sp-dot.done{background:var(--green);color:#fff}
-.sp-dot.active{background:var(--red);color:#fff;animation:activepulse 1.5s infinite}
-@keyframes activepulse{0%,100%{box-shadow:0 0 0 0 rgba(232,52,42,.4)}50%{box-shadow:0 0 0 6px rgba(232,52,42,0)}}
-.sp-line{flex:1;height:2px;background:var(--border);margin-top:-14px;transition:background .3s}
-.sp-line.done{background:var(--green)}
-.sp-label{font-size:9px;font-weight:700;color:var(--soft);text-align:center;line-height:1.2}
-.sp-label.active{color:var(--red)}
-.sp-label.done{color:var(--green)}
+      /* STATUS PROGRESS */
+      .status-progress {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        margin-top: 10px;
+        padding-top: 10px;
+        border-top: 1px solid var(--border);
+      }
+      .sp-step {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+      }
+      .sp-dot {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background: var(--border);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 11px;
+        transition: all 0.3s;
+      }
+      .sp-dot.done {
+        background: var(--green);
+        color: #fff;
+      }
+      .sp-dot.active {
+        background: var(--red);
+        color: #fff;
+        animation: activepulse 1.5s infinite;
+      }
+      @keyframes activepulse {
+        0%,
+        100% {
+          box-shadow: 0 0 0 0 rgba(232, 52, 42, 0.4);
+        }
+        50% {
+          box-shadow: 0 0 0 6px rgba(232, 52, 42, 0);
+        }
+      }
+      .sp-line {
+        flex: 1;
+        height: 2px;
+        background: var(--border);
+        margin-top: -14px;
+        transition: background 0.3s;
+      }
+      .sp-line.done {
+        background: var(--green);
+      }
+      .sp-label {
+        font-size: 9px;
+        font-weight: 700;
+        color: var(--soft);
+        text-align: center;
+        line-height: 1.2;
+      }
+      .sp-label.active {
+        color: var(--red);
+      }
+      .sp-label.done {
+        color: var(--green);
+      }
 
-/* BUTTONS */
-.btn{width:100%;padding:16px;border-radius:var(--r);border:none;font-size:15px;font-weight:800;cursor:pointer;font-family:inherit;transition:all .15s;display:flex;align-items:center;justify-content:center;gap:8px}
-.btn:active{transform:scale(.98)}
-.btn svg{width:18px;height:18px;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
-.btn-red{background:var(--red);color:#fff}
-.btn-red svg{stroke:#fff}
-.btn-green{background:var(--green);color:#fff}
-.btn-green svg{stroke:#fff}
+      /* BUTTONS */
+      .btn {
+        width: 100%;
+        padding: 16px;
+        border-radius: var(--r);
+        border: none;
+        font-size: 15px;
+        font-weight: 800;
+        cursor: pointer;
+        font-family: inherit;
+        transition: all 0.15s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+      }
+      .btn:active {
+        transform: scale(0.98);
+      }
+      .btn svg {
+        width: 18px;
+        height: 18px;
+        fill: none;
+        stroke-width: 2.5;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .btn-red {
+        background: var(--red);
+        color: #fff;
+      }
+      .btn-red svg {
+        stroke: #fff;
+      }
+      .btn-green {
+        background: var(--green);
+        color: #fff;
+      }
+      .btn-green svg {
+        stroke: #fff;
+      }
 
-/* SUCCESS */
-.success-wrap{position:fixed;inset:0;z-index:300;background:var(--white);display:none;flex-direction:column;align-items:center;justify-content:center;padding:40px;text-align:center;gap:16px}
-.success-wrap.active{display:flex}
-.success-anim{width:96px;height:96px;border-radius:50%;background:#d1fae5;display:flex;align-items:center;justify-content:center;animation:pop .5s ease}
-.success-anim svg{width:48px;height:48px;stroke:var(--green);fill:none;stroke-width:2.5;stroke-linecap:round}
-@keyframes pop{0%{transform:scale(0);opacity:0}70%{transform:scale(1.15)}100%{transform:scale(1);opacity:1}}
-.success-title{font-size:24px;font-weight:900}
-.success-sub{font-size:14px;color:var(--mid);font-weight:500;line-height:1.6;max-width:280px}
+      /* SUCCESS */
+      .success-wrap {
+        position: fixed;
+        inset: 0;
+        z-index: 300;
+        background: var(--white);
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 40px;
+        text-align: center;
+        gap: 16px;
+      }
+      .success-wrap.active {
+        display: flex;
+      }
+      .success-anim {
+        width: 96px;
+        height: 96px;
+        border-radius: 50%;
+        background: #d1fae5;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        animation: pop 0.5s ease;
+      }
+      .success-anim svg {
+        width: 48px;
+        height: 48px;
+        stroke: var(--green);
+        fill: none;
+        stroke-width: 2.5;
+        stroke-linecap: round;
+      }
+      @keyframes pop {
+        0% {
+          transform: scale(0);
+          opacity: 0;
+        }
+        70% {
+          transform: scale(1.15);
+        }
+        100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+      .success-title {
+        font-size: 24px;
+        font-weight: 900;
+      }
+      .success-sub {
+        font-size: 14px;
+        color: var(--mid);
+        font-weight: 500;
+        line-height: 1.6;
+        max-width: 280px;
+      }
 
-/* TOAST */
-.toast{position:fixed;top:20px;left:50%;transform:translateX(-50%) translateY(-90px);background:var(--dark);color:#fff;padding:12px 20px;border-radius:24px;font-size:13px;font-weight:700;z-index:999;transition:transform .3s cubic-bezier(.34,1.56,.64,1);white-space:nowrap;display:flex;align-items:center;gap:8px;box-shadow:var(--sh-lg)}
-.toast.show{transform:translateX(-50%) translateY(0)}
-.toast.success{background:#065f46}
-.toast.info{background:#1e40af}
+      /* TOAST */
+      .toast {
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%) translateY(-90px);
+        background: var(--dark);
+        color: #fff;
+        padding: 12px 20px;
+        border-radius: 24px;
+        font-size: 13px;
+        font-weight: 700;
+        z-index: 999;
+        transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        white-space: nowrap;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        box-shadow: var(--sh-lg);
+      }
+      .toast.show {
+        transform: translateX(-50%) translateY(0);
+      }
+      .toast.success {
+        background: #065f46;
+      }
+      .toast.info {
+        background: #1e40af;
+      }
 
-/* LOADING */
-.loading-row{display:flex;align-items:center;justify-content:center;padding:40px;gap:10px;color:var(--soft);font-size:14px;font-weight:600}
-.spinner{width:20px;height:20px;border:2.5px solid var(--border);border-top-color:var(--red);border-radius:50%;animation:spin .7s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
-.gps-loading .spinner{border-color:#bfdbfe;border-top-color:#3b82f6}
-.divider{height:8px;background:var(--light);flex-shrink:0}
-</style>
-</head>
-<body>
+      /* LOADING */
+      .loading-row {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 40px;
+        gap: 10px;
+        color: var(--soft);
+        font-size: 14px;
+        font-weight: 600;
+      }
+      .spinner {
+        width: 20px;
+        height: 20px;
+        border: 2.5px solid var(--border);
+        border-top-color: var(--red);
+        border-radius: 50%;
+        animation: spin 0.7s linear infinite;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      .gps-loading .spinner {
+        border-color: #bfdbfe;
+        border-top-color: #3b82f6;
+      }
+      .divider {
+        height: 8px;
+        background: var(--light);
+        flex-shrink: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- HOME -->
+    <div class="page active" id="pg-home">
+      <div class="hero">
+        <div class="hero-logo">HOLLAND FAST FOOD</div>
+        <div class="hero-title">Mazali va tez!<br />Buyurtma bering.</div>
+        <div class="hero-sub">
+          Namangan bo'ylab 10–15 daqiqada yetkazib beramiz
+        </div>
+        <div class="hero-chips">
+          <span class="chip">⚡ 10–15 daqiqa</span>
+          <span class="chip">
+            <i class="fa-solid fa-check"></i> 100% Halol</span
+          >
+          <span class="chip"><i class="fa-solid fa-fire"></i> Issiq taom</span>
+        </div>
+        <div class="live-badge">
+          <div class="live-dot"></div>
+          <span class="live-text">Real vaqt rejimida ishlayapti</span>
+        </div>
+      </div>
 
-<!-- HOME -->
-<div class="page active" id="pg-home">
-  <div class="hero">
-    <div class="hero-logo">HOLLAND FAST FOOD</div>
-    <div class="hero-title">Mazali va tez!<br>Buyurtma bering.</div>
-    <div class="hero-sub">Namangan bo'ylab 10–15 daqiqada yetkazib beramiz</div>
-    <div class="hero-chips">
-      <span class="chip">⚡ 10–15 daqiqa</span>
-      <span class="chip">✅ 100% Halol</span>
-      <span class="chip">🔥 Issiq taom</span>
+      <div class="stats-bar">
+        <div class="stat-mini" id="sbar-users">
+          <div class="stat-mini-num" id="sb-users">—</div>
+          <div class="stat-mini-label">Mijozlar</div>
+        </div>
+        <div class="stat-mini">
+          <div class="stat-mini-num">4.8★</div>
+          <div class="stat-mini-label">Reyting</div>
+        </div>
+        <div class="stat-mini" id="sbar-orders">
+          <div class="stat-mini-num" id="sb-orders">—</div>
+          <div class="stat-mini-label">Buyurtmalar</div>
+        </div>
+      </div>
+
+      <div class="banner">
+        <div class="banner-text">
+          <b>Birinchi buyurtma!</b>Maxsus chegirma va sovg'alar kutmoqda
+        </div>
+        <div class="banner-img">🎁</div>
+      </div>
+
+      <div class="sec" style="padding-bottom: 0">
+        <div class="sec-header">
+          <div class="sec-title">
+            <i class="fa-solid fa-fire"></i> Eng mashhur
+          </div>
+          <div class="sec-link" onclick="showPage('menu')">Hammasi →</div>
+        </div>
+      </div>
+      <div class="prod-grid" id="popular-grid"></div>
     </div>
-    <div class="live-badge">
-      <div class="live-dot"></div>
-      <span class="live-text">Real vaqt rejimida ishlayapti</span>
+
+    <!-- MENU -->
+    <div class="page" id="pg-menu">
+      <div class="menu-header">
+        <div class="menu-header-sub">HOLLAND</div>
+        <div class="menu-header-title">Barcha mahsulotlar</div>
+      </div>
+      <div class="cats" id="cats-bar"></div>
+      <div class="prod-grid" id="menu-grid"></div>
     </div>
-  </div>
 
-  <div class="stats-bar">
-    <div class="stat-mini" id="sbar-users"><div class="stat-mini-num" id="sb-users">—</div><div class="stat-mini-label">Mijozlar</div></div>
-    <div class="stat-mini"><div class="stat-mini-num">4.8★</div><div class="stat-mini-label">Reyting</div></div>
-    <div class="stat-mini" id="sbar-orders"><div class="stat-mini-num" id="sb-orders">—</div><div class="stat-mini-label">Buyurtmalar</div></div>
-  </div>
-
-  <div class="banner">
-    <div class="banner-text"><b>Birinchi buyurtma!</b>Maxsus chegirma va sovg'alar kutmoqda</div>
-    <div class="banner-img">🎁</div>
-  </div>
-
-  <div class="sec" style="padding-bottom:0">
-    <div class="sec-header">
-      <div class="sec-title"><i class="fa-solid fa-fire"></i> Eng mashhur</div>
-      <div class="sec-link" onclick="showPage('menu')">Hammasi →</div>
+    <!-- CART -->
+    <div class="page" id="pg-cart">
+      <div class="pg-header" style="padding-top: 20px">
+        <div class="pg-title">Savat</div>
+      </div>
+      <div
+        id="cart-body"
+        style="flex: 1; display: flex; flex-direction: column"
+      ></div>
     </div>
-  </div>
-  <div class="prod-grid" id="popular-grid"></div>
-</div>
 
-<!-- MENU -->
-<div class="page" id="pg-menu">
-  <div class="menu-header">
-    <div class="menu-header-sub">HOLLAND</div>
-    <div class="menu-header-title">Barcha mahsulotlar</div>
-  </div>
-  <div class="cats" id="cats-bar"></div>
-  <div class="prod-grid" id="menu-grid"></div>
-</div>
-
-<!-- CART -->
-<div class="page" id="pg-cart">
-  <div class="pg-header" style="padding-top:20px">
-    <div class="pg-title">Savat</div>
-  </div>
-  <div id="cart-body" style="flex:1;display:flex;flex-direction:column"></div>
-</div>
-
-<!-- PROFILE -->
-<div class="page" id="pg-profile">
-  <div class="profile-hero">
-    <div class="profile-avatar" id="pr-avatar"><i class="fa-regular fa-circle-user"></i></div>
-    <div class="profile-name" id="pr-name">Mehmon</div>
-    <div class="profile-username" id="pr-username"></div>
-  </div>
-  <div class="profile-stats">
-    <div class="stat-card"><div class="stat-num" id="st-count">—</div><div class="stat-label">Buyurtmalar</div></div>
-    <div class="stat-card"><div class="stat-num" id="st-total">—</div><div class="stat-label">Jami xarid</div></div>
-  </div>
-  <div class="divider"></div>
-  <div class="sec">
-    <div class="sec-header">
-      <div class="sec-title"><i class="fa-sharp fa-thin fa-box"></i> Buyurtmalar tarixi</div>
-      <div style="display:flex;align-items:center;gap:6px">
-        <div class="live-dot" style="background:#4ade80"></div>
-        <span style="font-size:11px;font-weight:700;color:var(--soft)">Real vaqt</span>
+    <!-- PROFILE -->
+    <div class="page" id="pg-profile">
+      <div class="profile-hero">
+        <div class="profile-avatar" id="pr-avatar">
+          <i class="fa-regular fa-circle-user"></i>
+        </div>
+        <div class="profile-name" id="pr-name">Mehmon</div>
+        <div class="profile-username" id="pr-username"></div>
+      </div>
+      <div class="profile-stats">
+        <div class="stat-card">
+          <div class="stat-num" id="st-count">—</div>
+          <div class="stat-label">Buyurtmalar</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num" id="st-total">—</div>
+          <div class="stat-label">Jami xarid</div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="sec">
+        <div class="sec-header">
+          <div class="sec-title">
+            <i class="fa-sharp fa-thin fa-box"></i> Buyurtmalar tarixi
+          </div>
+          <div style="display: flex; align-items: center; gap: 6px">
+            <div class="live-dot" style="background: #4ade80"></div>
+            <span style="font-size: 11px; font-weight: 700; color: var(--soft)"
+              >Real vaqt</span
+            >
+          </div>
+        </div>
+        <div
+          id="orders-list"
+          style="display: flex; flex-direction: column; gap: 10px"
+        ></div>
       </div>
     </div>
-    <div id="orders-list" style="display:flex;flex-direction:column;gap:10px"></div>
-  </div>
-</div>
 
-<!-- CHECKOUT -->
-<div class="fullpage" id="fp-checkout">
-  <div class="pg-header">
-    <div class="pg-header-row">
-      <button class="back-btn" onclick="closeFP('fp-checkout')">
-        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+    <!-- CHECKOUT -->
+    <div class="fullpage" id="fp-checkout">
+      <div class="pg-header">
+        <div class="pg-header-row">
+          <button class="back-btn" onclick="closeFP('fp-checkout')">
+            <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6" /></svg>
+          </button>
+          <div class="pg-title">Buyurtma berish</div>
+        </div>
+      </div>
+      <div class="checkout-body">
+        <div class="form-group">
+          <div class="form-label">
+            <i class="fa-light fa-user"></i> Ismingiz
+          </div>
+          <input
+            class="form-input"
+            id="inp-name"
+            type="text"
+            placeholder="To'liq ismingiz"
+          />
+        </div>
+        <div class="form-group">
+          <div class="form-label">
+            <i class="fa-thin fa-circle-phone"></i> Telefon raqam
+          </div>
+          <input
+            class="form-input"
+            id="inp-phone"
+            type="number"
+            placeholder="+998 90 000 00 00"
+          />
+        </div>
+        <div class="form-group">
+          <div class="form-label">
+            <i class="fa-solid fa-location-dot"></i> Manzil
+          </div>
+          <div class="loc-card">
+            <div class="loc-option" onclick="getGPS()">
+              <div class="loc-icon gps">
+                <svg viewBox="0 0 24 24">
+                  <polygon points="3 11 22 2 13 21 11 13 3 11" />
+                </svg>
+              </div>
+              <div class="loc-text">
+                <div class="loc-title">GPS orqali aniqlash</div>
+                <div class="loc-sub">Avtomatik — bir marta bosish</div>
+              </div>
+              <div class="loc-arr">
+                <svg viewBox="0 0 24 24">
+                  <polyline points="9 18 15 12 9 6" />
+                </svg>
+              </div>
+            </div>
+            <div class="loc-option" onclick="showManual()">
+              <div class="loc-icon manual">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
+                  />
+                  <path
+                    d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"
+                  />
+                </svg>
+              </div>
+              <div class="loc-text">
+                <div class="loc-title">Qo'lda kiritish</div>
+                <div class="loc-sub">Ko'cha, uy raqami, mo'ljal</div>
+              </div>
+              <div class="loc-arr">
+                <svg viewBox="0 0 24 24">
+                  <polyline points="9 18 15 12 9 6" />
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div class="gps-loading" id="gps-loading">
+            <div class="spinner"></div>
+            Joylashuv aniqlanmoqda...
+          </div>
+          <div class="loc-result" id="loc-result">
+            <svg viewBox="0 0 24 24">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+              <circle cx="12" cy="10" r="3" />
+            </svg>
+            <div class="loc-result-text" id="loc-result-text"></div>
+          </div>
+          <textarea
+            class="form-input"
+            id="inp-address"
+            rows="3"
+            placeholder="Ko'cha, uy, mo'ljal..."
+            style="display: none; margin-top: 8px"
+          ></textarea>
+        </div>
+        <div class="form-group">
+          <div class="form-label">
+            <i class="fa-regular fa-comment"></i>Izoh (ixtiyoriy)
+          </div>
+          <input
+            class="form-input"
+            id="inp-note"
+            type="text"
+            placeholder="Kuryer uchun izoh..."
+          />
+        </div>
+        <div class="order-summary" id="checkout-summary"></div>
+      </div>
+      <div class="checkout-footer">
+        <button class="btn btn-red" onclick="submitOrder()" id="submit-btn">
+          <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12" /></svg>
+          Buyurtmani tasdiqlash
+        </button>
+      </div>
+    </div>
+
+    <!-- SUCCESS -->
+    <div class="success-wrap" id="success-wrap">
+      <div class="success-anim">
+        <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12" /></svg>
+      </div>
+      <div class="success-title">Buyurtma qabul qilindi!</div>
+      <div class="success-sub">
+        10–15 daqiqada yetkazib beramiz.<br />Holat o'zgarganda xabar olasiz
+        <i class="fa-regular fa-bell"></i>
+      </div>
+      <button
+        class="btn btn-green"
+        style="max-width: 280px"
+        onclick="afterSuccess()"
+      >
+        <svg viewBox="0 0 24 24">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+          <polyline points="9 22 9 12 15 12 15 22" />
+        </svg>
+        Bosh sahifaga
       </button>
-      <div class="pg-title">Buyurtma berish</div>
     </div>
-  </div>
-  <div class="checkout-body">
-    <div class="form-group">
-      <div class="form-label">👤 Ismingiz</div>
-      <input class="form-input" id="inp-name" type="text" placeholder="To'liq ismingiz"/>
-    </div>
-    <div class="form-group">
-      <div class="form-label">📞 Telefon raqam</div>
-      <input class="form-input" id="inp-phone" type="number" placeholder="+998 90 000 00 00"/>
-    </div>
-    <div class="form-group">
-      <div class="form-label">📍 Manzil</div>
-      <div class="loc-card">
-        <div class="loc-option" onclick="getGPS()">
-          <div class="loc-icon gps"><svg viewBox="0 0 24 24"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg></div>
-          <div class="loc-text"><div class="loc-title">GPS orqali aniqlash</div><div class="loc-sub">Avtomatik — bir marta bosish</div></div>
-          <div class="loc-arr"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+
+    <!-- NAVBAR -->
+    <div class="navbar">
+      <div class="nav-btn active" id="nb-home" onclick="showPage('home')">
+        <div class="nav-icon">
+          <svg viewBox="0 0 24 24">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+            <polyline points="9 22 9 12 15 12 15 22" />
+          </svg>
         </div>
-        <div class="loc-option" onclick="showManual()">
-          <div class="loc-icon manual"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></div>
-          <div class="loc-text"><div class="loc-title">Qo'lda kiritish</div><div class="loc-sub">Ko'cha, uy raqami, mo'ljal</div></div>
-          <div class="loc-arr"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+        <span class="nav-label">Bosh sahifa</span>
+      </div>
+      <div class="nav-btn" id="nb-menu" onclick="showPage('menu')">
+        <div class="nav-icon">
+          <svg viewBox="0 0 24 24">
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <line x1="3" y1="12" x2="21" y2="12" />
+            <line x1="3" y1="18" x2="21" y2="18" />
+          </svg>
         </div>
+        <span class="nav-label">Menu</span>
       </div>
-      <div class="gps-loading" id="gps-loading"><div class="spinner"></div>Joylashuv aniqlanmoqda...</div>
-      <div class="loc-result" id="loc-result">
-        <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-        <div class="loc-result-text" id="loc-result-text"></div>
+      <div class="nav-btn" id="nb-cart" onclick="showPage('cart')">
+        <div class="nav-icon">
+          <svg viewBox="0 0 24 24">
+            <circle cx="9" cy="21" r="1" />
+            <circle cx="20" cy="21" r="1" />
+            <path
+              d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"
+            />
+          </svg>
+          <div class="nav-dot" id="cart-dot">0</div>
+        </div>
+        <span class="nav-label">Savat</span>
       </div>
-      <textarea class="form-input" id="inp-address" rows="3" placeholder="Ko'cha, uy, mo'ljal..." style="display:none;margin-top:8px"></textarea>
+      <div class="nav-btn" id="nb-profile" onclick="showPage('profile')">
+        <div class="nav-icon">
+          <svg viewBox="0 0 24 24">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+            <circle cx="12" cy="7" r="4" />
+          </svg>
+        </div>
+        <span class="nav-label">Profil</span>
+      </div>
     </div>
-    <div class="form-group">
-      <div class="form-label">💬 Izoh (ixtiyoriy)</div>
-      <input class="form-input" id="inp-note" type="text" placeholder="Kuryer uchun izoh..."/>
-    </div>
-    <div class="order-summary" id="checkout-summary"></div>
-  </div>
-  <div class="checkout-footer">
-    <button class="btn btn-red" onclick="submitOrder()" id="submit-btn">
-      <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-      Buyurtmani tasdiqlash
-    </button>
-  </div>
-</div>
 
-<!-- SUCCESS -->
-<div class="success-wrap" id="success-wrap">
-  <div class="success-anim"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
-  <div class="success-title">Buyurtma qabul qilindi!</div>
-  <div class="success-sub">10–15 daqiqada yetkazib beramiz.<br>Holat o'zgarganda xabar olasiz 🔔</div>
-  <button class="btn btn-green" style="max-width:280px" onclick="afterSuccess()">
-    <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-    Bosh sahifaga
-  </button>
-</div>
+    <div class="toast" id="toast"><span id="toast-msg"></span></div>
 
-<!-- NAVBAR -->
-<div class="navbar">
-  <div class="nav-btn active" id="nb-home" onclick="showPage('home')">
-    <div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
-    <span class="nav-label">Bosh sahifa</span>
-  </div>
-  <div class="nav-btn" id="nb-menu" onclick="showPage('menu')">
-    <div class="nav-icon"><svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></div>
-    <span class="nav-label">Menu</span>
-  </div>
-  <div class="nav-btn" id="nb-cart" onclick="showPage('cart')">
-    <div class="nav-icon">
-      <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
-      <div class="nav-dot" id="cart-dot">0</div>
-    </div>
-    <span class="nav-label">Savat</span>
-  </div>
-  <div class="nav-btn" id="nb-profile" onclick="showPage('profile')">
-    <div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-    <span class="nav-label">Profil</span>
-  </div>
-</div>
+    <script>
+      const API = "https://holland-bot.onrender.com";
+      const IMG_BASE = "https://holland-namangan.netlify.app/images";
 
-<div class="toast" id="toast"><span id="toast-msg"></span></div>
+      const tg = window.Telegram?.WebApp;
+      const tgUser = tg?.initDataUnsafe?.user || {};
+      if (tg) {
+        tg.ready();
+        tg.expand();
+        tg.setHeaderColor?.("#E8342A");
+      }
 
-<script>
-const API      = "https://holland-bot.onrender.com";
-const IMG_BASE = "https://holland-namangan.netlify.app/images";
+      // ── PRODUCTS ──────────────────────────────
+      const CATS = [
+        { id: "all", label: "Barchasi" },
+        { id: "free", label: "Holland Free" },
+        { id: "burger", label: "Burger" },
+        { id: "hotdog", label: "Hot-dog" },
+        { id: "sous", label: "Sous" },
+        { id: "drink", label: "Ichimliklar" },
+      ];
+      const MENU = [
+        {
+          id: "1",
+          name: "Free Holland",
+          cat: "free",
+          price: 19000,
+          img: "free-classik.jpg",
+          popular: true,
+        },
+        {
+          id: "2",
+          name: "Free Holland Big",
+          cat: "free",
+          price: 23000,
+          img: "free-big.jpg",
+          popular: false,
+        },
+        {
+          id: "3",
+          name: "Free Holland Special",
+          cat: "free",
+          price: 35000,
+          img: "special.jpg",
+          popular: true,
+        },
+        {
+          id: "4",
+          name: "Loaded Fries",
+          cat: "free",
+          price: 32000,
+          img: "loaded.png",
+          popular: true,
+        },
+        {
+          id: "5",
+          name: "Loaded Fries & Sausage",
+          cat: "free",
+          price: 28000,
+          img: "Loaded fries.jpg",
+          popular: false,
+        },
+        {
+          id: "6",
+          name: "Loaded Cheese",
+          cat: "free",
+          price: 26000,
+          img: "loaded-cheese.jpg",
+          popular: false,
+        },
+        {
+          id: "7",
+          name: "Chicken Cheese",
+          cat: "free",
+          price: 42000,
+          img: "Chickencheese.jpg",
+          popular: true,
+        },
+        {
+          id: "8",
+          name: "Crispy Chicken",
+          cat: "free",
+          price: 38000,
+          img: "crispy.jpg",
+          popular: false,
+        },
+        {
+          id: "9",
+          name: "Beef Box",
+          cat: "free",
+          price: 55000,
+          img: "bifbox.jpg",
+          popular: false,
+        },
+        {
+          id: "13",
+          name: "Kapsalan (lahm)",
+          cat: "free",
+          price: 75000,
+          img: "kapsalan.jpg",
+          popular: false,
+        },
+        {
+          id: "14",
+          name: "Kapsalan (qiyma)",
+          cat: "free",
+          price: 58000,
+          img: "kapsalan.jpg",
+          popular: false,
+        },
+        {
+          id: "15",
+          name: "Berlin Style (lahm)",
+          cat: "free",
+          price: 58000,
+          img: "berlin.jpg",
+          popular: true,
+        },
+        {
+          id: "16",
+          name: "Berlin Style (qiyma)",
+          cat: "free",
+          price: 48000,
+          img: "berlin.jpg",
+          popular: false,
+        },
+        {
+          id: "17",
+          name: "Briosh Steak Box",
+          cat: "free",
+          price: 65000,
+          img: "BrioshSteak.jpg",
+          popular: true,
+        },
+        {
+          id: "10",
+          name: "Chicken Burger",
+          cat: "burger",
+          price: 35000,
+          img: "burger.jpg",
+          popular: false,
+        },
+        {
+          id: "19",
+          name: "Bon File (lahm)",
+          cat: "burger",
+          price: 48000,
+          img: "Bonfile.jpg",
+          popular: false,
+        },
+        {
+          id: "20",
+          name: "Bon File (qiyma)",
+          cat: "burger",
+          price: 38000,
+          img: "Bonfile.jpg",
+          popular: false,
+        },
+        {
+          id: "11",
+          name: "Hot-Dog Classic",
+          cat: "hotdog",
+          price: 15000,
+          img: "hotdog.jpg",
+          popular: false,
+        },
+        {
+          id: "12",
+          name: "Hot-Dog Canada",
+          cat: "hotdog",
+          price: 20000,
+          img: "hotdog-canada.jpg",
+          popular: false,
+        },
+        {
+          id: "18",
+          name: "Free-Dog",
+          cat: "hotdog",
+          price: 28000,
+          img: "free-dog.jpg",
+          popular: true,
+        },
+        {
+          id: "21",
+          name: "Berlin Sous",
+          cat: "sous",
+          price: 4000,
+          img: "berlinSous.png",
+          popular: false,
+        },
+        {
+          id: "22",
+          name: "Burger Sous",
+          cat: "sous",
+          price: 4000,
+          img: "burgerSous.png",
+          popular: false,
+        },
+        {
+          id: "23",
+          name: "BBQ Sous",
+          cat: "sous",
+          price: 4000,
+          img: "bbq.png",
+          popular: false,
+        },
+        {
+          id: "24",
+          name: "Ketchup-Mayonez",
+          cat: "sous",
+          price: 4000,
+          img: "ketchup.png",
+          popular: false,
+        },
+        {
+          id: "25",
+          name: "Sprite Mojito 0.5L",
+          cat: "drink",
+          price: 8000,
+          img: "sprite-moxito.jpg",
+          popular: false,
+        },
+        {
+          id: "26",
+          name: "Sprite 0.5L",
+          cat: "drink",
+          price: 8000,
+          img: "sprite.jpg",
+          popular: false,
+        },
+        {
+          id: "27",
+          name: "Sprite 0.25L",
+          cat: "drink",
+          price: 7000,
+          img: "sprite-banochniy.jpg",
+          popular: false,
+        },
+        {
+          id: "28",
+          name: "Fanta 0.25L (banonchik)",
+          cat: "drink",
+          price: 7000,
+          img: "fanta-banochniy.jpg",
+          popular: false,
+        },
+        {
+          id: "30",
+          name: "Fanta 0.25L (plastik)",
+          cat: "drink",
+          price: 10000,
+          img: "fanta.jpg",
+          popular: false,
+        },
+        {
+          id: "32",
+          name: "Coca Cola 0.25L",
+          cat: "drink",
+          price: 7000,
+          img: "cola-banochniy.jpg",
+          popular: false,
+        },
+        {
+          id: "34",
+          name: "Coca Cola (shisha)",
+          cat: "drink",
+          price: 10000,
+          img: "cola.jpg",
+          popular: false,
+        },
+        {
+          id: "35",
+          name: "Fuse Tea 0.5L",
+          cat: "drink",
+          price: 10000,
+          img: "fusetea-banochniy.jpg",
+          popular: false,
+        },
+        {
+          id: "37",
+          name: "Bonaqua 0.5L",
+          cat: "drink",
+          price: 3000,
+          img: "bon-aqua.jpg",
+          popular: false,
+        },
+        {
+          id: "38",
+          name: "Cappy Pulpy 0.5L",
+          cat: "drink",
+          price: 8000,
+          img: "cappy.jpg",
+          popular: false,
+        },
+      ];
 
-const tg     = window.Telegram?.WebApp;
-const tgUser = tg?.initDataUnsafe?.user || {};
-if(tg){ tg.ready(); tg.expand(); tg.setHeaderColor?.('#E8342A'); }
+      function imgUrl(i) {
+        return `${IMG_BASE}/${i}`;
+      }
+      function fmt(n) {
+        return new Intl.NumberFormat("uz-UZ").format(n) + " so'm";
+      }
 
-// ── PRODUCTS ──────────────────────────────
-const CATS=[
-  {id:"all",label:"Barchasi"},
-  {id:"free",label:"Holland Free"},
-  {id:"burger",label:"Burger"},
-  {id:"hotdog",label:"Hot-dog"},
-  {id:"sous",label:"Sous"},
-  {id:"drink",label:"Ichimliklar"},
-];
-const MENU=[
-  {id:"1", name:"Free Holland",           cat:"free",  price:19000,img:"free-classik.jpg",  popular:true},
-  {id:"2", name:"Free Holland Big",       cat:"free",  price:23000,img:"free-big.jpg",       popular:false},
-  {id:"3", name:"Free Holland Special",   cat:"free",  price:35000,img:"special.jpg",        popular:true},
-  {id:"4", name:"Loaded Fries",           cat:"free",  price:32000,img:"loaded.png",         popular:true},
-  {id:"5", name:"Loaded Fries & Sausage", cat:"free",  price:28000,img:"Loaded fries.jpg",   popular:false},
-  {id:"6", name:"Loaded Cheese",          cat:"free",  price:26000,img:"loaded-cheese.jpg",  popular:false},
-  {id:"7", name:"Chicken Cheese",         cat:"free",  price:42000,img:"Chickencheese.jpg",  popular:true},
-  {id:"8", name:"Crispy Chicken",         cat:"free",  price:38000,img:"crispy.jpg",         popular:false},
-  {id:"9", name:"Beef Box",               cat:"free",  price:55000,img:"bifbox.jpg",         popular:false},
-  {id:"13",name:"Kapsalan (lahm)",        cat:"free",  price:75000,img:"kapsalan.jpg",       popular:false},
-  {id:"14",name:"Kapsalan (qiyma)",       cat:"free",  price:58000,img:"kapsalan.jpg",       popular:false},
-  {id:"15",name:"Berlin Style (lahm)",    cat:"free",  price:58000,img:"berlin.jpg",         popular:true},
-  {id:"16",name:"Berlin Style (qiyma)",   cat:"free",  price:48000,img:"berlin.jpg",         popular:false},
-  {id:"17",name:"Briosh Steak Box",       cat:"free",  price:65000,img:"BrioshSteak.jpg",    popular:true},
-  {id:"10",name:"Chicken Burger",         cat:"burger",price:35000,img:"burger.jpg",         popular:false},
-  {id:"19",name:"Bon File (lahm)",        cat:"burger",price:48000,img:"Bonfile.jpg",        popular:false},
-  {id:"20",name:"Bon File (qiyma)",       cat:"burger",price:38000,img:"Bonfile.jpg",        popular:false},
-  {id:"11",name:"Hot-Dog Classic",        cat:"hotdog",price:15000,img:"hotdog.jpg",         popular:false},
-  {id:"12",name:"Hot-Dog Canada",         cat:"hotdog",price:20000,img:"hotdog-canada.jpg",  popular:false},
-  {id:"18",name:"Free-Dog",               cat:"hotdog",price:28000,img:"free-dog.jpg",       popular:true},
-  {id:"21",name:"Berlin Sous",            cat:"sous",  price:4000, img:"berlinSous.png",     popular:false},
-  {id:"22",name:"Burger Sous",            cat:"sous",  price:4000, img:"burgerSous.png",     popular:false},
-  {id:"23",name:"BBQ Sous",               cat:"sous",  price:4000, img:"bbq.png",            popular:false},
-  {id:"24",name:"Ketchup-Mayonez",        cat:"sous",  price:4000, img:"ketchup.png",        popular:false},
-  {id:"25",name:"Sprite Mojito 0.5L",     cat:"drink", price:8000, img:"sprite-moxito.jpg",  popular:false},
-  {id:"26",name:"Sprite 0.5L",            cat:"drink", price:8000, img:"sprite.jpg",         popular:false},
-  {id:"27",name:"Sprite 0.25L",           cat:"drink", price:7000, img:"sprite-banochniy.jpg",popular:false},
-  {id:"28",name:"Fanta 0.25L (banonchik)",cat:"drink", price:7000, img:"fanta-banochniy.jpg",popular:false},
-  {id:"30",name:"Fanta 0.25L (plastik)",  cat:"drink", price:10000,img:"fanta.jpg",          popular:false},
-  {id:"32",name:"Coca Cola 0.25L",        cat:"drink", price:7000, img:"cola-banochniy.jpg", popular:false},
-  {id:"34",name:"Coca Cola (shisha)",     cat:"drink", price:10000,img:"cola.jpg",           popular:false},
-  {id:"35",name:"Fuse Tea 0.5L",          cat:"drink", price:10000,img:"fusetea-banochniy.jpg",popular:false},
-  {id:"37",name:"Bonaqua 0.5L",           cat:"drink", price:3000, img:"bon-aqua.jpg",       popular:false},
-  {id:"38",name:"Cappy Pulpy 0.5L",       cat:"drink", price:8000, img:"cappy.jpg",          popular:false},
-];
+      // ── CART ─────────────────────────────────
+      let cart = {},
+        activeCat = "all";
+      function cartQty() {
+        return Object.values(cart).reduce((s, i) => s + i.qty, 0);
+      }
+      function cartTotal() {
+        return Object.values(cart).reduce((s, i) => s + i.p.price * i.qty, 0);
+      }
 
-function imgUrl(i){ return `${IMG_BASE}/${i}`; }
-function fmt(n){ return new Intl.NumberFormat('uz-UZ').format(n)+' so\'m'; }
+      function addCart(id) {
+        const p = MENU.find((m) => m.id === id);
+        if (!p) return;
+        if (!cart[id]) cart[id] = { p, qty: 0 };
+        cart[id].qty = Math.min(99, cart[id].qty + 1);
+        updateBadge();
+        refreshCard(id);
+        toast("✅ " + p.name + " qo'shildi", "success");
+      }
+      function decCart(id) {
+        if (!cart[id]) return;
+        cart[id].qty--;
+        if (cart[id].qty <= 0) delete cart[id];
+        updateBadge();
+        refreshCard(id);
+      }
+      function updateBadge() {
+        const n = cartQty(),
+          dot = document.getElementById("cart-dot");
+        dot.textContent = n;
+        dot.classList.toggle("show", n > 0);
+      }
 
-// ── CART ─────────────────────────────────
-let cart={}, activeCat='all';
-function cartQty(){ return Object.values(cart).reduce((s,i)=>s+i.qty,0); }
-function cartTotal(){ return Object.values(cart).reduce((s,i)=>s+i.p.price*i.qty,0); }
+      // SVG helpers
+      const SVI = {
+        plus: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>`,
+        minus: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>`,
+      };
 
-function addCart(id){
-  const p=MENU.find(m=>m.id===id); if(!p) return;
-  if(!cart[id]) cart[id]={p,qty:0};
-  cart[id].qty=Math.min(99,cart[id].qty+1);
-  updateBadge(); refreshCard(id);
-  toast('✅ '+p.name+' qo\'shildi','success');
-}
-function decCart(id){
-  if(!cart[id]) return;
-  cart[id].qty--;
-  if(cart[id].qty<=0) delete cart[id];
-  updateBadge(); refreshCard(id);
-}
-function updateBadge(){
-  const n=cartQty(),dot=document.getElementById('cart-dot');
-  dot.textContent=n; dot.classList.toggle('show',n>0);
-}
-
-// SVG helpers
-const SVI = {
-  plus:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>`,
-  minus:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>`,
-};
-
-function qtyCtrl(id,qty){
-  if(qty===0) return `<button class="add-btn" onclick="addCart('${id}')" style="color:#fff">${SVI.plus}</button>`;
-  return `<div class="qty-row">
+      function qtyCtrl(id, qty) {
+        if (qty === 0)
+          return `<button class="add-btn" onclick="addCart('${id}')" style="color:#fff">${SVI.plus}</button>`;
+        return `<div class="qty-row">
     <button class="qty-btn" onclick="decCart('${id}')">${SVI.minus}</button>
     <div class="qty-n">${qty}</div>
     <button class="qty-btn plus" onclick="addCart('${id}')" style="color:var(--red)">${SVI.plus}</button>
   </div>`;
-}
+      }
 
-function cardHTML(p,badge=false){
-  const qty=cart[p.id]?.qty||0;
-  return `<div class="prod-card" id="card-${p.id}">
+      function cardHTML(p, badge = false) {
+        const qty = cart[p.id]?.qty || 0;
+        return `<div class="prod-card" id="card-${p.id}">
     <div class="prod-img-wrap">
       <img class="prod-img" src="${imgUrl(p.img)}" alt="${p.name}" loading="lazy" onerror="this.style.opacity='.2'"/>
-      ${badge?'<div class="prod-badge">🔥 Hit</div>':''}
+      ${badge ? '<div class="prod-badge"><i class="fa-solid fa-fire"></i> Hit</div>' : ""}
     </div>
     <div class="prod-body">
       <div class="prod-name">${p.name}</div>
-      <div class="prod-bottom"><div class="prod-price">${fmt(p.price)}</div>${qtyCtrl(p.id,qty)}</div>
+      <div class="prod-bottom"><div class="prod-price">${fmt(p.price)}</div>${qtyCtrl(p.id, qty)}</div>
     </div>
   </div>`;
-}
+      }
 
-function refreshCard(id){
-  const el=document.getElementById('card-'+id); if(!el) return;
-  const p=MENU.find(m=>m.id===id),qty=cart[id]?.qty||0;
-  el.querySelector('.prod-bottom').innerHTML=`<div class="prod-price">${fmt(p.price)}</div>${qtyCtrl(id,qty)}`;
-}
+      function refreshCard(id) {
+        const el = document.getElementById("card-" + id);
+        if (!el) return;
+        const p = MENU.find((m) => m.id === id),
+          qty = cart[id]?.qty || 0;
+        el.querySelector(".prod-bottom").innerHTML =
+          `<div class="prod-price">${fmt(p.price)}</div>${qtyCtrl(id, qty)}`;
+      }
 
-function renderPopular(){
-  document.getElementById('popular-grid').innerHTML=
-    MENU.filter(m=>m.popular).slice(0,6).map(p=>cardHTML(p,true)).join('');
-}
-function renderCats(){
-  document.getElementById('cats-bar').innerHTML=
-    CATS.map(c=>`<button class="cat-btn${c.id===activeCat?' active':''}" onclick="selectCat('${c.id}')">${c.label}</button>`).join('');
-}
-function renderMenuGrid(){
-  document.getElementById('menu-grid').innerHTML=MENU.filter(m=>activeCat==='all'||m.cat===activeCat).map(p=>cardHTML(p)).join('');
-}
-function selectCat(id){ activeCat=id; renderCats(); renderMenuGrid(); }
+      function renderPopular() {
+        document.getElementById("popular-grid").innerHTML = MENU.filter(
+          (m) => m.popular,
+        )
+          .slice(0, 6)
+          .map((p) => cardHTML(p, true))
+          .join("");
+      }
+      function renderCats() {
+        document.getElementById("cats-bar").innerHTML = CATS.map(
+          (c) =>
+            `<button class="cat-btn${c.id === activeCat ? " active" : ""}" onclick="selectCat('${c.id}')">${c.label}</button>`,
+        ).join("");
+      }
+      function renderMenuGrid() {
+        document.getElementById("menu-grid").innerHTML = MENU.filter(
+          (m) => activeCat === "all" || m.cat === activeCat,
+        )
+          .map((p) => cardHTML(p))
+          .join("");
+      }
+      function selectCat(id) {
+        activeCat = id;
+        renderCats();
+        renderMenuGrid();
+      }
 
-// ── CART RENDER ──────────────────────────
-function renderCart(){
-  const items=Object.values(cart),body=document.getElementById('cart-body');
-  if(!items.length){
-    body.innerHTML=`<div class="cart-empty">
+      // ── CART RENDER ──────────────────────────
+      function renderCart() {
+        const items = Object.values(cart),
+          body = document.getElementById("cart-body");
+        if (!items.length) {
+          body.innerHTML = `<div class="cart-empty">
       <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
       <div class="cart-empty-title">Savat bo'sh</div>
       <button class="btn btn-red" style="max-width:200px;margin-top:8px" onclick="showPage('menu')">Menu ga o'tish</button>
-    </div>`; return;
-  }
-  body.innerHTML=`
-    <div class="cart-list">${items.map(it=>`
+    </div>`;
+          return;
+        }
+        body.innerHTML = `
+    <div class="cart-list">${items
+      .map(
+        (it) => `
       <div class="cart-item">
         <img class="cart-item-img" src="${imgUrl(it.p.img)}" alt="${it.p.name}" onerror="this.style.opacity='.2'"/>
         <div class="cart-item-info">
           <div class="cart-item-name">${it.p.name}</div>
-          <div class="cart-item-price">${fmt(it.p.price*it.qty)}</div>
+          <div class="cart-item-price">${fmt(it.p.price * it.qty)}</div>
         </div>
         <div class="qty-row">
           <button class="qty-btn" onclick="decCart('${it.p.id}');renderCart()" style="color:var(--dark)">${SVI.minus}</button>
           <div class="qty-n">${it.qty}</div>
           <button class="qty-btn plus" onclick="addCart('${it.p.id}');renderCart()" style="color:var(--red)">${SVI.plus}</button>
         </div>
-      </div>`).join('')}
+      </div>`,
+      )
+      .join("")}
     </div>
     <div style="flex:1"></div>
     <div class="cart-footer">
@@ -563,298 +1922,421 @@ function renderCart(){
         Buyurtma berish
       </button>
     </div>`;
-}
+      }
 
-// ── CHECKOUT ─────────────────────────────
-let gpsCoords=null;
+      // ── CHECKOUT ─────────────────────────────
+      let gpsCoords = null;
 
-function openCheckout(){
-  if(!cartQty()){ toast('Savat bo\'sh!'); return; }
-  if(tgUser.first_name) document.getElementById('inp-name').value=[tgUser.first_name,tgUser.last_name].filter(Boolean).join(' ');
-  const items=Object.values(cart);
-  document.getElementById('checkout-summary').innerHTML=
-    items.map(it=>`<div class="sum-row"><div class="sum-key">${it.p.name} × ${it.qty}</div><div class="sum-val">${fmt(it.p.price*it.qty)}</div></div>`).join('')+
-    `<div class="sum-row"><div class="sum-key">Jami:</div><div class="sum-val total">${fmt(cartTotal())}</div></div>`;
-  openFP('fp-checkout');
-}
+      function openCheckout() {
+        if (!cartQty()) {
+          toast("Savat bo'sh!");
+          return;
+        }
+        if (tgUser.first_name)
+          document.getElementById("inp-name").value = [
+            tgUser.first_name,
+            tgUser.last_name,
+          ]
+            .filter(Boolean)
+            .join(" ");
+        const items = Object.values(cart);
+        document.getElementById("checkout-summary").innerHTML =
+          items
+            .map(
+              (it) =>
+                `<div class="sum-row"><div class="sum-key">${it.p.name} × ${it.qty}</div><div class="sum-val">${fmt(it.p.price * it.qty)}</div></div>`,
+            )
+            .join("") +
+          `<div class="sum-row"><div class="sum-key">Jami:</div><div class="sum-val total">${fmt(cartTotal())}</div></div>`;
+        openFP("fp-checkout");
+      }
 
-function getGPS(){
-  if(!navigator.geolocation){ toast('GPS qo\'llab-quvvatlanmaydi'); return; }
-  document.getElementById('gps-loading').classList.add('show');
-  document.getElementById('loc-result').classList.remove('show');
-  document.getElementById('inp-address').style.display='none';
-  navigator.geolocation.getCurrentPosition(async pos=>{
-    document.getElementById('gps-loading').classList.remove('show');
-    gpsCoords={lat:pos.coords.latitude,lng:pos.coords.longitude};
-    try{
-      const r=await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${gpsCoords.lat}&lon=${gpsCoords.lng}&format=json&accept-language=uz`);
-      const d=await r.json();
-      const addr=d.display_name||`${gpsCoords.lat.toFixed(5)}, ${gpsCoords.lng.toFixed(5)}`;
-      document.getElementById('loc-result-text').textContent=addr;
-      document.getElementById('loc-result').classList.add('show');
-      document.getElementById('inp-address').value=addr;
-      toast('✅ Manzil aniqlandi!','success');
-    } catch {
-      const c=`${gpsCoords.lat.toFixed(5)}, ${gpsCoords.lng.toFixed(5)}`;
-      document.getElementById('loc-result-text').textContent=c;
-      document.getElementById('loc-result').classList.add('show');
-      document.getElementById('inp-address').value=c;
-    }
-  },()=>{ document.getElementById('gps-loading').classList.remove('show'); showManual(); },{timeout:10000,enableHighAccuracy:true});
-}
+      function getGPS() {
+        if (!navigator.geolocation) {
+          toast("GPS qo'llab-quvvatlanmaydi");
+          return;
+        }
+        document.getElementById("gps-loading").classList.add("show");
+        document.getElementById("loc-result").classList.remove("show");
+        document.getElementById("inp-address").style.display = "none";
+        navigator.geolocation.getCurrentPosition(
+          async (pos) => {
+            document.getElementById("gps-loading").classList.remove("show");
+            gpsCoords = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+            try {
+              const r = await fetch(
+                `https://nominatim.openstreetmap.org/reverse?lat=${gpsCoords.lat}&lon=${gpsCoords.lng}&format=json&accept-language=uz`,
+              );
+              const d = await r.json();
+              const addr =
+                d.display_name ||
+                `${gpsCoords.lat.toFixed(5)}, ${gpsCoords.lng.toFixed(5)}`;
+              document.getElementById("loc-result-text").textContent = addr;
+              document.getElementById("loc-result").classList.add("show");
+              document.getElementById("inp-address").value = addr;
+              toast("✅ Manzil aniqlandi!", "success");
+            } catch {
+              const c = `${gpsCoords.lat.toFixed(5)}, ${gpsCoords.lng.toFixed(5)}`;
+              document.getElementById("loc-result-text").textContent = c;
+              document.getElementById("loc-result").classList.add("show");
+              document.getElementById("inp-address").value = c;
+            }
+          },
+          () => {
+            document.getElementById("gps-loading").classList.remove("show");
+            showManual();
+          },
+          { timeout: 10000, enableHighAccuracy: true },
+        );
+      }
 
-function showManual(){
-  gpsCoords=null;
-  document.getElementById('gps-loading').classList.remove('show');
-  document.getElementById('loc-result').classList.remove('show');
-  const inp=document.getElementById('inp-address');
-  inp.style.display='block'; inp.focus();
-}
+      function showManual() {
+        gpsCoords = null;
+        document.getElementById("gps-loading").classList.remove("show");
+        document.getElementById("loc-result").classList.remove("show");
+        const inp = document.getElementById("inp-address");
+        inp.style.display = "block";
+        inp.focus();
+      }
 
-async function submitOrder(){
-  const name=document.getElementById('inp-name').value.trim();
-  const phone=document.getElementById('inp-phone').value.trim();
-  const address=document.getElementById('inp-address').value.trim();
-  const note=document.getElementById('inp-note').value.trim();
-  if(!name) return toast('Ismingizni kiriting');
-  if(!phone) return toast('Telefon kiriting');
-  if(!address) return toast('Manzil kiriting yoki GPS bosing');
-  const btn=document.getElementById('submit-btn');
-  btn.disabled=true; btn.innerHTML='<div class="spinner" style="border-top-color:#fff"></div> Yuborilmoqda...';
-  try{
-    const res=await fetch(`${API}/api/orders`,{
-      method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({userId:tgUser.id||0,name,phone,address,note,
-        items:Object.values(cart).map(it=>({name:it.p.name,price:it.p.price,qty:it.qty})),
-        total:cartTotal(),gps:gpsCoords,initData:tg?.initData||''})
-    });
-    const data=await res.json();
-    if(data.success){
-      cart={}; updateBadge(); closeFP('fp-checkout');
-      document.getElementById('success-wrap').classList.add('active');
-    } else toast(data.error||'Xatolik yuz berdi');
-  } catch { toast('Server bilan bog\'lanib bo\'lmadi'); }
-  finally{
-    btn.disabled=false;
-    btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Buyurtmani tasdiqlash';
-  }
-}
+      async function submitOrder() {
+        const name = document.getElementById("inp-name").value.trim();
+        const phone = document.getElementById("inp-phone").value.trim();
+        const address = document.getElementById("inp-address").value.trim();
+        const note = document.getElementById("inp-note").value.trim();
+        if (!name) return toast("Ismingizni kiriting");
+        if (!phone) return toast("Telefon kiriting");
+        if (!address) return toast("Manzil kiriting yoki GPS bosing");
+        const btn = document.getElementById("submit-btn");
+        btn.disabled = true;
+        btn.innerHTML =
+          '<div class="spinner" style="border-top-color:#fff"></div> Yuborilmoqda...';
+        try {
+          const res = await fetch(`${API}/api/orders`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              userId: tgUser.id || 0,
+              name,
+              phone,
+              address,
+              note,
+              items: Object.values(cart).map((it) => ({
+                name: it.p.name,
+                price: it.p.price,
+                qty: it.qty,
+              })),
+              total: cartTotal(),
+              gps: gpsCoords,
+              initData: tg?.initData || "",
+            }),
+          });
+          const data = await res.json();
+          if (data.success) {
+            cart = {};
+            updateBadge();
+            closeFP("fp-checkout");
+            document.getElementById("success-wrap").classList.add("active");
+          } else toast(data.error || "Xatolik yuz berdi");
+        } catch {
+          toast("Server bilan bog'lanib bo'lmadi");
+        } finally {
+          btn.disabled = false;
+          btn.innerHTML =
+            '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Buyurtmani tasdiqlash';
+        }
+      }
 
-function afterSuccess(){ document.getElementById('success-wrap').classList.remove('active'); showPage('profile'); }
+      function afterSuccess() {
+        document.getElementById("success-wrap").classList.remove("active");
+        showPage("profile");
+      }
 
-// ── STATUS PROGRESS ───────────────────────
-const STEPS=[
-  {key:'new',     label:'Qabul\nqilindi', emoji:'🆕'},
-  {key:'accepted',label:'Tasdiqlandi',    emoji:'✅'},
-  {key:'cooking', label:'Tayyor-\nlanmoqda',emoji:'🍳'},
-  {key:'delivered',label:'Yetkazildi',   emoji:'🚀'},
-];
-const STATUS_LABEL={new:'🆕 Yangi',accepted:'✅ Qabul',cooking:'🍳 Tayyorlanmoqda',delivered:'🚀 Yetkazildi',cancelled:'❌ Bekor'};
-const STATUS_CLASS={new:'s-new',accepted:'s-accepted',cooking:'s-cooking',delivered:'s-delivered',cancelled:'s-cancelled'};
+      // ── STATUS PROGRESS ───────────────────────
+      const STEPS = [
+        { key: "new", label: "Qabul\nqilindi", icon: "fa-bell" },
+        { key: "accepted", label: "Tasdiqlandi", icon: "fa-check" },
+        { key: "cooking", label: "Tayyor-\nlanmoqda", icon: "fa-kitchen-set" },
+        { key: "delivered", label: "Yetkazildi", icon: "fa-truck-fast" },
+      ];
+      const STATUS_LABEL = {
+        new: '<i class="fa-solid fa-bell"></i> Yangi',
+        accepted: '<i class="fa-solid fa-check"></i> Qabul',
+        cooking: '<i class="fa-solid fa-kitchen-set"></i> Tayyorlanmoqda',
+        delivered: '<i class="fa-solid fa-truck-fast"></i> Yetkazildi',
+        cancelled: '<i class="fa-solid fa-xmark"></i> Bekor',
+      };
 
-function statusProgressHTML(status){
-  if(status==='cancelled') return `<div style="text-align:center;color:#6b7280;font-size:12px;font-weight:600;padding:8px 0">❌ Buyurtma bekor qilindi</div>`;
-  const curIdx=STEPS.findIndex(s=>s.key===status);
-  let html=`<div class="status-progress">`;
-  STEPS.forEach((s,i)=>{
-    const done=i<curIdx, active=i===curIdx;
-    html+=`<div class="sp-step">
-      <div class="sp-dot ${done?'done':active?'active':''}">${done?'✓':s.emoji}</div>
-      <div class="sp-label ${done?'done':active?'active':''}">${s.label}</div>
+      const STATUS_CLASS = {
+        new: "s-new",
+        accepted: "s-accepted",
+        cooking: "s-cooking",
+        delivered: "s-delivered",
+        cancelled: "s-cancelled",
+      };
+
+      function statusProgressHTML(status) {
+        if (status === "cancelled")
+          return `<div style="text-align:center;color:#6b7280;font-size:12px;font-weight:600;padding:8px 0">❌ Buyurtma bekor qilindi</div>`;
+        const curIdx = STEPS.findIndex((s) => s.key === status);
+        let html = `<div class="status-progress">`;
+        STEPS.forEach((s, i) => {
+          const done = i < curIdx,
+            active = i === curIdx;
+          html += `<div class="sp-step">
+      <div class="sp-dot ${done ? "done" : active ? "active" : ""}">${done ? "✓" : s.emoji}</div>
+      <div class="sp-label ${done ? "done" : active ? "active" : ""}">${s.label}</div>
     </div>`;
-    if(i<STEPS.length-1) html+=`<div class="sp-line ${i<curIdx?'done':''}"></div>`;
-  });
-  return html+`</div>`;
-}
+          if (i < STEPS.length - 1)
+            html += `<div class="sp-line ${i < curIdx ? "done" : ""}"></div>`;
+        });
+        return html + `</div>`;
+      }
 
-function orderCardHTML(o){
-  const id=(o._id||o.id||'').toString();
-  const shortId=id.slice(-6).toUpperCase();
-  const items=o.items||[];
-  const status=o.status||'new';
-  return `<div class="order-card" id="ocard-${id}">
+      function orderCardHTML(o) {
+        const id = (o._id || o.id || "").toString();
+        const shortId = id.slice(-6).toUpperCase();
+        const items = o.items || [];
+        const status = o.status || "new";
+        return `<div class="order-card" id="ocard-${id}">
     <div class="order-top">
       <div class="order-num">Buyurtma #${shortId}</div>
-      <div class="order-status ${STATUS_CLASS[status]||'s-new'}" id="ostatus-${id}">${STATUS_LABEL[status]||status}</div>
+      <div class="order-status ${STATUS_CLASS[status] || "s-new"}" id="ostatus-${id}">${STATUS_LABEL[status] || status}</div>
     </div>
-    <div class="order-items-text">${items.map(i=>i.name+' ×'+i.qty).join(', ')}</div>
+    <div class="order-items-text">${items.map((i) => i.name + " ×" + i.qty).join(", ")}</div>
     <div class="order-total-row">
       <div class="order-total-sum">${fmt(o.total)}</div>
-      <div class="order-date">${(o.createdAt||o.created_at||'').slice(0,10)}</div>
+      <div class="order-date">${(o.createdAt || o.created_at || "").slice(0, 10)}</div>
     </div>
     <div id="oprogress-${id}">${statusProgressHTML(status)}</div>
   </div>`;
-}
-
-// ── PROFILE ──────────────────────────────
-let profileOrders=[];
-
-async function renderProfile(){
-  const name=[tgUser.first_name,tgUser.last_name].filter(Boolean).join(' ')||'Mehmon';
-  document.getElementById('pr-name').textContent=name;
-  document.getElementById('pr-username').textContent=tgUser.username?'@'+tgUser.username:'';
-  document.getElementById('pr-avatar').textContent=(name[0]||'?').toUpperCase();
-  const list=document.getElementById('orders-list');
-  list.innerHTML=`<div class="loading-row"><div class="spinner"></div>Yuklanmoqda...</div>`;
-  try{
-    const r=await fetch(`${API}/api/orders/user/${tgUser.id||0}`);
-    profileOrders=await r.json();
-    updateProfileUI();
-  } catch { list.innerHTML=`<div class="loading-row" style="color:var(--soft)">Ma'lumot yuklanmadi</div>`; }
-}
-
-function updateProfileUI(){
-  document.getElementById('st-count').textContent=profileOrders.length;
-  document.getElementById('st-total').textContent=
-    new Intl.NumberFormat('uz-UZ').format(profileOrders.reduce((s,o)=>s+o.total,0))+' so\'m';
-  const list=document.getElementById('orders-list');
-  if(!profileOrders.length){
-    list.innerHTML=`<div class="loading-row" style="color:var(--soft)">Hali buyurtma yo'q</div>`; return;
-  }
-  list.innerHTML=profileOrders.map(o=>orderCardHTML(o)).join('');
-}
-
-// ── REAL-TIME SSE ─────────────────────────
-let sse=null, sseReconnect=null;
-
-function connectSSE(){
-  if(!tgUser.id) return;
-  sse=new EventSource(`${API}/api/stream/${tgUser.id}`);
-
-  sse.addEventListener('connected',()=>{
-    console.log('SSE ulandi ✅');
-  });
-
-  // Statistika yangilash
-  sse.addEventListener('stats', e=>{
-    const d=JSON.parse(e.data);
-    const uEl=document.getElementById('sb-users');
-    const oEl=document.getElementById('sb-orders');
-    if(uEl){
-      if(uEl.textContent!==d.users+'+'){
-        uEl.textContent=d.users+'+';
-        document.getElementById('sbar-users').classList.add('pulse');
-        setTimeout(()=>document.getElementById('sbar-users').classList.remove('pulse'),500);
       }
-    }
-    if(oEl){
-      if(oEl.textContent!==String(d.orders)){
-        oEl.textContent=d.orders;
-        document.getElementById('sbar-orders').classList.add('pulse');
-        setTimeout(()=>document.getElementById('sbar-orders').classList.remove('pulse'),500);
-      }
-    }
-  });
 
-  // Buyurtma holati yangilash (REAL VAQT!)
-  sse.addEventListener('order_update', e=>{
-    const d=JSON.parse(e.data);
-    const {orderId,status,statusLabel}=d;
+      // ── PROFILE ──────────────────────────────
+      let profileOrders = [];
 
-    // Profil sahifasidagi buyurtmani yangilash
-    const idx=profileOrders.findIndex(o=>(o._id||o.id||'').toString()===orderId);
-    if(idx>=0){
-      profileOrders[idx].status=status;
-      // DOM ni to'g'ridan yangilash
-      const card=document.getElementById('ocard-'+orderId);
-      if(card){
-        card.classList.add('updated');
-        setTimeout(()=>card.classList.remove('updated'),600);
-        const stEl=document.getElementById('ostatus-'+orderId);
-        if(stEl){
-          stEl.className='order-status '+(STATUS_CLASS[status]||'s-new');
-          stEl.textContent=STATUS_LABEL[status]||statusLabel;
+      async function renderProfile() {
+        const name =
+          [tgUser.first_name, tgUser.last_name].filter(Boolean).join(" ") ||
+          "Mehmon";
+        document.getElementById("pr-name").textContent = name;
+        document.getElementById("pr-username").textContent = tgUser.username
+          ? "@" + tgUser.username
+          : "";
+        document.getElementById("pr-avatar").textContent = (
+          name[0] || "?"
+        ).toUpperCase();
+        const list = document.getElementById("orders-list");
+        list.innerHTML = `<div class="loading-row"><div class="spinner"></div>Yuklanmoqda...</div>`;
+        try {
+          const r = await fetch(`${API}/api/orders/user/${tgUser.id || 0}`);
+          profileOrders = await r.json();
+          updateProfileUI();
+        } catch {
+          list.innerHTML = `<div class="loading-row" style="color:var(--soft)">Ma'lumot yuklanmadi</div>`;
         }
-        const prEl=document.getElementById('oprogress-'+orderId);
-        if(prEl) prEl.innerHTML=statusProgressHTML(status);
       }
-    }
 
-    // Toast xabari
-    toast('🔔 Buyurtma: '+statusLabel,'info');
+      function updateProfileUI() {
+        document.getElementById("st-count").textContent = profileOrders.length;
+        document.getElementById("st-total").textContent =
+          new Intl.NumberFormat("uz-UZ").format(
+            profileOrders.reduce((s, o) => s + o.total, 0),
+          ) + " so'm";
+        const list = document.getElementById("orders-list");
+        if (!profileOrders.length) {
+          list.innerHTML = `<div class="loading-row" style="color:var(--soft)">Hali buyurtma yo'q</div>`;
+          return;
+        }
+        list.innerHTML = profileOrders.map((o) => orderCardHTML(o)).join("");
+      }
 
-    // Agar profil sahifasida bo'lmasa ham xabar ko'rsatish
-    if(tg?.showAlert) tg.showAlert('🔔 Buyurtma holati: '+statusLabel);
-  });
+      // ── REAL-TIME SSE ─────────────────────────
+      let sse = null,
+        sseReconnect = null;
 
-  // Yangi buyurtma (o'z buyurtmasi) qo'shilganda
-  sse.addEventListener('new_order', e=>{
-    const d=JSON.parse(e.data);
-    profileOrders.unshift({
-      _id: d.orderId, status:'new',
-      items: d.items, total: d.total,
-      createdAt: new Date().toISOString()
-    });
-    if(document.getElementById('pg-profile').classList.contains('active')){
-      updateProfileUI();
-    }
-  });
+      function connectSSE() {
+        if (!tgUser.id) return;
+        sse = new EventSource(`${API}/api/stream/${tgUser.id}`);
 
-  // Ulanish uzilsa qayta ulash
-  sse.onerror=()=>{
-    sse.close();
-    clearTimeout(sseReconnect);
-    sseReconnect=setTimeout(connectSSE, 5000);
-  };
-}
+        sse.addEventListener("connected", () => {
+          console.log("SSE ulandi ✅");
+        });
 
-// ── ORDERS polling (backup agar SSE bo'lmasa) ─
-function startOrdersPolling(){
-  setInterval(async ()=>{
-    if(!tgUser.id) return;
-    if(!document.getElementById('pg-profile').classList.contains('active')) return;
-    try{
-      const r=await fetch(`${API}/api/orders/user/${tgUser.id}`);
-      const orders=await r.json();
-      let changed=false;
-      orders.forEach(o=>{
-        const id=(o._id||o.id||'').toString();
-        const old=profileOrders.find(p=>(p._id||p.id||'').toString()===id);
-        if(old && old.status!==o.status){
-          changed=true;
-          old.status=o.status;
-          const card=document.getElementById('ocard-'+id);
-          if(card){
-            const stEl=document.getElementById('ostatus-'+id);
-            if(stEl){ stEl.className='order-status '+(STATUS_CLASS[o.status]||'s-new'); stEl.textContent=STATUS_LABEL[o.status]||o.status; }
-            const prEl=document.getElementById('oprogress-'+id);
-            if(prEl){ prEl.innerHTML=statusProgressHTML(o.status); card.classList.add('updated'); setTimeout(()=>card.classList.remove('updated'),600); }
+        // Statistika yangilash
+        sse.addEventListener("stats", (e) => {
+          const d = JSON.parse(e.data);
+          const uEl = document.getElementById("sb-users");
+          const oEl = document.getElementById("sb-orders");
+          if (uEl) {
+            if (uEl.textContent !== d.users + "+") {
+              uEl.textContent = d.users + "+";
+              document.getElementById("sbar-users").classList.add("pulse");
+              setTimeout(
+                () =>
+                  document
+                    .getElementById("sbar-users")
+                    .classList.remove("pulse"),
+                500,
+              );
+            }
           }
+          if (oEl) {
+            if (oEl.textContent !== String(d.orders)) {
+              oEl.textContent = d.orders;
+              document.getElementById("sbar-orders").classList.add("pulse");
+              setTimeout(
+                () =>
+                  document
+                    .getElementById("sbar-orders")
+                    .classList.remove("pulse"),
+                500,
+              );
+            }
+          }
+        });
+
+        // Buyurtma holati yangilash (REAL VAQT!)
+        sse.addEventListener("order_update", (e) => {
+          const d = JSON.parse(e.data);
+          const { orderId, status, statusLabel } = d;
+
+          // Profil sahifasidagi buyurtmani yangilash
+          const idx = profileOrders.findIndex(
+            (o) => (o._id || o.id || "").toString() === orderId,
+          );
+          if (idx >= 0) {
+            profileOrders[idx].status = status;
+            // DOM ni to'g'ridan yangilash
+            const card = document.getElementById("ocard-" + orderId);
+            if (card) {
+              card.classList.add("updated");
+              setTimeout(() => card.classList.remove("updated"), 600);
+              const stEl = document.getElementById("ostatus-" + orderId);
+              if (stEl) {
+                stEl.className =
+                  "order-status " + (STATUS_CLASS[status] || "s-new");
+                stEl.textContent = STATUS_LABEL[status] || statusLabel;
+              }
+              const prEl = document.getElementById("oprogress-" + orderId);
+              if (prEl) prEl.innerHTML = statusProgressHTML(status);
+            }
+          }
+
+          // Toast xabari
+          toast("🔔 Buyurtma: " + statusLabel, "info");
+
+          // Agar profil sahifasida bo'lmasa ham xabar ko'rsatish
+          if (tg?.showAlert) tg.showAlert("🔔 Buyurtma holati: " + statusLabel);
+        });
+
+        // Yangi buyurtma (o'z buyurtmasi) qo'shilganda
+        sse.addEventListener("new_order", (e) => {
+          const d = JSON.parse(e.data);
+          profileOrders.unshift({
+            _id: d.orderId,
+            status: "new",
+            items: d.items,
+            total: d.total,
+            createdAt: new Date().toISOString(),
+          });
+          if (
+            document.getElementById("pg-profile").classList.contains("active")
+          ) {
+            updateProfileUI();
+          }
+        });
+
+        // Ulanish uzilsa qayta ulash
+        sse.onerror = () => {
+          sse.close();
+          clearTimeout(sseReconnect);
+          sseReconnect = setTimeout(connectSSE, 5000);
+        };
+      }
+
+      // ── ORDERS polling (backup agar SSE bo'lmasa) ─
+      function startOrdersPolling() {
+        setInterval(async () => {
+          if (!tgUser.id) return;
+          if (
+            !document.getElementById("pg-profile").classList.contains("active")
+          )
+            return;
+          try {
+            const r = await fetch(`${API}/api/orders/user/${tgUser.id}`);
+            const orders = await r.json();
+            let changed = false;
+            orders.forEach((o) => {
+              const id = (o._id || o.id || "").toString();
+              const old = profileOrders.find(
+                (p) => (p._id || p.id || "").toString() === id,
+              );
+              if (old && old.status !== o.status) {
+                changed = true;
+                old.status = o.status;
+                const card = document.getElementById("ocard-" + id);
+                if (card) {
+                  const stEl = document.getElementById("ostatus-" + id);
+                  if (stEl) {
+                    stEl.className =
+                      "order-status " + (STATUS_CLASS[o.status] || "s-new");
+                    stEl.textContent = STATUS_LABEL[o.status] || o.status;
+                  }
+                  const prEl = document.getElementById("oprogress-" + id);
+                  if (prEl) {
+                    prEl.innerHTML = statusProgressHTML(o.status);
+                    card.classList.add("updated");
+                    setTimeout(() => card.classList.remove("updated"), 600);
+                  }
+                }
+              }
+            });
+          } catch {}
+        }, 10000); // har 10 sekundda
+      }
+
+      // ── NAVIGATION ────────────────────────────
+      function showPage(name) {
+        document
+          .querySelectorAll(".page")
+          .forEach((p) => p.classList.remove("active"));
+        document
+          .querySelectorAll(".nav-btn")
+          .forEach((n) => n.classList.remove("active"));
+        document.getElementById("pg-" + name)?.classList.add("active");
+        document.getElementById("nb-" + name)?.classList.add("active");
+        if (name === "cart") renderCart();
+        if (name === "menu") {
+          renderCats();
+          renderMenuGrid();
         }
-      });
-    } catch {}
-  }, 10000); // har 10 sekundda
-}
+        if (name === "profile") renderProfile();
+        window.scrollTo(0, 0);
+      }
+      function openFP(id) {
+        document.getElementById(id)?.classList.add("active");
+      }
+      function closeFP(id) {
+        document.getElementById(id)?.classList.remove("active");
+      }
 
-// ── NAVIGATION ────────────────────────────
-function showPage(name){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.nav-btn').forEach(n=>n.classList.remove('active'));
-  document.getElementById('pg-'+name)?.classList.add('active');
-  document.getElementById('nb-'+name)?.classList.add('active');
-  if(name==='cart')    renderCart();
-  if(name==='menu')   {renderCats();renderMenuGrid();}
-  if(name==='profile') renderProfile();
-  window.scrollTo(0,0);
-}
-function openFP(id){ document.getElementById(id)?.classList.add('active'); }
-function closeFP(id){ document.getElementById(id)?.classList.remove('active'); }
+      // ── TOAST ────────────────────────────────
+      let _tt;
+      function toast(msg, type = "") {
+        const t = document.getElementById("toast");
+        document.getElementById("toast-msg").textContent = msg;
+        t.className = "toast show" + (type ? " " + type : "");
+        clearTimeout(_tt);
+        _tt = setTimeout(() => t.classList.remove("show"), 3000);
+      }
 
-// ── TOAST ────────────────────────────────
-let _tt;
-function toast(msg,type=''){
-  const t=document.getElementById('toast');
-  document.getElementById('toast-msg').textContent=msg;
-  t.className='toast show'+(type?' '+type:'');
-  clearTimeout(_tt); _tt=setTimeout(()=>t.classList.remove('show'),3000);
-}
-
-// ── INIT ─────────────────────────────────
-renderPopular();
-renderCats();
-renderMenuGrid();
-connectSSE();
-startOrdersPolling();
-</script>
-</body>
+      // ── INIT ─────────────────────────────────
+      renderPopular();
+      renderCats();
+      renderMenuGrid();
+      connectSSE();
+      startOrdersPolling();
+    </script>
+  </body>
 </html>
