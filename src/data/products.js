@@ -1,10 +1,3 @@
-// ✅ Import YO'Q — rasmlar endi /public/images/ papkasidan olinadi
-// Bu JS bundle hajmini katta kamaytiradi va rasmlar lazy load bo'ladi
-//
-// MUHIM: src/img/ papkasidagi barcha rasmlarni
-//        public/images/ papkasiga ko'chiring!
-//        Masalan: src/img/BrioshSteak.jpg → public/images/BrioshSteak.jpg
-
 export const categories = [
   { id: "free", label: "Holland Free" },
   { id: "sous", label: "Sous" },
@@ -28,7 +21,7 @@ export const products = [
     name: "Free Holland Big",
     category: "free",
     price: 23000,
-    image: "/images/free-big.jpg",
+    image: "/images/free-classik.jpg",
     popular: false,
   },
   {
