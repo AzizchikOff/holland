@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
 <title>Holland Fast Food</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
 <style>
 :root{
@@ -261,7 +263,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;color:var(--dark)}
 
   <div class="sec" style="padding-bottom:0">
     <div class="sec-header">
-      <div class="sec-title">🔥 Eng mashhur</div>
+      <div class="sec-title"><i class="fa-solid fa-fire"></i> Eng mashhur</div>
       <div class="sec-link" onclick="showPage('menu')">Hammasi →</div>
     </div>
   </div>
@@ -281,7 +283,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;color:var(--dark)}
 <!-- CART -->
 <div class="page" id="pg-cart">
   <div class="pg-header" style="padding-top:20px">
-    <div class="pg-title">🛒 Savat</div>
+    <div class="pg-title">Savat</div>
   </div>
   <div id="cart-body" style="flex:1;display:flex;flex-direction:column"></div>
 </div>
@@ -289,7 +291,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;color:var(--dark)}
 <!-- PROFILE -->
 <div class="page" id="pg-profile">
   <div class="profile-hero">
-    <div class="profile-avatar" id="pr-avatar">👤</div>
+    <div class="profile-avatar" id="pr-avatar"><i class="fa-regular fa-circle-user"></i></div>
     <div class="profile-name" id="pr-name">Mehmon</div>
     <div class="profile-username" id="pr-username"></div>
   </div>
@@ -300,7 +302,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;color:var(--dark)}
   <div class="divider"></div>
   <div class="sec">
     <div class="sec-header">
-      <div class="sec-title">📦 Buyurtmalar tarixi</div>
+      <div class="sec-title"><i class="fa-sharp fa-thin fa-box"></i> Buyurtmalar tarixi</div>
       <div style="display:flex;align-items:center;gap:6px">
         <div class="live-dot" style="background:#4ade80"></div>
         <span style="font-size:11px;font-weight:700;color:var(--soft)">Real vaqt</span>
@@ -327,7 +329,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;color:var(--dark)}
     </div>
     <div class="form-group">
       <div class="form-label">📞 Telefon raqam</div>
-      <input class="form-input" id="inp-phone" type="tel" placeholder="+998 90 000 00 00"/>
+      <input class="form-input" id="inp-phone" type="number" placeholder="+998 90 000 00 00"/>
     </div>
     <div class="form-group">
       <div class="form-label">📍 Manzil</div>
