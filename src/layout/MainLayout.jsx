@@ -1,6 +1,7 @@
 import { Outlet } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import { siteConfig } from "../config/site.js";
+import AdminLink from "../components/AdminLink.jsx";
 
 const MainLayout = () => {
   return (
@@ -36,6 +37,9 @@ const MainLayout = () => {
               >
                 Telegram
               </a>
+              <div className="py-6 text-center border-t border-gray-100">
+                <AdminLink />
+              </div>
             </div>
           </div>
           <div className="mt-8 text-xs text-gray-500">
