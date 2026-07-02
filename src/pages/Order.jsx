@@ -1,5 +1,5 @@
 import { useMemo, useState, useRef } from "react";
-import { Minus, Plus, Trash2, Navigation, PenLine, MapPin, CheckCircle2, Loader2, ChevronDown } from "lucide-react";
+import { Minus, Plus, Trash2, Navigation, PenLine, MapPin, CheckCircle2, Loader2, ChevronDown, Banknote, CreditCard } from "lucide-react";
 import { useCart } from "../context/CartContext.jsx";
 import { formatSum } from "../lib/money.js";
 import { getTelegramDeepLink } from "../config/site.js";
@@ -239,7 +239,7 @@ function AddressField({ address, onAddress, onGps }) {
 const API_URL = "https://holland-bot.onrender.com";
 
 // Buyurtmani MongoDB'ga saqlash (statistika va hisobotlar uchun)
-async function saveOrderToBackend({ name, phone, address, gps, itemsArray, totalPrice }) {
+async function saveOrderToBackend({ name, phone, address, gps, itemsArray, totalPrice, paymentMethod }) {
   try {
     await fetch(`${API_URL}/api/orders`, {
       method: "POST",
@@ -254,6 +254,7 @@ async function saveOrderToBackend({ name, phone, address, gps, itemsArray, total
           qty: it.qty,
         })),
         total: totalPrice,
+        paymentMethod,
         source: "website",
       }),
     });
@@ -263,13 +264,14 @@ async function saveOrderToBackend({ name, phone, address, gps, itemsArray, total
 }
 
 // ── Telegram xabari ──────────────────────────────────────────
-function buildTelegramMessage({ name, phone, address, gps, itemsArray, totalPrice }) {
+function buildTelegramMessage({ name, phone, address, gps, itemsArray, totalPrice, paymentMethod }) {
   const lines = [];
   lines.push("🛎 Yangi buyurtma:");
   lines.push(`👤 Ism: ${name}`);
   lines.push(`📞 Telefon: ${phone}`);
   lines.push(`📍 Manzil: ${address}`);
   if (gps) lines.push(`🗺 Xarita: https://maps.google.com/?q=${gps.lat},${gps.lng}`);
+  lines.push(`💳 To'lov turi: ${paymentMethod === "card" ? "Karta 💳" : "Naqd 💵"}`);
   lines.push("");
   lines.push("📦 Buyurtma:");
   if (!itemsArray.length) lines.push("- (bo'sh)");
@@ -287,6 +289,7 @@ export default function Order() {
   const [phone, setPhone]     = useState("");
   const [address, setAddress] = useState("");
   const [gps, setGps]         = useState(null);
+  const [paymentMethod, setPaymentMethod] = useState("cash");
   const [error, setError]       = useState("");
   const [sending, setSending]   = useState(false);
 
@@ -297,8 +300,8 @@ export default function Order() {
 
   const telegramText = useMemo(() =>
     buildTelegramMessage({ name: name.trim() || "—", phone: phone.trim() || "—",
-      address: address.trim() || "—", gps, itemsArray, totalPrice }),
-    [name, phone, address, gps, itemsArray, totalPrice]
+      address: address.trim() || "—", gps, itemsArray, totalPrice, paymentMethod }),
+    [name, phone, address, gps, itemsArray, totalPrice, paymentMethod]
   );
 
   const onSubmit = async (e) => {
@@ -313,7 +316,7 @@ export default function Order() {
     // Avval buyurtmani bazaga saqlaymiz (statistika va Excel hisobot uchun)
     await saveOrderToBackend({
       name: name.trim(), phone: phone.trim(), address: address.trim(),
-      gps, itemsArray, totalPrice,
+      gps, itemsArray, totalPrice, paymentMethod,
     });
     setSending(false);
 
@@ -421,6 +424,37 @@ export default function Order() {
             <div>
               <label className="text-sm font-semibold text-gray-700 block">📍 Manzil</label>
               <AddressField address={address} onAddress={setAddress} onGps={setGps} />
+            </div>
+
+            {/* To'lov turi */}
+            <div>
+              <label className="text-sm font-semibold text-gray-700 flex items-center gap-1.5">
+                <CreditCard size={16} className="text-gray-500" /> To'lov turi
+              </label>
+              <div className="grid grid-cols-2 gap-3 mt-2">
+                <button
+                  type="button"
+                  onClick={() => setPaymentMethod("cash")}
+                  className={`flex items-center justify-center gap-2.5 py-3 rounded-2xl border-2 transition-all font-semibold text-sm active:scale-95 ${
+                    paymentMethod === "cash"
+                      ? "border-red-500 bg-red-50 text-red-700 font-bold"
+                      : "border-gray-200 bg-white text-gray-700 hover:border-gray-300 font-medium"
+                  }`}
+                >
+                  <Banknote size={18} className={paymentMethod === "cash" ? "text-red-700" : "text-gray-500"} /> Naqd
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setPaymentMethod("card")}
+                  className={`flex items-center justify-center gap-2.5 py-3 rounded-2xl border-2 transition-all font-semibold text-sm active:scale-95 ${
+                    paymentMethod === "card"
+                      ? "border-red-500 bg-red-50 text-red-700 font-bold"
+                      : "border-gray-200 bg-white text-gray-700 hover:border-gray-300 font-medium"
+                  }`}
+                >
+                  <CreditCard size={18} className={paymentMethod === "card" ? "text-red-700" : "text-gray-500"} /> Karta
+                </button>
+              </div>
             </div>
 
             {error && (
