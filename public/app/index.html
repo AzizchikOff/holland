@@ -665,6 +665,32 @@
       .form-input:focus {
         border-color: var(--red);
       }
+      .payment-options {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-top: 4px;
+      }
+      .payment-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 14px;
+        border-radius: var(--r-sm);
+        border: 2px solid var(--border);
+        background: var(--white);
+        font-size: 14px;
+        font-weight: 700;
+        color: var(--dark);
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+      .payment-btn.active {
+        border-color: var(--red);
+        background: #fee2e2;
+        color: var(--red);
+      }
       .loc-card {
         background: var(--white);
         border-radius: var(--r);
@@ -1401,6 +1427,19 @@
             placeholder="Kuryer uchun izoh..."
           />
         </div>
+        <div class="form-group">
+          <div class="form-label">
+            <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5" fill="none" style="display:inline-block; vertical-align:middle; margin-right:4px;"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>To'lov turi
+          </div>
+          <div class="payment-options">
+            <button type="button" class="payment-btn active" id="pay-cash" onclick="setPayment('cash')">
+              <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none"><rect x="2" y="6" width="20" height="12" rx="2"></rect><circle cx="12" cy="12" r="2"></circle><path d="M6 12h.01M18 12h.01"></path></svg>Naqd
+            </button>
+            <button type="button" class="payment-btn" id="pay-card" onclick="setPayment('card')">
+              <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>Karta
+            </button>
+          </div>
+        </div>
         <div class="order-summary" id="checkout-summary"></div>
       </div>
       <div class="checkout-footer">
@@ -1926,6 +1965,13 @@
 
       // ── CHECKOUT ─────────────────────────────
       let gpsCoords = null;
+      let paymentMethod = "cash";
+
+      function setPayment(method) {
+        paymentMethod = method;
+        document.getElementById("pay-cash").classList.toggle("active", method === "cash");
+        document.getElementById("pay-card").classList.toggle("active", method === "card");
+      }
 
       function openCheckout() {
         if (!cartQty()) {
@@ -2027,6 +2073,7 @@
                 qty: it.qty,
               })),
               total: cartTotal(),
+              paymentMethod,
               gps: gpsCoords,
               initData: tg?.initData || "",
             }),
@@ -2049,7 +2096,11 @@
 
       function afterSuccess() {
         document.getElementById("success-wrap").classList.remove("active");
-        showPage("profile");
+        if (typeof tg !== 'undefined' && tg) {
+          tg.close();
+        } else {
+          showPage("profile");
+        }
       }
 
       // ── STATUS PROGRESS ───────────────────────
