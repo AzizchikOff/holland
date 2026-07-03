@@ -240,12 +240,16 @@ const API_URL = "https://holland-bot.onrender.com";
 
 // Buyurtmani MongoDB'ga saqlash (statistika va hisobotlar uchun)
 async function saveOrderToBackend({ name, phone, address, gps, itemsArray, totalPrice, paymentMethod }) {
+  const tgUser = window.Telegram?.WebApp?.initDataUnsafe?.user || {};
+  const userId = tgUser.id || 0;
+  const isMiniApp = !!window.Telegram?.WebApp;
+
   try {
     await fetch(`${API_URL}/api/orders`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        userId: 0,
+        userId,
         name, phone, address,
         gps: gps || null,
         items: itemsArray.map((it) => ({
@@ -255,7 +259,7 @@ async function saveOrderToBackend({ name, phone, address, gps, itemsArray, total
         })),
         total: totalPrice,
         paymentMethod,
-        source: "website",
+        source: isMiniApp ? "miniapp" : "website",
       }),
     });
   } catch {
@@ -320,8 +324,12 @@ export default function Order() {
     });
     setSending(false);
 
-    // Keyin Telegramga yuboramiz
-    window.open(getTelegramDeepLink(telegramText), "_blank", "noopener,noreferrer");
+    // Telegram Mini App rejimida bo'lsa ilovani yopamiz, bo'lmasa deep link orqali chatni ochamiz
+    if (window.Telegram?.WebApp) {
+      window.Telegram.WebApp.close();
+    } else {
+      window.open(getTelegramDeepLink(telegramText), "_blank", "noopener,noreferrer");
+    }
   };
 
   const onCopy = async () => {
