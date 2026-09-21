@@ -1,4 +1,10 @@
-*.db
-bot/.env
+# ✅ FIX 1f: .env to'g'ri yo'lda (bot/.env emas)
 .env
+.env.*
+!.env.example
+
+node_modules/
 *.db
+*.sqlite
+*.log
+.DS_Store

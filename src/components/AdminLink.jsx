@@ -1,28 +1,17 @@
-// ════════════════════════════════════════════════════════════
-//  AdminLink — saytga admin panelga kirish tugmasi
-//  Footer.jsx yoki Navbar.jsx ichiga qo'shiladi
-// ════════════════════════════════════════════════════════════
-//
-//  Ishlatish:
-//  import AdminLink from "../components/AdminLink.jsx";
-//  ...
-//  <AdminLink />   // Footer yoki istalgan joyga qo'ying
-//
-// ════════════════════════════════════════════════════════════
-import { ShieldCheck } from "lucide-react";
-
-const ADMIN_URL = "https://holland-bot.onrender.com/admin";
+// ✅ FIX 5: URL kodga qotirilmagan — env orqali
+// ✅ FIX 1e: rel="nofollow noindex" — qidiruv tizimlariga ko'rsatilmaydi
+const ADMIN_URL = `${import.meta.env.VITE_API_URL || "https://holland-bot.onrender.com"}/admin`;
 
 export default function AdminLink() {
   return (
     <a
       href={ADMIN_URL}
       target="_blank"
-      rel="noopener noreferrer"
-      className="inline-flex items-center gap-1.5 text-xs text-gray-400 hover:text-gray-600 transition-colors font-medium"
+      rel="noopener noreferrer nofollow"
+      aria-label="Admin panel"
+      className="text-[11px] text-gray-300 hover:text-gray-500 transition-colors"
     >
-      <ShieldCheck size={13} />
-      Admin panel
+      ·
     </a>
   );
 }

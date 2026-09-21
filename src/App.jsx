@@ -1,16 +1,13 @@
-import { lazy, Suspense } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { lazy, Suspense, Component } from "react";
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import MainLayout from "./layout/MainLayout";
 
-// ✅ Lazy import — har bir sahifa alohida chunk bo'ladi
-// Foydalanuvchi faqat ochgan sahifasi yuklanadi
-const Home = lazy(() => import("./pages/Home"));
-const Menu = lazy(() => import("./pages/Menu"));
-const About = lazy(() => import("./pages/About"));
+const Home    = lazy(() => import("./pages/Home"));
+const Menu    = lazy(() => import("./pages/Menu"));
+const About   = lazy(() => import("./pages/About"));
 const Contact = lazy(() => import("./pages/Contact"));
-const Order = lazy(() => import("./pages/Order"));
+const Order   = lazy(() => import("./pages/Order"));
 
-// Sahifa yuklanayotganda ko'rinadigan fallback
 function PageLoader() {
   return (
     <div className="flex items-center justify-center min-h-[40vh]">
@@ -22,21 +19,61 @@ function PageLoader() {
   );
 }
 
+// ✅ FIX 2i: 404 sahifa
+function NotFound() {
+  return (
+    <div className="max-w-md mx-auto px-4 py-24 text-center">
+      <div className="text-7xl mb-6">🍟</div>
+      <h1 className="text-3xl font-bold text-gray-900 mb-3">Sahifa topilmadi</h1>
+      <p className="text-gray-500 mb-8">Siz izlagan sahifa mavjud emas yoki ko'chirilgan.</p>
+      <Link to="/" className="inline-flex items-center justify-center px-6 py-3 rounded-2xl bg-red-600 text-white font-bold hover:bg-red-700 transition-colors">
+        🏠 Bosh sahifaga
+      </Link>
+    </div>
+  );
+}
+
+// ✅ FIX 5: ErrorBoundary — lazy chunk yuklanmasa oq ekran bo'lmaydi
+class ErrorBoundary extends Component {
+  constructor(props) { super(props); this.state = { hasError: false }; }
+  static getDerivedStateFromError() { return { hasError: true }; }
+  componentDidCatch(error, info) { console.error("Sahifa xatosi:", error, info); }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="max-w-md mx-auto px-4 py-24 text-center">
+          <div className="text-6xl mb-6">⚠️</div>
+          <h2 className="text-2xl font-bold text-gray-900 mb-3">Nimadir noto'g'ri ketdi</h2>
+          <p className="text-gray-500 mb-8">Sahifani yangilab ko'ring.</p>
+          <button onClick={() => window.location.reload()}
+            className="inline-flex items-center justify-center px-6 py-3 rounded-2xl bg-red-600 text-white font-bold hover:bg-red-700 transition-colors">
+            🔄 Yangilash
+          </button>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+
 function App() {
   return (
     <BrowserRouter>
-      {/* Suspense — lazy component yuklanayotganda fallback ko'rsatadi */}
-      <Suspense fallback={<PageLoader />}>
-        <Routes>
-          <Route element={<MainLayout />}>
-            <Route path="/" element={<Home />} />
-            <Route path="/menu" element={<Menu />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/order" element={<Order />} />
-          </Route>
-        </Routes>
-      </Suspense>
+      <ErrorBoundary>
+        <Suspense fallback={<PageLoader />}>
+          <Routes>
+            <Route element={<MainLayout />}>
+              <Route path="/"        element={<Home />} />
+              <Route path="/menu"    element={<Menu />} />
+              <Route path="/about"   element={<About />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/order"   element={<Order />} />
+              <Route path="*"        element={<NotFound />} />
+            </Route>
+          </Routes>
+        </Suspense>
+      </ErrorBoundary>
     </BrowserRouter>
   );
 }

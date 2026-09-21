@@ -12,7 +12,16 @@ dist
 dist-ssr
 *.local
 
-# Editor directories and files
+# ✅ FIX 1f: Environment fayllari
+.env
+.env.*
+!.env.example
+
+# Databases
+*.db
+*.sqlite
+
+# Editor
 .vscode/*
 !.vscode/extensions.json
 .idea

@@ -5,7 +5,8 @@ import reactRefresh from 'eslint-plugin-react-refresh'
 import { defineConfig, globalIgnores } from 'eslint/config'
 
 export default defineConfig([
-  globalIgnores(['dist', 'bot', 'src/img', 'src/context/CartContext.jsx']),
+  // ✅ FIX 5: CartContext.jsx endi lint qilinadi (muammoni yashirmaymiz)
+  globalIgnores(['dist', 'bot', 'src/img']),
   {
     files: ['**/*.{js,jsx}'],
     extends: [

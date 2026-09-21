@@ -1,4 +1,7 @@
 User-agent: *
 Allow: /
 
+# Admin panel indekslanmasin
+Disallow: /admin
+
 Sitemap: https://holland-namangan.netlify.app/sitemap.xml

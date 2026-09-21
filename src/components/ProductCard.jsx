@@ -1,95 +1,88 @@
-import { ShoppingCart, Minus, Plus } from "lucide-react";
+import { ShoppingCart, Minus, Plus, Flame } from "lucide-react";
 import { useCart } from "../context/CartContext.jsx";
 import { formatSum } from "../lib/money.js";
 
+// ✅ FIX 4: Steam faqat issiq kategoriyalarda — 190 emas, ~60 animatsiya
+const HOT_CATEGORIES = ["free", "burger", "hotdog"];
+
 export default function ProductCard({ product }) {
   const { items, addToCart, setQty } = useCart();
-  const cartItem = items[product.id];
-  const qty = cartItem?.qty ?? 0;
+  const qty    = items[product.id]?.qty ?? 0;
+  const isHot  = HOT_CATEGORIES.includes(product.category);
+  const inCart = qty > 0;
 
   return (
-    <div className="group relative rounded-2xl bg-gradient-to-br from-amber-50 to-orange-100 shadow-xl border-2 border-amber-200 overflow-hidden hover:shadow-2xl transition-all duration-300 hover:scale-[1.03]">
-      {/* Issiq ovqat bug'i (STEAM) - doimiy animatsiya */}
-      <div className="absolute inset-x-0 top-0 h-32 overflow-hidden pointer-events-none">
-        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full flex items-end justify-center">
-          <div className="steam-particle" />
-          <div className="steam-particle" />
-          <div className="steam-particle" />
-          <div className="steam-particle" />
-          <div className="steam-particle" />
-        </div>
-      </div>
-      
-      {/* Issiqlik porlashi */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="heat-glow" />
-      </div>
+    <div className={[
+      "product-card group relative flex flex-col rounded-2xl overflow-hidden bg-white transition-all duration-300",
+      "border hover:-translate-y-1",
+      inCart ? "border-red-300 shadow-lg shadow-red-100/60" : "border-gray-100 shadow-sm hover:shadow-xl",
+    ].join(" ")}>
 
-      <div className="relative">
+      <div className="relative overflow-hidden">
+        {/* ✅ Steam faqat issiq taomlarda */}
+        {isHot && (
+          <div className="steam-wrap" aria-hidden="true">
+            <span className="steam s1" /><span className="steam s2" /><span className="steam s3" />
+          </div>
+        )}
+
         <img
           src={product.image}
           alt={product.name}
           loading="lazy"
-          className="w-full h-70 object-cover bg-gradient-to-br from-orange-200 to-yellow-200"
+          width="400"
+          height="300"
+          decoding="async"
+          className="w-full aspect-[4/3] object-cover bg-gray-50 transition-transform duration-500 group-hover:scale-105"
         />
-        {product.popular && (
-          <div className="absolute top-3 left-3">
-            <span className="text-xs font-bold text-red-700 bg-yellow-400/90 px-2 py-1 rounded shadow">
-              Mashhur
-            </span>
-          </div>
-        )}
-        <div className="absolute inset-0 bg-gradient-to-t from-orange-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-      </div>
 
-      <div className="relative p-4 bg-gradient-to-b from-white to-amber-50">
-        <div className="flex items-start justify-between gap-3">
-          <div>
-            <h3 className="font-bold text-gray-900 leading-tight text-lg">
-              {product.name}
-            </h3>
-            <p className="mt-1 text-base text-amber-700 font-bold">
-              {formatSum(product.price)} so'm
-            </p>
-          </div>
+        <div className="absolute top-3 left-3 flex flex-col gap-1.5 z-10">
+          {product.popular && (
+            <span className="inline-flex items-center gap-1 bg-yellow-400 text-red-800 text-[11px] font-bold px-2.5 py-1 rounded-full shadow-sm">
+              <Flame size={11} /> Hit
+            </span>
+          )}
+          {isHot && (
+            <span className="bg-red-600 text-white text-[11px] font-bold px-2.5 py-1 rounded-full shadow-sm">
+              🔥 Issiq
+            </span>
+          )}
         </div>
 
-        <div className="mt-4 flex items-center justify-between gap-3">
+        {inCart && (
+          <div className="absolute top-3 right-3 z-10 w-7 h-7 bg-red-600 text-white rounded-full flex items-center justify-center text-xs font-bold shadow-lg">
+            {qty}
+          </div>
+        )}
+      </div>
+
+      <div className="flex flex-col flex-1 p-4 gap-3">
+        <div>
+          <h3 className="font-bold text-gray-900 leading-snug text-[15px]">{product.name}</h3>
+          <span className="mt-1 block text-red-600 font-extrabold">{formatSum(product.price)} so'm</span>
+        </div>
+
+        <div className="mt-auto">
           {qty === 0 ? (
-            <button
-              onClick={() => addToCart(product, 1)}
-              className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-gradient-to-r from-red-600 to-red-700 text-white font-bold transition-all shadow-lg hover:shadow-xl hover:scale-105 border-2 border-red-500"
-            >
-              <ShoppingCart size={20} />
-              Savatga qo'shish
+            <button onClick={() => addToCart(product, 1)}
+              className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl font-bold text-sm bg-red-600 text-white hover:bg-red-700 active:scale-95 transition-all shadow-sm">
+              <ShoppingCart size={16} /> Savatga qo'shish
             </button>
           ) : (
-            <div className="w-full flex items-center justify-between gap-3">
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={() => setQty(product.id, qty - 1)}
-                  className="w-10 h-10 inline-flex items-center justify-center rounded-xl bg-gray-300 hover:bg-gray-400 transition-colors shadow-md border-2 border-gray-400 font-bold text-gray-800"
-                  aria-label="Kamaytirish"
-                >
-                  <Minus size={20} />
+            <div className="flex flex-col gap-2">
+              <div className="flex items-center justify-between bg-gray-50 rounded-xl p-1.5">
+                <button onClick={() => setQty(product.id, qty - 1)}
+                  className="w-9 h-9 inline-flex items-center justify-center rounded-lg bg-white shadow-sm hover:bg-red-50 hover:text-red-600 transition-colors active:scale-95">
+                  <Minus size={16} />
                 </button>
-                <span className="min-w-8 text-center font-bold text-xl text-gray-900 bg-amber-100 px-2 py-1 rounded-lg">
-                  {qty}
-                </span>
-                <button
-                  onClick={() => setQty(product.id, qty + 1)}
-                  className="w-10 h-10 inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 transition-colors text-white shadow-md border-2 border-green-400 font-bold"
-                  aria-label="Ko'paytirish"
-                >
-                  <Plus size={20} />
+                <span className="font-extrabold text-gray-900 min-w-8 text-center">{qty}</span>
+                <button onClick={() => setQty(product.id, qty + 1)}
+                  className="w-9 h-9 inline-flex items-center justify-center rounded-lg bg-red-600 text-white shadow-sm hover:bg-red-700 transition-colors active:scale-95">
+                  <Plus size={16} />
                 </button>
               </div>
-
-              <div className="text-sm text-gray-800 font-semibold">
-                Jami:{" "}
-                <span className="font-bold text-lg text-red-700">
-                  {formatSum(qty * product.price)} so'm
-                </span>
+              <div className="text-center text-xs text-gray-500 font-medium">
+                Jami: <span className="font-bold text-gray-900">{formatSum(qty * product.price)} so'm</span>
               </div>
             </div>
           )}
