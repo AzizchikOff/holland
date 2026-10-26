@@ -1,3 +1,5 @@
+import { createPortal } from "react-dom";
+import { useLanguage } from "../context/LanguageContext.jsx";
 import { useEffect, useState } from "react";
 import { ShoppingCart, Minus, Plus, Flame } from "lucide-react";
 import { useCart } from "../context/CartContext.jsx";
@@ -7,6 +9,7 @@ import { formatSum } from "../lib/money.js";
 const HOT_CATEGORIES = ["free", "burger", "hotdog"];
 
 export default function ProductCard({ product }) {
+  const { t } = useLanguage();
   const [detailsOpen, setDetailsOpen] = useState(false);
   useEffect(() => {
     if (!detailsOpen) return;
@@ -72,7 +75,7 @@ export default function ProductCard({ product }) {
           <span className="mt-1 block text-red-600 font-extrabold">{formatSum(product.price)} so'm</span>
         </div>
 
-        <button type="button" onClick={() => setDetailsOpen(true)} className="text-left text-xs font-semibold text-red-600 hover:underline">Tavsif va tarkibni ko‘rish →</button>
+        <button type="button" onClick={() => setDetailsOpen(true)} className="text-left text-xs font-semibold text-red-600 hover:underline">{t("details")} →</button>
         <div className="mt-auto">
           {qty === 0 ? (
             <button onClick={() => addToCart(product, 1)}
@@ -99,7 +102,7 @@ export default function ProductCard({ product }) {
           )}
         </div>
       </div>
-      {detailsOpen && (
+      {detailsOpen && createPortal(
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/65 p-4" onMouseDown={(e) => { if (e.target === e.currentTarget) setDetailsOpen(false); }}>
           <section role="dialog" aria-modal="true" aria-label={`${product.name} tafsilotlari`} className="w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-3xl bg-white shadow-2xl">
             <div className="relative">
@@ -109,13 +112,13 @@ export default function ProductCard({ product }) {
             <div className="p-6 space-y-4">
               <h2 className="text-2xl font-extrabold text-gray-900">{product.name}</h2>
               <p className="text-xl font-extrabold text-red-600">{formatSum(product.price)} so‘m</p>
-              <div><h3 className="font-bold mb-1">Mahsulot haqida</h3><p className="text-gray-600">{product.description || "Mahsulot tavsifi tez orada qo‘shiladi."}</p></div>
-              <div><h3 className="font-bold mb-1">Tarkibi</h3><p className="text-gray-600">{Array.isArray(product.ingredients) && product.ingredients.length ? product.ingredients.join(", ") : "Aniq tarkib restoran tomonidan tasdiqlanishi kutilmoqda."}</p></div>
+              <div><h3 className="font-bold mb-1">{t("description")}</h3><p className="text-gray-600">{product.description || "Mahsulot tavsifi tez orada qo‘shiladi."}</p></div>
+              <div><h3 className="font-bold mb-1">{t("ingredients")}</h3><p className="text-gray-600">{Array.isArray(product.ingredients) && product.ingredients.length ? product.ingredients.join(", ") : t("pending")}</p></div>
               <p className="text-xs text-gray-500">Allergiya yoki maxsus ovqatlanish talablari bo‘lsa, buyurtmadan oldin restoran bilan aniqlashtiring.</p>
               <button type="button" onClick={() => { addToCart(product, 1); setDetailsOpen(false); }} className="w-full rounded-xl bg-red-600 py-3 font-bold text-white hover:bg-red-700">Savatga qo‘shish</button>
             </div>
           </section>
-        </div>
+        </div>, document.body
       )}
     </div>
   );
