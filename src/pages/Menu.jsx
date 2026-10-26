@@ -1,8 +1,10 @@
 import { useMemo, useState } from "react";
+import { useLanguage } from "../context/LanguageContext.jsx";
 import ProductCard from "../components/ProductCard.jsx";
 import { categories, products } from "../data/products.js";
 
 export default function Menu() {
+  const { t } = useLanguage();
   const [active, setActive] = useState("all");
 
   const filtered = useMemo(() => {
@@ -15,10 +17,10 @@ export default function Menu() {
       <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
         <div>
           <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-gray-900">
-            Menu
+            {t("menu")}
           </h1>
           <p className="mt-2 text-gray-600">
-            Kategoriyani tanlang va mahsulotlarni savatga qo'shing.
+            {t("choose")}
           </p>
         </div>
       </div>
@@ -33,7 +35,7 @@ export default function Menu() {
               : "bg-white border border-gray-200 text-gray-700 hover:bg-gray-50",
           ].join(" ")}
         >
-          Barchasi
+          {t("all")}
         </button>
         {categories.map((c) => (
           <button
