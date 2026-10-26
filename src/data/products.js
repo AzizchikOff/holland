@@ -5,7 +5,7 @@
 //  AYNAN BIR XIL bo'lishi shart (id, name, price).
 //  Narx o'zgartirsangiz — ikkala faylni ham yangilang!
 //
-//  Kelajakda: sayt /api/menu orqali serverdan olishi rejalashtirilgan.
+//  Mahsulot tavsiflari umumiy xarakterda; haqiqiy retsept va allergenlar restoran tomonidan tasdiqlanishi kerak.
 // ══════════════════════════════════════════════════════════
 
 export const categories = [
@@ -64,3 +64,16 @@ export const products = [
   { id: "37", name: "Bonaqua 0.5L",           category: "drink",  price: 3000,  image: "/images/bon-aqua.jpg",         popular: false },
   { id: "38", name: "Cappy Pulpy 0.5L",       category: "drink",  price: 8000,  image: "/images/cappy.jpg",            popular: false },
 ];
+// Tasdiqlanmagan retseptlarni taxmin qilmasdan, har bir mahsulotga
+// individual tavsif va aniq tarkib uchun alohida maydon tayyorlaymiz.
+const categoryDescriptions = {
+  free: "Holland fast-food menyusidagi kartoshkali taom. Buyurtmadan oldin aniq tarkibini tekshiring.",
+  burger: "Holland menyusidagi burger. Sous, non va boshqa ingredientlar haqida restoran bilan aniqlashtiring.",
+  hotdog: "Holland menyusidagi hot-dog. Tarkibi va allergenlari restoran tomonidan tasdiqlanishi kerak.",
+  sous: "Taomlarga qo‘shimcha sous. Allergiya bo‘lsa, tarkibini oldindan so‘rang.",
+  drink: "Holland menyusidagi ichimlik. Tarkib va oziqaviy ma’lumotni qadoq yorlig‘idan tekshiring.",
+};
+for (const product of products) {
+  product.description = `${product.name} — ${categoryDescriptions[product.category]}`;
+  product.ingredients = [];
+}
