@@ -1,5 +1,6 @@
 import { lazy, Suspense, Component } from "react";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { LanguageProvider } from "./context/LanguageContext.jsx";
 import MainLayout from "./layout/MainLayout";
 
 const Home    = lazy(() => import("./pages/Home"));
@@ -59,7 +60,7 @@ class ErrorBoundary extends Component {
 
 function App() {
   return (
-    <BrowserRouter>
+    <LanguageProvider><BrowserRouter>
       <ErrorBoundary>
         <Suspense fallback={<PageLoader />}>
           <Routes>
@@ -74,7 +75,7 @@ function App() {
           </Routes>
         </Suspense>
       </ErrorBoundary>
-    </BrowserRouter>
+    </BrowserRouter></LanguageProvider>
   );
 }
 
