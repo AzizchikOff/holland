@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { ShoppingCart, Minus, Plus, Flame } from "lucide-react";
 import { useCart } from "../context/CartContext.jsx";
 import { formatSum } from "../lib/money.js";
@@ -6,6 +7,13 @@ import { formatSum } from "../lib/money.js";
 const HOT_CATEGORIES = ["free", "burger", "hotdog"];
 
 export default function ProductCard({ product }) {
+  const [detailsOpen, setDetailsOpen] = useState(false);
+  useEffect(() => {
+    if (!detailsOpen) return;
+    const close = (event) => { if (event.key === "Escape") setDetailsOpen(false); };
+    document.addEventListener("keydown", close);
+    return () => document.removeEventListener("keydown", close);
+  }, [detailsOpen]);
   const { items, addToCart, setQty } = useCart();
   const qty    = items[product.id]?.qty ?? 0;
   const isHot  = HOT_CATEGORIES.includes(product.category);
@@ -26,6 +34,7 @@ export default function ProductCard({ product }) {
           </div>
         )}
 
+        <button type="button" onClick={() => setDetailsOpen(true)} aria-label={`${product.name} haqida batafsil`} className="block w-full text-left cursor-pointer">
         <img
           src={product.image}
           alt={product.name}
@@ -35,6 +44,7 @@ export default function ProductCard({ product }) {
           decoding="async"
           className="w-full aspect-[4/3] object-cover bg-gray-50 transition-transform duration-500 group-hover:scale-105"
         />
+        </button>
 
         <div className="absolute top-3 left-3 flex flex-col gap-1.5 z-10">
           {product.popular && (
@@ -58,10 +68,11 @@ export default function ProductCard({ product }) {
 
       <div className="flex flex-col flex-1 p-4 gap-3">
         <div>
-          <h3 className="font-bold text-gray-900 leading-snug text-[15px]">{product.name}</h3>
+          <button type="button" onClick={() => setDetailsOpen(true)} className="font-bold text-gray-900 leading-snug text-[15px] text-left hover:text-red-600 focus-visible:outline-2 focus-visible:outline-red-600">{product.name}</button>
           <span className="mt-1 block text-red-600 font-extrabold">{formatSum(product.price)} so'm</span>
         </div>
 
+        <button type="button" onClick={() => setDetailsOpen(true)} className="text-left text-xs font-semibold text-red-600 hover:underline">Tavsif va tarkibni ko‘rish →</button>
         <div className="mt-auto">
           {qty === 0 ? (
             <button onClick={() => addToCart(product, 1)}
@@ -88,6 +99,24 @@ export default function ProductCard({ product }) {
           )}
         </div>
       </div>
+      {detailsOpen && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/65 p-4" onMouseDown={(e) => { if (e.target === e.currentTarget) setDetailsOpen(false); }}>
+          <section role="dialog" aria-modal="true" aria-label={`${product.name} tafsilotlari`} className="w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-3xl bg-white shadow-2xl">
+            <div className="relative">
+              <img src={product.image} alt={product.name} className="w-full h-56 object-cover" />
+              <button type="button" autoFocus onClick={() => setDetailsOpen(false)} aria-label="Yopish" className="absolute right-3 top-3 rounded-full bg-white px-3 py-2 font-bold shadow">✕</button>
+            </div>
+            <div className="p-6 space-y-4">
+              <h2 className="text-2xl font-extrabold text-gray-900">{product.name}</h2>
+              <p className="text-xl font-extrabold text-red-600">{formatSum(product.price)} so‘m</p>
+              <div><h3 className="font-bold mb-1">Mahsulot haqida</h3><p className="text-gray-600">{product.description || "Mahsulot tavsifi tez orada qo‘shiladi."}</p></div>
+              <div><h3 className="font-bold mb-1">Tarkibi</h3><p className="text-gray-600">{Array.isArray(product.ingredients) && product.ingredients.length ? product.ingredients.join(", ") : "Aniq tarkib restoran tomonidan tasdiqlanishi kutilmoqda."}</p></div>
+              <p className="text-xs text-gray-500">Allergiya yoki maxsus ovqatlanish talablari bo‘lsa, buyurtmadan oldin restoran bilan aniqlashtiring.</p>
+              <button type="button" onClick={() => { addToCart(product, 1); setDetailsOpen(false); }} className="w-full rounded-xl bg-red-600 py-3 font-bold text-white hover:bg-red-700">Savatga qo‘shish</button>
+            </div>
+          </section>
+        </div>
+      )}
     </div>
   );
 }
