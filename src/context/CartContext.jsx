@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useMemo, useReducer, useRef, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useReducer, useRef } from "react";
 import { products } from "../data/products.js";
 
 const CartContext = createContext(null);
@@ -56,23 +56,15 @@ function loadInitialCart() {
 }
 
 export function CartProvider({ children }) {
-  const [state, dispatch] = useReducer(cartReducer, { items: {} });
+  const [state, dispatch] = useReducer(cartReducer, undefined, loadInitialCart);
   const saveTimeoutRef = useRef(null);
-  const [hydrated, setHydrated] = useState(false);
-
   useEffect(() => {
-    dispatch({ type: "HYDRATE", state: loadInitialCart() });
-    setHydrated(true);
-  }, []);
-
-  useEffect(() => {
-    if (!hydrated) return;
     if (saveTimeoutRef.current) clearTimeout(saveTimeoutRef.current);
     saveTimeoutRef.current = setTimeout(() => {
       try { localStorage.setItem("cart_v2", JSON.stringify(state)); } catch {}
     }, 100);
     return () => { if (saveTimeoutRef.current) clearTimeout(saveTimeoutRef.current); };
-  }, [state, hydrated]);
+  }, [state]);
 
   const value = useMemo(() => {
     // ✅ Narx har safar katalogdan olinadi — hech qachon eskirmaydi
