@@ -77,3 +77,8 @@ for (const product of products) {
   product.description = `${product.name} — ${categoryDescriptions[product.category]}`;
   product.ingredients = [];
 }
+
+/** Popular products displayed on the home page. */
+export function getPopularProducts(limit = 8) {
+  return products.filter((product) => product.popular).slice(0, limit);
+}
