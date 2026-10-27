@@ -1,9 +1,11 @@
 import { Link } from "react-router-dom";
+import { useLanguage } from "../context/LanguageContext.jsx";
 import ProductCard from "../components/ProductCard.jsx";
 import { getPopularProducts } from "../data/products.js";
 
 export default function Home() {
   const popular = getPopularProducts(4);
+  const { t } = useLanguage();
 
   return (
     <div>
@@ -19,15 +21,14 @@ export default function Home() {
                 className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-white text-sm"
                 style={{ background: "rgba(255,255,255,0.15)" }}
               >
-                Tez yetkazib berish • Halol • Issiq taom
+                {t("heroBadge")}
               </div>
               <h1 className="mt-5 text-4xl sm:text-5xl font-extrabold tracking-tight">
-                Mazali fast food. <br className="hidden sm:block" />
-                2–3 daqiqada buyurtma bering.
+                {t("heroTitle")} <br className="hidden sm:block" />
+                {t("heroSubtitle")}
               </h1>
               <p className="mt-5 text-base sm:text-lg leading-relaxed" style={{ color: "rgba(255,255,255,0.9)" }}>
-                Menu'ni ko'ring, savatga qo'shing va buyurtmani Telegram orqali
-                yuboring — hammasi juda oson.
+                {t("heroDesc")}
               </p>
 
               <div className="mt-8 flex flex-col sm:flex-row gap-3">
@@ -36,31 +37,18 @@ export default function Home() {
                   className="inline-flex items-center justify-center px-6 py-3.5 rounded-2xl font-bold transition-colors"
                   style={{ background: "#facc15", color: "#991b1b" }}
                 >
-                  Menu'ni ko'rish
+                  {t("viewMenu")}
                 </Link>
                 <Link
                   to="/order"
                   className="inline-flex items-center justify-center px-6 py-3.5 rounded-2xl font-semibold transition-colors"
                   style={{ background: "rgba(255,255,255,0.15)", color: "#fff" }}
                 >
-                  Buyurtma berish
+                  {t("orderNow")}
                 </Link>
               </div>
 
-              <div className="mt-10 grid grid-cols-3 gap-4">
-                <div className="rounded-2xl p-4" style={{ background: "rgba(255,255,255,0.1)" }}>
-                  <div className="text-2xl font-extrabold">10–15</div>
-                  <div className="text-sm" style={{ color: "rgba(255,255,255,0.8)" }}>daqiqa delivery</div>
-                </div>
-                <div className="rounded-2xl p-4" style={{ background: "rgba(255,255,255,0.1)" }}>
-                  <div className="text-2xl font-extrabold">100%</div>
-                  <div className="text-sm" style={{ color: "rgba(255,255,255,0.8)" }}>halol mahsulot</div>
-                </div>
-                <div className="rounded-2xl p-4" style={{ background: "rgba(255,255,255,0.1)" }}>
-                  <div className="text-2xl font-extrabold">4.8★</div>
-                  <div className="text-sm" style={{ color: "rgba(255,255,255,0.8)" }}>mijozlar bahosi</div>
-                </div>
-              </div>
+
             </div>
 
             <div className="lg:justify-self-end">
@@ -69,7 +57,7 @@ export default function Home() {
                 style={{ background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.15)" }}
               >
                 <div className="text-sm font-semibold" style={{ color: "rgba(255,255,255,0.8)" }}>
-                  Eng mashhur mahsulotlar
+                  {t("popular")}
                 </div>
                 <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {popular.slice(0, 2).map((p) => (
@@ -85,7 +73,7 @@ export default function Home() {
                         {p.name}
                       </div>
                       <div className="text-gray-600 text-xs">
-                        Menu'dan savatga qo'shing
+                        {t("addFromMenu")}
                       </div>
                     </div>
                   ))}
@@ -96,7 +84,7 @@ export default function Home() {
                     className="inline-flex w-full items-center justify-center px-5 py-3 rounded-2xl font-bold transition-colors"
                     style={{ background: "#facc15", color: "#991b1b" }}
                   >
-                    Hamma mahsulotlar →
+                    {t("allProducts")} →
                   </Link>
                 </div>
               </div>
@@ -110,17 +98,17 @@ export default function Home() {
         <div className="flex items-end justify-between gap-6">
           <div>
             <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-gray-900">
-              Eng mashhur mahsulotlar
+              {t("popular")}
             </h2>
             <p className="mt-2 text-gray-600">
-              3–5 ta top mahsulot — tez buyurtma uchun.
+              {t("popularDesc")}
             </p>
           </div>
           <Link
             to="/menu"
             className="hidden sm:inline-flex px-4 py-2 rounded-xl bg-white border border-gray-200 hover:bg-gray-50 font-semibold text-sm"
           >
-            Menu →
+            {t("menu")} →
           </Link>
         </div>
 
@@ -137,24 +125,23 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
             <div>
               <h3 className="text-2xl sm:text-3xl font-bold tracking-tight text-gray-900">
-                Biz haqimizda
+                {t("about")}
               </h3>
               <p className="mt-3 text-gray-600 leading-relaxed">
-                Holland — zamonaviy fast food: sifat, tezlik va mijozga qulay
-                servis. Har bir buyurtma yangi tayyorlanadi.
+                {t("aboutPreview")}
               </p>
               <div className="mt-6 flex flex-col sm:flex-row gap-3">
                 <Link
                   to="/about"
                   className="inline-flex items-center justify-center px-6 py-3 rounded-2xl bg-gray-900 text-white font-semibold hover:bg-black transition-colors"
                 >
-                  Batafsil
+                  {t("learnMore")}
                 </Link>
                 <Link
                   to="/contact"
                   className="inline-flex items-center justify-center px-6 py-3 rounded-2xl bg-gray-50 text-gray-900 font-semibold hover:bg-gray-100 transition-colors"
                 >
-                  Aloqa
+                  {t("contact")}
                 </Link>
               </div>
             </div>
@@ -164,10 +151,10 @@ export default function Home() {
               style={{ background: "linear-gradient(135deg, rgba(250,204,21,0.3) 0%, rgba(220,38,38,0.1) 100%)" }}
             >
               <div className="text-sm font-semibold text-gray-700">
-                Buyurtma tayyor
+                {t("orderReady")}
               </div>
               <div className="mt-2 text-2xl font-extrabold tracking-tight text-gray-900">
-                Savatni to'ldiring va Telegram orqali yuboring.
+                {t("orderPrompt")}
               </div>
               <div className="mt-5">
                 <Link
@@ -175,7 +162,7 @@ export default function Home() {
                   className="inline-flex w-full items-center justify-center px-6 py-3.5 rounded-2xl text-white font-bold transition-colors"
                   style={{ background: "#dc2626" }}
                 >
-                  Buyurtmaga o'tish →
+                  {t("goOrder")} →
                 </Link>
               </div>
             </div>
