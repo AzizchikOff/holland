@@ -48,7 +48,7 @@ export default function Menu() {
                 : "bg-white border border-gray-200 text-gray-700 hover:bg-gray-50",
             ].join(" ")}
           >
-            {c.label}
+            {t(`category_${c.id}`)}
           </button>
         ))}
       </div>
