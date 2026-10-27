@@ -11,8 +11,9 @@ function cartReducer(state, action) {
   switch (action.type) {
     case "ADD": {
       const { productId, qty = 1 } = action;
+      if (!PRODUCT_MAP[productId]) return state;
       const existing = state.items[productId];
-      const nextQty  = Math.min(20, (existing?.qty ?? 0) + qty);
+      const nextQty  = Math.min(20, Math.max(0, (existing?.qty ?? 0) + Number(qty || 0)));
       return { ...state, items: { ...state.items, [productId]: { qty: nextQty } } };
     }
     case "REMOVE": {
@@ -23,7 +24,7 @@ function cartReducer(state, action) {
     case "SET_QTY": {
       const { productId, qty } = action;
       if (!state.items[productId]) return state;
-      const nextQty = Math.max(0, Math.min(20, qty));
+      const nextQty = Math.max(0, Math.min(20, Math.floor(Number(qty) || 0)));
       if (nextQty === 0) {
         const nextItems = { ...state.items };
         delete nextItems[productId];
@@ -47,7 +48,7 @@ function loadInitialCart() {
     // ✅ Katalogda yo'q mahsulotlarni tozalash
     const clean = {};
     for (const [id, item] of Object.entries(parsed.items)) {
-      if (PRODUCT_MAP[id] && item?.qty > 0) clean[id] = { qty: Math.min(20, item.qty) };
+      if (PRODUCT_MAP[id] && Number.isFinite(Number(item?.qty)) && Number(item.qty) > 0) clean[id] = { qty: Math.min(20, Math.floor(Number(item.qty))) };
     }
     return { items: clean };
   } catch {
