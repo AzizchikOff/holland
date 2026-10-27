@@ -1,15 +1,15 @@
 import { createPortal } from "react-dom";
 import { useLanguage } from "../context/LanguageContext.jsx";
 import { useEffect, useState } from "react";
-import { ShoppingCart, Minus, Plus, Flame } from "lucide-react";
+import { ShoppingCart, Minus, Plus, Star } from "lucide-react";
 import { useCart } from "../context/CartContext.jsx";
 import { formatSum } from "../lib/money.js";
 
 // ✅ FIX 4: Steam faqat issiq kategoriyalarda — 190 emas, ~60 animatsiya
-const HOT_CATEGORIES = ["free", "burger", "hotdog"];
+
 
 export default function ProductCard({ product }) {
-  const { t, lang } = useLanguage();
+  const { t } = useLanguage();
   const [detailsOpen, setDetailsOpen] = useState(false);
   useEffect(() => {
     if (!detailsOpen) return;
@@ -19,7 +19,6 @@ export default function ProductCard({ product }) {
   }, [detailsOpen]);
   const { items, addToCart, setQty } = useCart();
   const qty    = items[product.id]?.qty ?? 0;
-  const isHot  = HOT_CATEGORIES.includes(product.category);
   const descriptionKey = {free:"descriptionFree",burger:"descriptionBurger",hotdog:"descriptionHotdog",sous:"descriptionSous",drink:"descriptionDrink"}[product.category];
   const inCart = qty > 0;
 
@@ -31,14 +30,8 @@ export default function ProductCard({ product }) {
     ].join(" ")}>
 
       <div className="relative overflow-hidden">
-        {/* ✅ Steam faqat issiq taomlarda */}
-        {isHot && (
-          <div className="steam-wrap" aria-hidden="true">
-            <span className="steam s1" /><span className="steam s2" /><span className="steam s3" />
-          </div>
-        )}
 
-        <button type="button" onClick={() => setDetailsOpen(true)} aria-label={`${product.name} haqida batafsil`} className="block w-full text-left cursor-pointer">
+        <button type="button" onClick={() => setDetailsOpen(true)} aria-label={`${product.name} — ${t("details")}`} className="block w-full text-left cursor-pointer">
         <img
           src={product.image}
           alt={product.name}
@@ -53,7 +46,7 @@ export default function ProductCard({ product }) {
         <div className="absolute top-3 left-3 flex flex-col gap-1.5 z-10">
           {product.popular && (
             <span className="inline-flex items-center gap-1 bg-yellow-400 text-red-800 text-[11px] font-bold px-2.5 py-1 rounded-full shadow-sm">
-              <Flame size={11} /> {t("hit")}
+              <Star size={11} /> {t("hit")}
             </span>
           )}
 
@@ -101,7 +94,7 @@ export default function ProductCard({ product }) {
       </div>
       {detailsOpen && createPortal(
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/65 p-4" onMouseDown={(e) => { if (e.target === e.currentTarget) setDetailsOpen(false); }}>
-          <section role="dialog" aria-modal="true" aria-label={`${product.name} tafsilotlari`} className="w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-3xl bg-white shadow-2xl">
+          <section role="dialog" aria-modal="true" aria-label={`${product.name} — ${t("details")}`} className="w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-3xl bg-white shadow-2xl">
             <div className="relative">
               <img src={product.image} alt={product.name} className="w-full h-56 object-cover" />
               <button type="button" autoFocus onClick={() => setDetailsOpen(false)} aria-label={t("close")} className="absolute right-3 top-3 rounded-full bg-white px-3 py-2 font-bold shadow">✕</button>
