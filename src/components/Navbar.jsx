@@ -108,7 +108,7 @@ export default function Navbar() {
               <button
                 onClick={() => setMobileOpen((v) => !v)}
                 className="lg:hidden inline-flex items-center justify-center w-11 h-11 rounded-xl bg-red-600 text-white hover:bg-red-700 transition-colors"
-                aria-label="Mobil menyu"
+                aria-label={t("menu")}
               >
                 {mobileOpen ? (
                   <X size={20} strokeWidth={1.8} />
@@ -181,7 +181,7 @@ export default function Navbar() {
               <Phone size={22} strokeWidth={1.8} />
               +998 (90) 699 95 95
             </span>
-            <span className="text-sm opacity-75">Qo'ng'iroq →</span>
+            <span className="text-sm opacity-75">{t("call")} →</span>
           </a>
         </div>
       </div>
