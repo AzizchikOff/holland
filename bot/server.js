@@ -400,7 +400,7 @@ bot.onText(/\/start/, async (msg) => {
     Order.findOne({ userId: id }).sort({ createdAt: -1 }),
   ]);
   let text = `🍔 *Holland Fast Food*\n\nAssalomu alaykum, *${escMd(name)}*\\! 👋\n\n`;
-  text += `┌ ⚡ Yetkazib berish: *10–15 daqiqa*\n`;
+  text += `┌ ⚡ Yetkazib berish: *Buyurtma asosidaa*\n`;
   text += `├ ✅ Mahsulot: *100% Halol*\n`;
   text += `├ 🔥 Taom: *Har doim issiq*\n`;
   text += `└ 👥 Mijozlar: *${userCount} ta*\n\n`;
@@ -838,6 +838,7 @@ app.get("/api/admin/report/custom", async (req, res) => {
 });
 
 app.get("/admin", (req, res) => res.sendFile(path.join(__dirname, "public", "admin.html")));
-app.get("/",      (req, res) => res.json({ ok:true, service:"Holland API ✅" }));
+app.get("/health", (req, res) => res.json({ok: true, database: mongoose.connection.readyState === 1 ? "connected" : "unavailable"}));
+app.get("/",      (req, res) => res.json({ ok:true, service:"Holland API" }));
 
 app.listen(PORT, () => console.log(`✅ Holland API: http://localhost:${PORT}`));
