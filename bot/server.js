@@ -21,6 +21,7 @@ if (!ADMIN_PASS) { console.error("❌ ADMIN_PASS env o'zgaruvchisi yo'q!"); proc
 
 // ✅ FIX 5: BOT_TOKEN tekshiruvi — aks holda new TelegramBot(undefined) yiqiladi
 if (!BOT_TOKEN) { console.error("❌ BOT_TOKEN env o'zgaruvchisi yo'q!"); process.exit(1); }
+if (!process.env.TOKEN_SECRET || process.env.TOKEN_SECRET.length < 32) { console.error("❌ TOKEN_SECRET kamida 32 belgidan iborat bo‘lishi shart!"); process.exit(1); }
 if (!process.env.MONGO_URI) { console.error("❌ MONGO_URI env o'zgaruvchisi yo'q!"); process.exit(1); }
 if (!ADMIN_ID) { console.warn("⚠️ ADMIN_ID yo'q — buyurtmalar hech kimga yuborilmaydi!"); }
 
@@ -187,7 +188,7 @@ const STATUS = {
 // ══════════════════════════════════════════
 function computeAdminToken() {
   return crypto.createHash("sha256")
-    .update(ADMIN_PASS + process.env.TOKEN_SECRET || "holland_internal_v2")
+    .update(ADMIN_PASS + ":" + process.env.TOKEN_SECRET)
     .digest("hex");
 }
 function checkBearer(req) {

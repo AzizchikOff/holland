@@ -9,17 +9,19 @@ import {
   Utensils,
   X,
 } from "lucide-react";
+import { useLanguage } from "../context/LanguageContext.jsx";
 import { useCart } from "../context/CartContext.jsx";
 
 const navItems = [
-  { path: "/", label: "Bosh sahifa", icon: Home },
-  { path: "/menu", label: "Menu", icon: Utensils },
-  { path: "/about", label: "Biz haqimizda", icon: Info },
-  { path: "/contact", label: "Aloqa", icon: Phone },
+  { path: "/", label: "home", icon: Home },
+  { path: "/menu", label: "menu", icon: Utensils },
+  { path: "/about", label: "about", icon: Info },
+  { path: "/contact", label: "contact", icon: Phone },
 ];
 
 export default function Navbar() {
   const location = useLocation();
+  const {lang,setLang,t}=useLanguage();
   const { totalItems } = useCart();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -73,7 +75,7 @@ export default function Navbar() {
                     ].join(" ")}
                   >
                     <Icon size={18} strokeWidth={1.8} />
-                    {item.label}
+                    {t(item.label)}
                   </Link>
                 );
               })}
@@ -81,6 +83,7 @@ export default function Navbar() {
 
             {/* Actions */}
             <div className="flex items-center gap-2">
+              <select aria-label="Til / Language" value={lang} onChange={(e)=>setLang(e.target.value)} className="rounded-lg border border-gray-200 bg-white p-2 text-sm font-semibold"><option value="uz">UZ</option><option value="ru">RU</option><option value="en">EN</option><option value="tr">TR</option></select>
               <a
                 href="tel:+998906999595"
                 className="hidden md:inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gray-50 text-gray-700 hover:bg-red-600 hover:text-white transition-colors text-sm font-medium"
@@ -94,7 +97,7 @@ export default function Navbar() {
                 className="relative inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-red-600 text-white hover:bg-red-700 transition-colors text-sm font-semibold"
               >
                 <ShoppingCart size={18} strokeWidth={1.8} />
-                <span className="hidden sm:inline">Savat</span>
+                <span className="hidden sm:inline">{t("cart")}</span>
                 {totalItems > 0 && (
                   <span className="absolute -top-1 -right-1 bg-yellow-400 text-red-700 text-[10px] font-bold rounded-full w-5 h-5 flex items-center justify-center">
                     {totalItems}
@@ -148,7 +151,7 @@ export default function Navbar() {
                 ].join(" ")}
               >
                 <Icon size={22} strokeWidth={1.8} />
-                {item.label}
+                {t(item.label)}
               </Link>
             );
           })}
@@ -160,7 +163,7 @@ export default function Navbar() {
           >
             <span className="inline-flex items-center gap-3">
               <ShoppingCart size={22} strokeWidth={1.8} />
-              Savat
+              {t("cart")}
             </span>
             {totalItems > 0 && (
               <span className="bg-yellow-400 text-red-700 text-xs font-bold rounded-full px-2 py-1">
