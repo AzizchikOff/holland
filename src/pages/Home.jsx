@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
 import { useLanguage } from "../context/useLanguage.js";
 import ProductCard from "../components/ProductCard.jsx";
-import { getPopularProducts } from "../data/products.js";
+import { useCart } from "../context/useCart.js";
 
 export default function Home() {
-  const popular = getPopularProducts(4);
+  const { products } = useCart();
+  const popular = products.filter(p => p.popular && p.available !== false).slice(0, 4);
   const { t } = useLanguage();
 
   return (

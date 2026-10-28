@@ -1,16 +1,18 @@
 import { useMemo, useState } from "react";
 import { useLanguage } from "../context/useLanguage.js";
 import ProductCard from "../components/ProductCard.jsx";
-import { categories, products } from "../data/products.js";
+import { useCart } from "../context/useCart.js";
+
 
 export default function Menu() {
   const { t } = useLanguage();
+  const { products, categories } = useCart();
   const [active, setActive] = useState("all");
 
   const filtered = useMemo(() => {
     if (active === "all") return products;
     return products.filter((p) => p.category === active);
-  }, [active]);
+  }, [active, products]);
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10">

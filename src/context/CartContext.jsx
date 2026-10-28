@@ -1,11 +1,11 @@
-import { useEffect, useMemo, useReducer, useRef } from "react";
-import { products } from "../data/products.js";
+import { useEffect, useMemo, useReducer, useRef, useState } from "react";
+import { getFallbackMenu, fetchMenu } from "../lib/menuApi.js";
 
 import { CartContext } from "./CartContextValue.js";
 
 // ✅ FIX 3: Faqat id + qty saqlanadi, narx katalogdan olinadi
 // Shunda narx o'zgarsa eski savatdagi mijoz ham yangi narxni ko'radi
-const PRODUCT_MAP = Object.fromEntries(products.map(p => [p.id, p]));
+const PRODUCT_MAP = Object.fromEntries(getFallbackMenu().products.map(p => [p.id, p]));
 
 function cartReducer(state, action) {
   switch (action.type) {
@@ -59,6 +59,30 @@ function loadInitialCart() {
 export function CartProvider({ children }) {
   const [state, dispatch] = useReducer(cartReducer, undefined, loadInitialCart);
   const saveTimeoutRef = useRef(null);
+  const [catalog, setCatalog] = useState(getFallbackMenu);
+  const [menuStatus, setMenuStatus] = useState("loading");
+
+  useEffect(() => {
+    const controller = new AbortController();
+
+    fetchMenu({ signal: controller.signal })
+      .then((data) => {
+        setCatalog(data);
+        setMenuStatus("ready");
+      })
+      .catch((error) => {
+        if (controller.signal.aborted) return;
+        console.warn("Menu API unavailable:", error);
+        setMenuStatus("fallback");
+      });
+
+    return () => controller.abort();
+  }, []);
+
+  const catalogMap = useMemo(
+    () => Object.fromEntries(catalog.products.map(p => [p.id, p])),
+    [catalog.products]
+  );
   useEffect(() => {
     if (saveTimeoutRef.current) clearTimeout(saveTimeoutRef.current);
     saveTimeoutRef.current = setTimeout(() => {
@@ -71,7 +95,7 @@ export function CartProvider({ children }) {
     // ✅ Narx har safar katalogdan olinadi — hech qachon eskirmaydi
     const itemsArray = Object.entries(state.items)
       .map(([id, item]) => {
-        const product = PRODUCT_MAP[id];
+        const product = catalogMap[id];
         if (!product) return null;
         return { product, qty: item.qty };
       })
@@ -83,6 +107,9 @@ export function CartProvider({ children }) {
     return {
       items: state.items,
       itemsArray,
+      products: catalog.products,
+      categories: catalog.categories,
+      menuStatus,
       totalItems,
       totalPrice,
       addToCart:      (product, qty = 1) => dispatch({ type: "ADD", productId: product.id, qty }),
@@ -90,7 +117,7 @@ export function CartProvider({ children }) {
       setQty:         (productId, qty)   => dispatch({ type: "SET_QTY", productId, qty }),
       clearCart:      ()                 => dispatch({ type: "CLEAR" }),
     };
-  }, [state.items]);
+  }, [state.items, catalog, catalogMap, menuStatus]);
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 }
