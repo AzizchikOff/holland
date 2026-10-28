@@ -9,8 +9,8 @@ import {
   Utensils,
   X,
 } from "lucide-react";
-import { useLanguage } from "../context/LanguageContext.jsx";
-import { useCart } from "../context/CartContext.jsx";
+import { useLanguage } from "../context/useLanguage.js";
+import { useCart } from "../context/useCart.js";
 
 const navItems = [
   { path: "/", label: "home", icon: Home },

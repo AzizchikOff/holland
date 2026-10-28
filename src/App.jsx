@@ -1,6 +1,7 @@
 import { lazy, Suspense, Component } from "react";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
-import { LanguageProvider, useLanguage } from "./context/LanguageContext.jsx";
+import { LanguageProvider } from "./context/LanguageContext.jsx";
+import { useLanguage } from "./context/useLanguage.js";
 import MainLayout from "./layout/MainLayout";
 
 const Home    = lazy(() => import("./pages/Home"));

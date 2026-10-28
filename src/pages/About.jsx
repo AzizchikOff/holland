@@ -1,4 +1,4 @@
-import { useLanguage } from "../context/LanguageContext.jsx";
+import { useLanguage } from "../context/useLanguage.js";
 
 export default function About() {
   const { t } = useLanguage();

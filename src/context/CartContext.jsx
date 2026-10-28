@@ -1,7 +1,7 @@
-import { createContext, useContext, useEffect, useMemo, useReducer, useRef } from "react";
+import { useEffect, useMemo, useReducer, useRef } from "react";
 import { products } from "../data/products.js";
 
-const CartContext = createContext(null);
+import { CartContext } from "./CartContextValue.js";
 
 // ✅ FIX 3: Faqat id + qty saqlanadi, narx katalogdan olinadi
 // Shunda narx o'zgarsa eski savatdagi mijoz ham yangi narxni ko'radi
@@ -62,7 +62,7 @@ export function CartProvider({ children }) {
   useEffect(() => {
     if (saveTimeoutRef.current) clearTimeout(saveTimeoutRef.current);
     saveTimeoutRef.current = setTimeout(() => {
-      try { localStorage.setItem("cart_v2", JSON.stringify(state)); } catch {}
+      try { localStorage.setItem("cart_v2", JSON.stringify(state)); } catch (error) { console.warn("Cart storage unavailable:", error); }
     }, 100);
     return () => { if (saveTimeoutRef.current) clearTimeout(saveTimeoutRef.current); };
   }, [state]);
@@ -93,10 +93,4 @@ export function CartProvider({ children }) {
   }, [state.items]);
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
-}
-
-export function useCart() {
-  const ctx = useContext(CartContext);
-  if (!ctx) throw new Error("useCart must be used within CartProvider");
-  return ctx;
 }

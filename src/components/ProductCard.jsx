@@ -1,8 +1,8 @@
 import { createPortal } from "react-dom";
-import { useLanguage } from "../context/LanguageContext.jsx";
+import { useLanguage } from "../context/useLanguage.js";
 import { useEffect, useState } from "react";
 import { ShoppingCart, Minus, Plus, Star } from "lucide-react";
-import { useCart } from "../context/CartContext.jsx";
+import { useCart } from "../context/useCart.js";
 import { formatSum } from "../lib/money.js";
 
 // ✅ FIX 4: Steam faqat issiq kategoriyalarda — 190 emas, ~60 animatsiya

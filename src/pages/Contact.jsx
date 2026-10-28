@@ -1,5 +1,5 @@
 import { siteConfig } from "../config/site.js";
-import { useLanguage } from "../context/LanguageContext.jsx";
+import { useLanguage } from "../context/useLanguage.js";
 
 export default function Contact() {
   const { t } = useLanguage();

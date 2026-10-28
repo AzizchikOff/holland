@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { useLanguage } from "../context/LanguageContext.jsx";
+import { useLanguage } from "../context/useLanguage.js";
 import ProductCard from "../components/ProductCard.jsx";
 import { categories, products } from "../data/products.js";
 

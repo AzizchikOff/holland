@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useLanguage } from "../context/LanguageContext.jsx";
+import { useLanguage } from "../context/useLanguage.js";
 import ProductCard from "../components/ProductCard.jsx";
 import { getPopularProducts } from "../data/products.js";
 

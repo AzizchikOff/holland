@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState, useRef } from "react";
 import { Minus, Plus, Trash2, Navigation, PenLine, MapPin, CheckCircle2, Loader2, ChevronDown, Banknote, CreditCard } from "lucide-react";
-import { useCart } from "../context/CartContext.jsx";
+import { useCart } from "../context/useCart.js";
 import { formatSum } from "../lib/money.js";
 import { getTelegramDeepLink } from "../config/site.js";
 
@@ -125,7 +125,7 @@ function AddressField({ address, onAddress, onGps }) {
       onAddress(gpsLabel);
       onGps(coords);
     }
-  }, [status, gpsLabel]);
+  }, [status, gpsLabel, coords, onAddress, onGps]);
 
   const goBack = () => { setMode("none"); reset(); onAddress(""); onGps(null); };
 
