@@ -38,7 +38,7 @@ export function normalizeMenu(payload) {
       name: String(item.name ?? existing.name).slice(0, 120),
       category,
       price,
-      image: safeImage(item.image, imageById[id]),
+      image: safeImage(item.image ?? (item.img ? `/images/${item.img}` : null), imageById[id]),
       available: item.available !== false,
     };
   }).filter(Boolean);
