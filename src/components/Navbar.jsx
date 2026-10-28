@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import {
   Home,
@@ -25,6 +25,61 @@ export default function Navbar() {
   const { totalItems } = useCart();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const menuButtonRef = useRef(null);
+  const drawerRef = useRef(null);
+
+  useEffect(() => {
+    if (!mobileOpen) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    const drawer = drawerRef.current;
+    const previousFocus = document.activeElement;
+
+    const getFocusable = () =>
+      Array.from(
+        drawer?.querySelectorAll(
+          'a[href], button:not([disabled]), select:not([disabled])'
+        ) ?? []
+      );
+
+    getFocusable()[0]?.focus();
+
+    const onKeyDown = (event) => {
+      if (event.key === "Escape") {
+        setMobileOpen(false);
+        return;
+      }
+
+      if (event.key !== "Tab") return;
+
+      const elements = getFocusable();
+      if (!elements.length) return;
+
+      const first = elements[0];
+      const last = elements[elements.length - 1];
+
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+
+    document.addEventListener("keydown", onKeyDown);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener("keydown", onKeyDown);
+
+      if (previousFocus?.isConnected) {
+        previousFocus.focus();
+      }
+    };
+  }, [mobileOpen]);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10);
@@ -109,6 +164,7 @@ export default function Navbar() {
                 onClick={() => setMobileOpen((v) => !v)}
                 className="lg:hidden inline-flex items-center justify-center w-11 h-11 rounded-xl bg-[#A91F23] text-white hover:bg-[#8D191D] transition-colors"
                 aria-label={mobileOpen ? "Menyuni yopish" : t("menu")}
+                ref={menuButtonRef}
                 aria-expanded={mobileOpen}
                 aria-controls="holland-mobile-menu"
               >
@@ -148,7 +204,7 @@ export default function Navbar() {
             mobileOpen ? "opacity-100" : "opacity-0",
           ].join(" ")}
         />
-        <div id="holland-mobile-menu" className={[
+        <div ref={drawerRef} id="holland-mobile-menu" className={[
           "absolute right-0 top-0 bottom-0 w-[min(88vw,360px)]",
           "overflow-y-auto bg-[#F8F5EF] shadow-2xl",
           "transition-transform duration-300 ease-out",
