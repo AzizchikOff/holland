@@ -108,7 +108,9 @@ export default function Navbar() {
               <button
                 onClick={() => setMobileOpen((v) => !v)}
                 className="lg:hidden inline-flex items-center justify-center w-11 h-11 rounded-xl bg-[#A91F23] text-white hover:bg-[#8D191D] transition-colors"
-                aria-label={t("menu")}
+                aria-label={mobileOpen ? "Menyuni yopish" : t("menu")}
+                aria-expanded={mobileOpen}
+                aria-controls="holland-mobile-menu"
               >
                 {mobileOpen ? (
                   <X size={20} strokeWidth={1.8} />
@@ -129,11 +131,29 @@ export default function Navbar() {
       {/* Mobile overlay */}
       <div
         className={[
-          "lg:hidden fixed inset-0 z-40 bg-white transition-all duration-200",
-          mobileOpen ? "opacity-100 visible" : "opacity-0 invisible pointer-events-none",
+          "lg:hidden fixed inset-x-0 bottom-0 top-16 z-40",
+          "transition-[visibility] duration-300",
+          mobileOpen ? "visible" : "invisible pointer-events-none",
         ].join(" ")}
-        style={{ top: "64px" }}
+        aria-hidden={!mobileOpen}
       >
+        <button
+          type="button"
+          tabIndex={mobileOpen ? 0 : -1}
+          aria-label="Menyuni yopish"
+          onClick={() => setMobileOpen(false)}
+          className={[
+            "absolute inset-0 w-full bg-[#171719]/45 backdrop-blur-sm",
+            "transition-opacity duration-300",
+            mobileOpen ? "opacity-100" : "opacity-0",
+          ].join(" ")}
+        />
+        <div id="holland-mobile-menu" className={[
+          "absolute right-0 top-0 bottom-0 w-[min(88vw,360px)]",
+          "overflow-y-auto bg-[#F8F5EF] shadow-2xl",
+          "transition-transform duration-300 ease-out",
+          mobileOpen ? "translate-x-0" : "translate-x-full",
+        ].join(" ")}>
         <div className="p-4 space-y-2">
           {navItems.map((item) => {
             const Icon = item.icon;
@@ -183,6 +203,7 @@ export default function Navbar() {
             </span>
             <span className="text-sm opacity-75">{t("call")} →</span>
           </a>
+        </div>
         </div>
       </div>
     </>
