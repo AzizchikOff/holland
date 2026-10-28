@@ -39,7 +39,7 @@ export default function ProductCard({ product }) {
           width="400"
           height="300"
           decoding="async"
-          className="w-full aspect-[4/3] object-cover bg-[#F8F5EF] transition-transform duration-500 group-hover:scale-105"
+          className="w-full aspect-[4/3] object-contain p-2 sm:p-3 bg-[#F8F5EF] transition-transform duration-500 group-hover:scale-105"
         />
         </button>
 
@@ -59,9 +59,9 @@ export default function ProductCard({ product }) {
         )}
       </div>
 
-      <div className="flex flex-col flex-1 p-4 gap-3">
+      <div className="flex flex-col flex-1 p-3 sm:p-4 gap-2 sm:gap-3">
         <div>
-          <button type="button" onClick={() => setDetailsOpen(true)} className="font-bold text-[#171719] leading-snug text-[15px] text-left hover:text-[#A91F23] focus-visible:outline-2 focus-visible:outline-[#A91F23]">{product.name}</button>
+          <button type="button" onClick={() => setDetailsOpen(true)} className="font-bold text-[#171719] leading-snug text-[13px] sm:text-[15px] text-left hover:text-[#A91F23] focus-visible:outline-2 focus-visible:outline-[#A91F23]">{product.name}</button>
           <span className="mt-1 block text-[#A91F23] font-extrabold">{formatSum(product.price)} {t("currency")}</span>
         </div>
 
@@ -69,19 +69,19 @@ export default function ProductCard({ product }) {
         <div className="mt-auto">
           {qty === 0 ? (
             <button onClick={() => addToCart(product, 1)}
-              className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl font-bold text-sm bg-[#A91F23] text-white hover:bg-[#8D191D] active:scale-95 transition-all shadow-sm">
+              className="w-full inline-flex items-center justify-center gap-2 px-2 sm:px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-[#A91F23] text-white hover:bg-[#8D191D] active:scale-95 transition-all shadow-sm">
               <ShoppingCart size={16} /> {t("add")}
             </button>
           ) : (
             <div className="flex flex-col gap-2">
               <div className="flex items-center justify-between bg-[#F8F5EF] rounded-xl p-1.5">
                 <button onClick={() => setQty(product.id, qty - 1)}
-                  className="w-9 h-9 inline-flex items-center justify-center rounded-lg bg-white shadow-sm hover:bg-[#F8F5EF] hover:text-[#A91F23] transition-colors active:scale-95">
+                  className="w-8 h-8 sm:w-9 sm:h-9 inline-flex items-center justify-center rounded-lg bg-white shadow-sm hover:bg-[#F8F5EF] hover:text-[#A91F23] transition-colors active:scale-95">
                   <Minus size={16} />
                 </button>
-                <span className="font-extrabold text-[#171719] min-w-8 text-center">{qty}</span>
+                <span className="font-extrabold text-[#171719] min-w-6 sm:min-w-8 text-center">{qty}</span>
                 <button onClick={() => setQty(product.id, qty + 1)}
-                  className="w-9 h-9 inline-flex items-center justify-center rounded-lg bg-[#A91F23] text-white shadow-sm hover:bg-[#8D191D] transition-colors active:scale-95">
+                  className="w-8 h-8 sm:w-9 sm:h-9 inline-flex items-center justify-center rounded-lg bg-[#A91F23] text-white shadow-sm hover:bg-[#8D191D] transition-colors active:scale-95">
                   <Plus size={16} />
                 </button>
               </div>

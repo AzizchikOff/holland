@@ -15,10 +15,10 @@ export default function Menu() {
   }, [active, products]);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10">
+    <div className="max-w-7xl mx-auto px-3 sm:px-6 py-6 sm:py-10">
       <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
         <div>
-          <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-[#171719]">
+          <h1 className="text-2xl sm:text-4xl font-bold tracking-tight text-[#171719]">
             {t("menu")}
           </h1>
           <p className="mt-2 text-[#6B6560]">
@@ -55,7 +55,7 @@ export default function Menu() {
         ))}
       </div>
 
-      <div className="mt-8 grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-5">
+      <div className="mt-5 sm:mt-8 grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-2.5 sm:gap-5">
         {filtered.map((p) => (
           <ProductCard key={p.id} product={p} />
         ))}
