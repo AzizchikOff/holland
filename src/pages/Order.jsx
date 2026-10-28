@@ -265,7 +265,7 @@ async function saveOrderToBackend({ name, fullPhone, address, gps, itemsArray, p
 
 // ── Asosiy Order ────────────────────────────────────────────
 export default function Order() {
-  const { itemsArray, totalItems, totalPrice, setQty, removeFromCart, clearCart } = useCart();
+  const { itemsArray, totalItems, totalPrice, setQty, removeFromCart, clearCart, menuStatus } = useCart();
   const [name, setName]               = useState("");
   const [phoneNum, setPhoneNum]       = useState("");   // faqat raqam qismi
   const [fullPhone, setFullPhone]     = useState("+998"); // kod + raqam
@@ -278,8 +278,8 @@ export default function Order() {
   const [showFallback, setShowFallback] = useState(false);
 
   const canSubmit = useMemo(() =>
-    totalItems > 0 && name.trim() && fullPhone.length > 5 && address.trim() && !sending,
-    [name, fullPhone, address, totalItems, sending]
+    menuStatus === "ready" && totalItems > 0 && name.trim() && fullPhone.length > 5 && address.trim() && !sending,
+    [name, fullPhone, address, totalItems, sending, menuStatus]
   );
 
   const telegramText = useMemo(() =>
@@ -290,6 +290,10 @@ export default function Order() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
+    if (menuStatus !== "ready") {
+      setError("Menu serveri bilan aloqa yo'q. Buyurtma yuborish vaqtincha cheklangan.");
+      return;
+    }
     setError("");
     if (totalItems === 0) { setError("Savat bo'sh. Avval mahsulot qo'shing."); return; }
     if (!name.trim() || name.trim().length < 2) { setError("Ismingizni to'liq kiriting."); return; }
@@ -424,6 +428,13 @@ export default function Order() {
           <p className="text-sm text-gray-500 mb-6">Buyurtma to'g'ridan oshxonaga yuboriladi.</p>
 
           <form onSubmit={onSubmit} className="space-y-5">
+            {menuStatus !== "ready" && (
+              <div role="alert" className="rounded-xl border border-amber-300 bg-amber-50 p-4 text-sm text-amber-900">
+                {menuStatus === "loading"
+                  ? "Menu narxlari serverdan tekshirilmoqda..."
+                  : "Menu serveri bilan aloqa yo'q. Buyurtma yuborish vaqtincha cheklangan."}
+              </div>
+            )}
             {/* Ism */}
             <div>
               <label className="text-sm font-semibold text-gray-700 block mb-2">👤 Ismingiz</label>
