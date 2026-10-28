@@ -57,3 +57,43 @@ body {
 /* Kategoriya scroll */
 .cats-scroll { scrollbar-width: none; -ms-overflow-style: none; }
 .cats-scroll::-webkit-scrollbar { display: none; }
+/* Holland 2.0 — Signature Premium */
+:root {
+  --holland-ivory: #F8F5EF;
+  --holland-red: #A91F23;
+  --holland-charcoal: #171719;
+  --holland-gold: #D8A65A;
+}
+
+body {
+  background: var(--holland-ivory);
+  color: var(--holland-charcoal);
+}
+
+::selection {
+  background: var(--holland-red);
+  color: white;
+}
+
+button, a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:not(:disabled) {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+:focus-visible {
+  outline: 3px solid var(--holland-gold);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
