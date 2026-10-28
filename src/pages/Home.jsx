@@ -13,7 +13,7 @@ export default function Home() {
       {/* Hero — gradient inline style bilan (Tailwind v4 da ishonchli ishlaydi) */}
       <section
         className="text-white"
-        style={{ background: "linear-gradient(135deg, #ef4444 0%, #f87171 100%)" }}
+        style={{ background: "linear-gradient(135deg, #171719 0%, #3B2021 55%, #A91F23 100%)" }}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-14 sm:py-20">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
@@ -36,7 +36,7 @@ export default function Home() {
                 <Link
                   to="/menu"
                   className="inline-flex items-center justify-center px-6 py-3.5 rounded-2xl font-bold transition-colors"
-                  style={{ background: "#facc15", color: "#991b1b" }}
+                  style={{ background: "#D8A65A", color: "#171719" }}
                 >
                   {t("viewMenu")}
                 </Link>
@@ -83,7 +83,7 @@ export default function Home() {
                   <Link
                     to="/menu"
                     className="inline-flex w-full items-center justify-center px-5 py-3 rounded-2xl font-bold transition-colors"
-                    style={{ background: "#facc15", color: "#991b1b" }}
+                    style={{ background: "#D8A65A", color: "#171719" }}
                   >
                     {t("allProducts")} →
                   </Link>
@@ -161,7 +161,7 @@ export default function Home() {
                 <Link
                   to="/order"
                   className="inline-flex w-full items-center justify-center px-6 py-3.5 rounded-2xl text-white font-bold transition-colors"
-                  style={{ background: "#dc2626" }}
+                  style={{ background: "#A91F23" }}
                 >
                   {t("goOrder")} →
                 </Link>

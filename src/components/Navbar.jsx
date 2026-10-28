@@ -44,13 +44,13 @@ export default function Navbar() {
         className={[
           "fixed top-0 left-0 right-0 z-50",
           "transition-all duration-300",
-          scrolled ? "bg-white/95 backdrop-blur-md shadow-sm" : "bg-white shadow-sm",
+          scrolled ? "bg-[#F8F5EF]/95 backdrop-blur-md shadow-sm" : "bg-[#F8F5EF] shadow-sm",
         ].join(" ")}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="h-16 lg:h-20 flex items-center justify-between">
             <Link to="/" className="group flex items-center gap-3">
-              <span className="text-2xl font-semibold tracking-tight text-gray-900">
+              <span className="text-2xl font-semibold tracking-tight text-[#171719]">
                 Holland
               </span>
               <span className="hidden sm:inline-flex px-2.5 py-1 rounded-lg bg-green-50 text-green-700 text-xs font-semibold">
@@ -70,8 +70,8 @@ export default function Navbar() {
                     className={[
                       "flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-colors",
                       active
-                        ? "bg-red-600 text-white"
-                        : "text-gray-700 hover:bg-red-600 hover:text-white",
+                        ? "bg-[#A91F23] text-white"
+                        : "text-gray-700 hover:bg-[#A91F23] hover:text-white",
                     ].join(" ")}
                   >
                     <Icon size={18} strokeWidth={1.8} />
@@ -86,7 +86,7 @@ export default function Navbar() {
               <select aria-label="Til / Language" value={lang} onChange={(e)=>setLang(e.target.value)} className="rounded-lg border border-gray-200 bg-white p-2 text-sm font-semibold"><option value="uz">UZ</option><option value="ru">RU</option><option value="en">EN</option><option value="tr">TR</option></select>
               <a
                 href="tel:+998906999595"
-                className="hidden md:inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gray-50 text-gray-700 hover:bg-red-600 hover:text-white transition-colors text-sm font-medium"
+                className="hidden md:inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gray-50 text-gray-700 hover:bg-[#A91F23] hover:text-white transition-colors text-sm font-medium"
               >
                 <Phone size={18} strokeWidth={1.8} />
                 +998 (90) 699 95 95
@@ -94,12 +94,12 @@ export default function Navbar() {
 
               <Link
                 to="/order"
-                className="relative inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-red-600 text-white hover:bg-red-700 transition-colors text-sm font-semibold"
+                className="relative inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#A91F23] text-white hover:bg-[#8D191D] transition-colors text-sm font-semibold"
               >
                 <ShoppingCart size={18} strokeWidth={1.8} />
                 <span className="hidden sm:inline">{t("cart")}</span>
                 {totalItems > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-yellow-400 text-red-700 text-[10px] font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                  <span className="absolute -top-1 -right-1 bg-[#D8A65A] text-[#171719] text-[10px] font-bold rounded-full w-5 h-5 flex items-center justify-center">
                     {totalItems}
                   </span>
                 )}
@@ -107,7 +107,7 @@ export default function Navbar() {
 
               <button
                 onClick={() => setMobileOpen((v) => !v)}
-                className="lg:hidden inline-flex items-center justify-center w-11 h-11 rounded-xl bg-red-600 text-white hover:bg-red-700 transition-colors"
+                className="lg:hidden inline-flex items-center justify-center w-11 h-11 rounded-xl bg-[#A91F23] text-white hover:bg-[#8D191D] transition-colors"
                 aria-label={t("menu")}
               >
                 {mobileOpen ? (
@@ -146,8 +146,8 @@ export default function Navbar() {
                 className={[
                   "flex items-center gap-3 px-4 py-4 rounded-2xl font-medium transition-colors",
                   active
-                    ? "bg-red-600 text-white"
-                    : "bg-gray-50 text-gray-800 hover:bg-red-600 hover:text-white",
+                    ? "bg-[#A91F23] text-white"
+                    : "bg-gray-50 text-gray-800 hover:bg-[#A91F23] hover:text-white",
                 ].join(" ")}
               >
                 <Icon size={22} strokeWidth={1.8} />
@@ -159,14 +159,14 @@ export default function Navbar() {
           <Link
             to="/order"
             onClick={handleNavClick}
-            className="mt-3 flex items-center justify-between gap-3 px-4 py-4 rounded-2xl bg-red-600 text-white font-semibold hover:bg-red-700 transition-colors"
+            className="mt-3 flex items-center justify-between gap-3 px-4 py-4 rounded-2xl bg-[#A91F23] text-white font-semibold hover:bg-[#8D191D] transition-colors"
           >
             <span className="inline-flex items-center gap-3">
               <ShoppingCart size={22} strokeWidth={1.8} />
               {t("cart")}
             </span>
             {totalItems > 0 && (
-              <span className="bg-yellow-400 text-red-700 text-xs font-bold rounded-full px-2 py-1">
+              <span className="bg-[#D8A65A] text-[#171719] text-xs font-bold rounded-full px-2 py-1">
                 {totalItems} ta
               </span>
             )}
@@ -175,7 +175,7 @@ export default function Navbar() {
           <a
             href="tel:+998906999595"
             onClick={handleNavClick}
-            className="mt-2 flex items-center justify-between gap-3 px-4 py-4 rounded-2xl bg-gray-50 text-gray-800 hover:bg-red-600 hover:text-white transition-colors"
+            className="mt-2 flex items-center justify-between gap-3 px-4 py-4 rounded-2xl bg-gray-50 text-gray-800 hover:bg-[#A91F23] hover:text-white transition-colors"
           >
             <span className="inline-flex items-center gap-3">
               <Phone size={22} strokeWidth={1.8} />
