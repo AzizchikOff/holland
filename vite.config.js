@@ -4,6 +4,15 @@ import tailwindcss from "@tailwindcss/vite";
 import { ViteImageOptimizer } from "vite-plugin-image-optimizer";
 
 export default defineConfig({
+  server: {
+    proxy: {
+      "/api": {
+        target: "https://holland-bot.onrender.com",
+        changeOrigin: true,
+        secure: true,
+      },
+    },
+  },
   plugins: [
     react(),
     tailwindcss(),

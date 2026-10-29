@@ -87,7 +87,15 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const isActive = (path) => location.pathname === path;
+  const isMiniApp = location.pathname === "/app" ||
+    location.pathname.startsWith("/app/");
+
+  const appPath = (path) => {
+    if (!isMiniApp) return path;
+    return path === "/" ? "/app" : `/app${path}`;
+  };
+
+  const isActive = (path) => location.pathname === appPath(path);
 
   const handleNavClick = () => {
     setMobileOpen(false);
@@ -97,15 +105,15 @@ export default function Navbar() {
     <>
       <header
         className={[
-          "fixed top-0 left-0 right-0 z-50",
+          "fixed top-0 left-0 right-0 z-50 border-b border-[#C79B64]/35",
           "transition-all duration-300",
-          scrolled ? "bg-[#F8F5EF]/95 backdrop-blur-md shadow-sm" : "bg-[#F8F5EF] shadow-sm",
+          scrolled ? "bg-[#EDE2D3]/95 backdrop-blur-xl shadow-[0_8px_30px_rgba(48,40,36,0.09)]" : "bg-[#EDE2D3] shadow-sm",
         ].join(" ")}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="h-16 lg:h-20 flex items-center justify-between">
-            <Link to="/" className="group flex items-center gap-3">
-              <span className="text-2xl font-semibold tracking-tight text-[#171719]">
+          <div className="h-16 lg:h-20 grid grid-cols-[minmax(0,1fr)_auto] lg:grid-cols-[1fr_auto_1fr] items-center gap-1.5 sm:gap-3">
+            <Link to={appPath("/")} className="group flex min-w-0 items-center gap-2">
+              <span className="truncate text-lg min-[380px]:text-xl sm:text-2xl font-semibold tracking-tight text-[#302824]">
                 Holland
               </span>
               <span className="hidden sm:inline-flex px-2.5 py-1 rounded-lg bg-green-50 text-green-700 text-xs font-semibold">
@@ -114,47 +122,55 @@ export default function Navbar() {
             </Link>
 
             {/* Desktop nav */}
-            <nav className="hidden lg:flex items-center gap-1">
+            <nav className="hidden lg:flex items-center justify-center gap-1 justify-self-center">
               {navItems.map((item) => {
                 const Icon = item.icon;
                 const active = isActive(item.path);
                 return (
                   <Link
                     key={item.path}
-                    to={item.path}
+                    to={appPath(item.path)}
                     className={[
-                      "flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-colors",
+                      "group relative flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm font-semibold transition-colors duration-300",
                       active
-                        ? "bg-[#A91F23] text-white"
-                        : "text-gray-700 hover:bg-[#A91F23] hover:text-white",
+                        ? "text-[#92272D]"
+                        : "text-[#302824] hover:text-[#92272D]",
                     ].join(" ")}
                   >
                     <Icon size={18} strokeWidth={1.8} />
                     {t(item.label)}
+                    <span
+                      aria-hidden="true"
+                      className={[
+                        "absolute bottom-0 left-3 right-3 h-[2.5px] origin-center rounded-full bg-[#C79B64]",
+                        "transition-transform duration-300 ease-out",
+                        active ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100",
+                      ].join(" ")}
+                    />
                   </Link>
                 );
               })}
             </nav>
 
             {/* Actions */}
-            <div className="flex items-center gap-2">
-              <select aria-label="Til / Language" value={lang} onChange={(e)=>setLang(e.target.value)} className="rounded-lg border border-gray-200 bg-white p-2 text-sm font-semibold"><option value="uz">UZ</option><option value="ru">RU</option><option value="en">EN</option><option value="tr">TR</option></select>
+            <div className="flex shrink-0 items-center gap-1 sm:gap-2 justify-self-end">
+              <select aria-label="Til / Language" value={lang} onChange={(e)=>setLang(e.target.value)} className="w-[55px] sm:w-auto rounded-xl border border-[#C79B64]/35 bg-white px-1 sm:px-2 py-2.5 text-xs sm:text-sm font-bold text-[#302824] outline-none focus-visible:ring-2 focus-visible:ring-[#C79B64]"><option value="uz">UZ</option><option value="ru">RU</option><option value="en">EN</option><option value="tr">TR</option></select>
               <a
                 href="tel:+998906999595"
-                className="hidden md:inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gray-50 text-gray-700 hover:bg-[#A91F23] hover:text-white transition-colors text-sm font-medium"
+                className="hidden md:inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#F5E9D9] text-gray-700 hover:bg-[#92272D] hover:text-white transition-colors text-sm font-medium"
               >
                 <Phone size={18} strokeWidth={1.8} />
                 +998 (90) 699 95 95
               </a>
 
               <Link
-                to="/order"
-                className="relative inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#A91F23] text-white hover:bg-[#8D191D] transition-colors text-sm font-semibold"
+                to={appPath("/order")}
+                className="relative inline-flex shrink-0 items-center justify-center gap-2 w-10 h-10 sm:w-auto sm:h-auto sm:px-4 sm:py-2.5 rounded-xl bg-[#92272D] text-white hover:bg-[#781D23] transition-colors text-sm font-semibold"
               >
                 <ShoppingCart size={18} strokeWidth={1.8} />
                 <span className="hidden sm:inline">{t("cart")}</span>
                 {totalItems > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-[#D8A65A] text-[#171719] text-[10px] font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                  <span className="absolute -top-1 -right-1 bg-[#C79B64] text-[#302824] text-[10px] font-bold rounded-full w-5 h-5 flex items-center justify-center">
                     {totalItems}
                   </span>
                 )}
@@ -162,7 +178,7 @@ export default function Navbar() {
 
               <button
                 onClick={() => setMobileOpen((v) => !v)}
-                className="lg:hidden inline-flex items-center justify-center w-11 h-11 rounded-xl bg-[#A91F23] text-white hover:bg-[#8D191D] transition-colors"
+                className="lg:hidden inline-flex shrink-0 items-center justify-center w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-[#92272D] text-white hover:bg-[#781D23] transition-colors"
                 aria-label={mobileOpen ? "Menyuni yopish" : t("menu")}
                 ref={menuButtonRef}
                 aria-expanded={mobileOpen}
@@ -187,7 +203,7 @@ export default function Navbar() {
       {/* Mobile overlay */}
       <div
         className={[
-          "lg:hidden fixed inset-x-0 bottom-0 top-16 z-40",
+          "lg:hidden fixed inset-x-0 bottom-0 top-16 z-40 overflow-hidden",
           "transition-[visibility] duration-300",
           mobileOpen ? "visible" : "invisible pointer-events-none",
         ].join(" ")}
@@ -206,7 +222,7 @@ export default function Navbar() {
         />
         <div ref={drawerRef} id="holland-mobile-menu" className={[
           "absolute right-0 top-0 bottom-0 w-[min(88vw,360px)]",
-          "overflow-y-auto bg-[#F8F5EF] shadow-2xl",
+          "overflow-y-auto bg-[#EDE2D3] shadow-2xl",
           "transition-transform duration-300 ease-out",
           mobileOpen ? "translate-x-0" : "translate-x-full",
         ].join(" ")}>
@@ -217,13 +233,13 @@ export default function Navbar() {
             return (
               <Link
                 key={item.path}
-                to={item.path}
+                to={appPath(item.path)}
                 onClick={handleNavClick}
                 className={[
                   "flex items-center gap-3 px-4 py-4 rounded-2xl font-medium transition-colors",
                   active
-                    ? "bg-[#A91F23] text-white"
-                    : "bg-gray-50 text-gray-800 hover:bg-[#A91F23] hover:text-white",
+                    ? "bg-[#92272D] text-white"
+                    : "bg-[#F5E9D9] text-gray-800 hover:bg-[#92272D] hover:text-white",
                 ].join(" ")}
               >
                 <Icon size={22} strokeWidth={1.8} />
@@ -233,16 +249,16 @@ export default function Navbar() {
           })}
 
           <Link
-            to="/order"
+            to={appPath("/order")}
             onClick={handleNavClick}
-            className="mt-3 flex items-center justify-between gap-3 px-4 py-4 rounded-2xl bg-[#A91F23] text-white font-semibold hover:bg-[#8D191D] transition-colors"
+            className="mt-3 flex items-center justify-between gap-3 px-4 py-4 rounded-2xl bg-[#92272D] text-white font-semibold hover:bg-[#781D23] transition-colors"
           >
             <span className="inline-flex items-center gap-3">
               <ShoppingCart size={22} strokeWidth={1.8} />
               {t("cart")}
             </span>
             {totalItems > 0 && (
-              <span className="bg-[#D8A65A] text-[#171719] text-xs font-bold rounded-full px-2 py-1">
+              <span className="bg-[#C79B64] text-[#302824] text-xs font-bold rounded-full px-2 py-1">
                 {totalItems} ta
               </span>
             )}
@@ -251,7 +267,7 @@ export default function Navbar() {
           <a
             href="tel:+998906999595"
             onClick={handleNavClick}
-            className="mt-2 flex items-center justify-between gap-3 px-4 py-4 rounded-2xl bg-gray-50 text-gray-800 hover:bg-[#A91F23] hover:text-white transition-colors"
+            className="mt-2 flex items-center justify-between gap-3 px-4 py-4 rounded-2xl bg-[#F5E9D9] text-gray-800 hover:bg-[#92272D] hover:text-white transition-colors"
           >
             <span className="inline-flex items-center gap-3">
               <Phone size={22} strokeWidth={1.8} />

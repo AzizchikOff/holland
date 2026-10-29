@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import { LanguageProvider } from "./context/LanguageContext.jsx";
 import { useLanguage } from "./context/useLanguage.js";
 import MainLayout from "./layout/MainLayout";
+import MiniAppNavigation from "./components/MiniAppNavigation.jsx";
 
 const Home    = lazy(() => import("./pages/Home"));
 const Menu    = lazy(() => import("./pages/Menu"));
@@ -64,11 +65,17 @@ class ErrorBoundary extends Component {
 function App() {
   return (
     <LanguageProvider><BrowserRouter>
+      <MiniAppNavigation />
       <ErrorBoundary>
         <Suspense fallback={<PageLoader />}>
           <Routes>
             <Route element={<MainLayout />}>
               <Route path="/"        element={<Home />} />
+              <Route path="/app"     element={<Home />} />
+              <Route path="/app/menu" element={<Menu />} />
+              <Route path="/app/about" element={<About />} />
+              <Route path="/app/contact" element={<Contact />} />
+              <Route path="/app/order" element={<Order />} />
               <Route path="/menu"    element={<Menu />} />
               <Route path="/about"   element={<About />} />
               <Route path="/contact" element={<Contact />} />

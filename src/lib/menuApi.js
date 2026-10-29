@@ -5,7 +5,9 @@
  */
 import { categories as fallbackCategories, products as fallbackProducts } from "../data/products.js";
 
-const API_BASE = "https://holland-bot.onrender.com";
+const API_BASE = import.meta.env.DEV
+  ? ""
+  : "https://holland-bot.onrender.com";
 const imageById = Object.fromEntries(fallbackProducts.map((p) => [String(p.id), p.image]));
 const extrasById = Object.fromEntries(fallbackProducts.map((p) => [String(p.id), p]));
 const ALLOWED_IMAGE_ORIGIN = "https://holland-namangan.netlify.app";
