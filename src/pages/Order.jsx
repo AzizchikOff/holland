@@ -1,8 +1,11 @@
 import { useEffect, useMemo, useState, useRef } from "react";
 import { Minus, Plus, Trash2, Navigation, PenLine, MapPin, CheckCircle2, Loader2, ChevronDown, Banknote, CreditCard } from "lucide-react";
-import { useCart } from "../context/CartContext.jsx";
+import { useCart } from "../context/useCart.js";
 import { formatSum } from "../lib/money.js";
 import { getTelegramDeepLink } from "../config/site.js";
+import { useLanguage } from "../context/useLanguage.js";
+import { getOrderTranslations } from "../lib/orderTranslations.js";
+
 
 const API_URL = import.meta.env.VITE_API_URL || "https://holland-bot.onrender.com";
 
@@ -53,7 +56,7 @@ function PhoneInput({ value, onChange, onFullPhone }) {
   };
 
   return (
-    <div className="mt-2 flex rounded-2xl border-2 border-gray-200 focus-within:border-red-500 overflow-visible transition-colors bg-white">
+    <div className="mt-2 flex rounded-2xl border-2 border-gray-200 focus-within:border-[#92272D] focus-within:ring-0 focus-within:shadow-none overflow-visible transition-colors bg-white">
       <div className="relative flex-shrink-0" ref={dropRef}>
         <button type="button" onClick={() => setOpen(!open)}
           className="flex items-center gap-1.5 px-3 py-3 h-full bg-gray-50 hover:bg-gray-100 border-r-2 border-gray-200 transition-colors font-bold text-sm rounded-l-2xl">
@@ -77,7 +80,7 @@ function PhoneInput({ value, onChange, onFullPhone }) {
         )}
       </div>
       <input type="tel" inputMode="numeric" value={value} onChange={handleChange}
-        className="flex-1 px-4 py-3 outline-none text-sm font-medium bg-white placeholder-gray-400 rounded-r-2xl"
+        className="min-w-0 flex-1 px-3 sm:px-4 py-3 outline-none focus:outline-none focus:ring-0 focus:shadow-none text-sm font-medium bg-transparent placeholder-gray-400 rounded-r-2xl"
         placeholder="90 123 45 67"/>
     </div>
   );
@@ -116,6 +119,8 @@ function useGPS() {
 
 // ── Manzil komponenti ───────────────────────────────────────
 function AddressField({ address, onAddress, onGps }) {
+  const { lang } = useLanguage();
+  const c = getOrderTranslations(lang);
   const [mode, setMode] = useState("none");
   const { status, coords, gpsLabel, detect, reset } = useGPS();
 
@@ -125,30 +130,30 @@ function AddressField({ address, onAddress, onGps }) {
       onAddress(gpsLabel);
       onGps(coords);
     }
-  }, [status, gpsLabel]);
+  }, [status, gpsLabel, coords, onAddress, onGps]);
 
   const goBack = () => { setMode("none"); reset(); onAddress(""); onGps(null); };
 
   if (mode === "none") return (
     <div className="grid grid-cols-2 gap-3 mt-2">
       <button type="button" onClick={() => { setMode("gps"); detect(); }}
-        className="flex flex-col items-center gap-2.5 p-5 rounded-2xl border-2 border-blue-100 bg-blue-50 hover:border-blue-400 hover:bg-blue-100 transition-all group active:scale-95">
-        <div className="w-11 h-11 rounded-xl bg-blue-500 flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform">
+        className="flex flex-col items-center gap-2.5 p-5 rounded-2xl border-2 border-[#C79B64]/40 bg-[#F5E9D9] hover:border-[#C79B64] hover:bg-[#EAD8C2] transition-all group active:scale-95">
+        <div className="w-11 h-11 rounded-xl bg-[#C79B64] flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform">
           <Navigation size={22} className="text-white" />
         </div>
         <div className="text-center">
-          <div className="text-sm font-bold text-gray-900">GPS orqali</div>
-          <div className="text-xs text-gray-500 mt-0.5">Avtomatik aniqlash</div>
+          <div className="text-sm font-bold text-gray-900">{c.gps}</div>
+          <div className="text-xs text-gray-500 mt-0.5">{c.gpsHint}</div>
         </div>
       </button>
       <button type="button" onClick={() => setMode("manual")}
-        className="flex flex-col items-center gap-2.5 p-5 rounded-2xl border-2 border-green-100 bg-green-50 hover:border-green-400 hover:bg-green-100 transition-all group active:scale-95">
-        <div className="w-11 h-11 rounded-xl bg-green-500 flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform">
+        className="flex flex-col items-center gap-2.5 p-5 rounded-2xl border-2 border-[#92272D]/20 bg-[#F3E6E2] hover:border-[#92272D] hover:bg-[#EBD5D0] transition-all group active:scale-95">
+        <div className="w-11 h-11 rounded-xl bg-[#92272D] flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform">
           <PenLine size={22} className="text-white" />
         </div>
         <div className="text-center">
-          <div className="text-sm font-bold text-gray-900">Qo'lda kiritish</div>
-          <div className="text-xs text-gray-500 mt-0.5">Ko'cha, uy, mo'ljal</div>
+          <div className="text-sm font-bold text-gray-900">{c.manual}</div>
+          <div className="text-xs text-gray-500 mt-0.5">{c.manualHint}</div>
         </div>
       </button>
     </div>
@@ -159,8 +164,8 @@ function AddressField({ address, onAddress, onGps }) {
       <div className="mt-2 flex items-center gap-3 p-4 rounded-2xl bg-blue-50 border-2 border-blue-200">
         <Loader2 size={20} className="text-blue-500 animate-spin flex-shrink-0" />
         <div>
-          <div className="text-sm font-bold text-blue-800">Joylashuv aniqlanmoqda...</div>
-          <div className="text-xs text-blue-600 mt-0.5">Bir necha sekund kuting</div>
+          <div className="text-sm font-bold text-blue-800">{c.detecting}</div>
+          <div className="text-xs text-blue-600 mt-0.5">{c.wait}</div>
         </div>
       </div>
     );
@@ -169,13 +174,13 @@ function AddressField({ address, onAddress, onGps }) {
         <div className="flex items-start gap-3 p-4 rounded-2xl bg-red-50 border-2 border-red-200">
           <span className="text-xl flex-shrink-0">⚠️</span>
           <div>
-            <div className="text-sm font-bold text-red-800">GPS ruxsat berilmadi</div>
-            <div className="text-xs text-red-600 mt-0.5">Brauzer sozlamalaridan ruxsat bering yoki qo'lda kiriting</div>
+            <div className="text-sm font-bold text-red-800">{c.gpsError}</div>
+            <div className="text-xs text-red-600 mt-0.5">{c.gpsErrorHint}</div>
           </div>
         </div>
         <div className="flex gap-2">
-          <button type="button" onClick={goBack} className="flex-1 py-2.5 rounded-xl bg-gray-100 text-sm font-semibold hover:bg-gray-200 transition-colors">← Ortga</button>
-          <button type="button" onClick={() => { reset(); setMode("manual"); }} className="flex-1 py-2.5 rounded-xl bg-green-600 text-white text-sm font-semibold hover:bg-green-700 transition-colors">Qo'lda kiritish</button>
+          <button type="button" onClick={goBack} className="flex-1 py-2.5 rounded-xl bg-gray-100 text-sm font-semibold hover:bg-gray-200 transition-colors">{`← ${c.back}`}</button>
+          <button type="button" onClick={() => { reset(); setMode("manual"); }} className="flex-1 py-2.5 rounded-xl bg-green-600 text-white text-sm font-semibold hover:bg-green-700 transition-colors">{c.manual}</button>
         </div>
       </div>
     );
@@ -184,7 +189,7 @@ function AddressField({ address, onAddress, onGps }) {
         <div className="flex items-start gap-3 p-4 rounded-2xl bg-green-50 border-2 border-green-400">
           <CheckCircle2 size={20} className="text-green-600 flex-shrink-0 mt-0.5" />
           <div className="flex-1 min-w-0">
-            <div className="text-sm font-bold text-green-800 mb-1">Manzil aniqlandi ✅</div>
+            <div className="text-sm font-bold text-green-800 mb-1">{c.gpsSuccess} ✅</div>
             <div className="text-xs text-green-700 leading-relaxed break-words">{gpsLabel}</div>
           </div>
         </div>
@@ -195,8 +200,8 @@ function AddressField({ address, onAddress, onGps }) {
           </a>
         )}
         <div className="flex gap-2 mt-1">
-          <button type="button" onClick={goBack} className="flex-1 py-2.5 rounded-xl bg-gray-100 text-sm font-semibold hover:bg-gray-200 transition-colors">← Qayta aniqlash</button>
-          <button type="button" onClick={() => { reset(); setMode("manual"); onGps(null); }} className="flex-1 py-2.5 rounded-xl border-2 border-gray-200 text-sm font-semibold hover:bg-gray-50 transition-colors">Qo'lda o'zgartirish</button>
+          <button type="button" onClick={goBack} className="flex-1 py-2.5 rounded-xl bg-gray-100 text-sm font-semibold hover:bg-gray-200 transition-colors">{`← ${c.retry}`}</button>
+          <button type="button" onClick={() => { reset(); setMode("manual"); onGps(null); }} className="flex-1 py-2.5 rounded-xl border-2 border-gray-200 text-sm font-semibold hover:bg-gray-50 transition-colors">{c.editManual}</button>
         </div>
       </div>
     );
@@ -205,9 +210,9 @@ function AddressField({ address, onAddress, onGps }) {
   if (mode === "manual") return (
     <div className="mt-2 flex flex-col gap-2">
       <textarea value={address} onChange={(e) => onAddress(e.target.value)} autoFocus
-        className="w-full px-4 py-3 rounded-2xl border-2 border-gray-200 focus:outline-none focus:border-red-500 min-h-28 text-sm font-medium resize-none transition-colors"
-        placeholder="Tuman, ko'cha, uy raqami, mo'ljal..." />
-      <button type="button" onClick={goBack} className="self-start text-xs text-gray-500 font-semibold hover:text-gray-700 transition-colors">← Ortga</button>
+        className="w-full px-4 py-3 rounded-2xl border-2 border-gray-200 focus:outline-none focus:ring-0 focus:shadow-none focus:border-[#92272D] min-h-28 text-sm font-medium resize-none transition-colors"
+        placeholder={c.addressPlaceholder} />
+      <button type="button" onClick={goBack} className="self-start text-xs text-gray-500 font-semibold hover:text-gray-700 transition-colors">{`← ${c.back}`}</button>
     </div>
   );
 }
@@ -265,7 +270,9 @@ async function saveOrderToBackend({ name, fullPhone, address, gps, itemsArray, p
 
 // ── Asosiy Order ────────────────────────────────────────────
 export default function Order() {
-  const { itemsArray, totalItems, totalPrice, setQty, removeFromCart, clearCart } = useCart();
+  const { lang } = useLanguage();
+  const c = getOrderTranslations(lang);
+  const { itemsArray, totalItems, totalPrice, setQty, removeFromCart, clearCart, menuStatus } = useCart();
   const [name, setName]               = useState("");
   const [phoneNum, setPhoneNum]       = useState("");   // faqat raqam qismi
   const [fullPhone, setFullPhone]     = useState("+998"); // kod + raqam
@@ -278,8 +285,8 @@ export default function Order() {
   const [showFallback, setShowFallback] = useState(false);
 
   const canSubmit = useMemo(() =>
-    totalItems > 0 && name.trim() && fullPhone.length > 5 && address.trim() && !sending,
-    [name, fullPhone, address, totalItems, sending]
+    menuStatus === "ready" && totalItems > 0 && name.trim() && fullPhone.length > 5 && address.trim() && !sending,
+    [name, fullPhone, address, totalItems, sending, menuStatus]
   );
 
   const telegramText = useMemo(() =>
@@ -290,16 +297,20 @@ export default function Order() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
+    if (menuStatus !== "ready") {
+      setError(c.menuUnavailable);
+      return;
+    }
     setError("");
-    if (totalItems === 0) { setError("Savat bo'sh. Avval mahsulot qo'shing."); return; }
-    if (!name.trim() || name.trim().length < 2) { setError("Ismingizni to'liq kiriting."); return; }
+    if (totalItems === 0) { setError(c.emptyError); return; }
+    if (!name.trim() || name.trim().length < 2) { setError(c.nameError); return; }
 
     // ✅ FIX 2h: Telefon validatsiyasi — kamida 7 ta raqam
     const digits = fullPhone.replace(/\D/g, "");
-    if (digits.length < 9) { setError("Telefon raqamni to'liq kiriting."); return; }
+    if (digits.length < 9) { setError(c.phoneError); return; }
 
     // ✅ FIX 2h: Manzil validatsiyasi
-    if (address.trim().length < 5) { setError("Manzilni batafsilroq kiriting."); return; }
+    if (address.trim().length < 5) { setError(c.addressError); return; }
 
     setSending(true);
 
@@ -315,13 +326,11 @@ export default function Order() {
     if (result?.success) {
       clearCart();
       setSuccess(true);
-      // Mini App ichida bo'lsa yopamiz
-      if (window.Telegram?.WebApp) {
-        setTimeout(() => window.Telegram.WebApp.close(), 1500);
-      }
+      // Muvaffaqiyat xabari ekranda qoladi.
+      // Mini App foydalanuvchi roziligisiz yopilmaydi.
     } else {
       // Backend ishlamadi — mijozga aniq xabar, Telegram fallback taklif qilinadi
-      setError(result?.error || "Server bilan bog'lanib bo'lmadi. Telegram orqali yuborishingiz mumkin.");
+      setError(result?.error || c.serverError);
       setShowFallback(true);
     }
   };
@@ -335,15 +344,15 @@ export default function Order() {
 
   const onCopy = async () => {
     try { await navigator.clipboard.writeText(telegramText); }
-    catch { setError("Nusxa olishda xatolik."); }
+    catch { setError(c.copyError); }
   };
 
   // ── Muvaffaqiyat ekrani ──
   if (success) return (
-    <div className="max-w-md mx-auto px-4 py-20 text-center">
-      <div className="text-6xl mb-6">✅</div>
-      <h2 className="text-2xl font-bold text-gray-900 mb-3">Buyurtma qabul qilindi!</h2>
-      <p className="text-gray-500 mb-8">10–15 daqiqada yetkazib beramiz. Kuryer siz bilan bog'lanadi 📞</p>
+    <div className="mx-auto max-w-lg px-4 py-20 text-center sm:py-28">
+      <div className="mx-auto mb-6 flex h-24 w-24 items-center justify-center rounded-full bg-[#92272D]/10 text-6xl">✅</div>
+      <h2 className="mb-4 text-3xl font-extrabold tracking-tight text-[#302824]">{c.success}</h2>
+      <p className="mb-8 text-sm leading-7 text-[#73695E]">{c.successHint}</p>
       <a href="/" className="inline-flex items-center justify-center px-6 py-3 rounded-2xl bg-red-600 text-white font-bold hover:bg-red-700 transition-colors">
         🏠 Bosh sahifaga
       </a>
@@ -351,37 +360,38 @@ export default function Order() {
   );
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10">
+    <div className="min-h-screen bg-[#EDE2D3]">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16 text-[#302824]">
       <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-8">
         <div>
-          <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-gray-900">Buyurtma</h1>
-          <p className="mt-2 text-gray-600">Savatni tekshiring va ma'lumotlarni kiriting.</p>
+          <h1 className="text-4xl sm:text-5xl font-extrabold tracking-[-0.055em] text-[#302824]">{c.title}</h1>
+          <p className="mt-2 text-gray-600">{c.subtitle}</p>
         </div>
         {totalItems > 0 && (
           <button onClick={clearCart}
-            className="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-gray-100 hover:bg-gray-200 transition-colors font-semibold text-sm">
+            className="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-[#EDE2D3] hover:bg-[#DCC9B3] transition-colors font-semibold text-sm">
             Savatni tozalash
           </button>
         )}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid min-w-0 grid-cols-1 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.95fr)] gap-6 lg:gap-8 items-start">
         {/* Savat */}
-        <div className="rounded-2xl bg-white border border-gray-100 p-6 shadow-sm">
+        <div className="min-w-0 rounded-[28px] bg-white/90 border border-[#C79B64]/30 p-4 sm:p-7 shadow-[0_16px_50px_rgba(48,40,36,0.06)]">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-bold text-gray-900">Savat</h2>
-            <div className="text-sm text-gray-500">{totalItems} ta mahsulot</div>
+            <h2 className="text-xl font-extrabold text-[#302824]">{c.cart}</h2>
+            <div className="text-sm text-gray-500">{totalItems} {c.itemCount}</div>
           </div>
           {itemsArray.length === 0 ? (
-            <div className="rounded-2xl bg-gray-50 p-8 text-center text-gray-500">
+            <div className="rounded-[24px] border border-[#C79B64]/30 bg-[#F5E9D9] p-10 text-center font-medium text-[#73695E]">
               Savat bo'sh. Menu sahifasidan mahsulot qo'shing.
             </div>
           ) : (
             <div className="space-y-4">
               {itemsArray.map((it) => (
-                <div key={it.product.id} className="flex gap-4 rounded-2xl border border-gray-100 p-4">
+                <div key={it.product.id} className="flex gap-4 rounded-2xl border border-[#E2D2C0] bg-[#FBF8F3] p-4">
                   <img src={it.product.image} alt={it.product.name}
-                    className="w-20 h-16 sm:w-24 sm:h-20 rounded-xl object-cover bg-gray-50 flex-shrink-0" loading="lazy"/>
+                    className="w-20 h-20 sm:w-24 sm:h-24 rounded-xl object-contain bg-white p-1 flex-shrink-0" loading="lazy"/>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-start justify-between gap-2">
                       <div className="min-w-0">
@@ -396,12 +406,12 @@ export default function Order() {
                     <div className="mt-3 flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <button onClick={() => setQty(it.product.id, it.qty - 1)}
-                          className="w-9 h-9 flex items-center justify-center rounded-xl bg-gray-100 hover:bg-gray-200 transition-colors">
+                          className="w-9 h-9 flex items-center justify-center rounded-xl bg-[#EDE2D3] hover:bg-[#DCC9B3] transition-colors">
                           <Minus size={16} />
                         </button>
                         <span className="min-w-7 text-center font-bold">{it.qty}</span>
                         <button onClick={() => setQty(it.product.id, it.qty + 1)}
-                          className="w-9 h-9 flex items-center justify-center rounded-xl bg-red-600 text-white hover:bg-red-700 transition-colors">
+                          className="w-9 h-9 flex items-center justify-center rounded-xl bg-[#92272D] text-white hover:bg-[#781D23] transition-colors">
                           <Plus size={16} />
                         </button>
                       </div>
@@ -410,56 +420,63 @@ export default function Order() {
                   </div>
                 </div>
               ))}
-              <div className="pt-4 border-t border-gray-100 flex items-center justify-between">
-                <div className="font-semibold text-gray-700">Umumiy</div>
-                <div className="text-xl font-extrabold text-gray-900">{formatSum(totalPrice)} so'm</div>
+              <div className="pt-4 border-t border-[#E2D2C0] flex items-center justify-between">
+                <div className="font-semibold text-gray-700">{c.total}</div>
+                <div className="text-xl font-extrabold text-[#92272D]">{formatSum(totalPrice)} so'm</div>
               </div>
             </div>
           )}
         </div>
 
         {/* Forma */}
-        <div className="rounded-2xl bg-white border border-gray-100 p-6 shadow-sm">
-          <h2 className="text-xl font-bold text-gray-900 mb-1">Ma'lumotlar</h2>
-          <p className="text-sm text-gray-500 mb-6">Buyurtma to'g'ridan oshxonaga yuboriladi.</p>
+        <div className="min-w-0 rounded-[28px] bg-white/90 border border-[#C79B64]/30 p-4 sm:p-7 shadow-[0_16px_50px_rgba(48,40,36,0.06)]">
+          <h2 className="text-xl font-extrabold text-[#302824] mb-1">{c.details}</h2>
+          <p className="text-sm text-gray-500 mb-6">{c.detailsHint}</p>
 
           <form onSubmit={onSubmit} className="space-y-5">
+            {menuStatus !== "ready" && (
+              <div role="alert" className="rounded-xl border border-amber-300 bg-amber-50 p-4 text-sm text-amber-900">
+                {menuStatus === "loading"
+                  ? c.menuLoading
+                  : c.menuUnavailable}
+              </div>
+            )}
             {/* Ism */}
             <div>
-              <label className="text-sm font-semibold text-gray-700 block mb-2">👤 Ismingiz</label>
+              <label className="text-sm font-semibold text-gray-700 block mb-2">👤 {c.name}</label>
               <input value={name} onChange={(e) => setName(e.target.value)}
-                className="w-full px-4 py-3 rounded-2xl border-2 border-gray-200 focus:outline-none focus:border-red-500 transition-colors font-medium text-sm"
-                placeholder="To'liq ismingiz"/>
+                className="w-full px-4 py-3 rounded-2xl border-2 border-gray-200 focus:outline-none focus:ring-0 focus:shadow-none focus:border-[#92272D] transition-colors font-medium text-sm outline-none focus:outline-none focus:ring-0 focus:shadow-none"
+                placeholder={c.namePlaceholder}/>
             </div>
 
             {/* Telefon */}
             <div>
-              <label className="text-sm font-semibold text-gray-700 block">📞 Telefon</label>
+              <label className="text-sm font-semibold text-gray-700 block">📞 {c.phone}</label>
               {/* ✅ FIX 2a: fullPhone state orqali kod + raqam yuboriladi */}
               <PhoneInput value={phoneNum} onChange={setPhoneNum} onFullPhone={setFullPhone} />
             </div>
 
             {/* Manzil */}
             <div>
-              <label className="text-sm font-semibold text-gray-700 block">📍 Manzil</label>
+              <label className="text-sm font-semibold text-gray-700 block">📍 {c.address}</label>
               <AddressField address={address} onAddress={setAddress} onGps={setGps} />
             </div>
 
             {/* To'lov turi */}
             <div>
-              <label className="text-sm font-semibold text-gray-700 block mb-2">💳 To'lov turi</label>
-              <div className="grid grid-cols-2 gap-3">
+              <label className="text-sm font-semibold text-gray-700 block mb-2">💳 {c.payment}</label>
+              <div className="grid min-w-0 grid-cols-2 gap-2 sm:gap-3">
                 <button type="button" onClick={() => setPayment("cash")}
                   className={`flex items-center justify-center gap-2 py-3 rounded-2xl border-2 font-semibold text-sm transition-all ${
-                    paymentMethod === "cash" ? "border-red-500 bg-red-50 text-red-700" : "border-gray-200 hover:border-gray-300"
+                    paymentMethod === "cash" ? "border-[#92272D] bg-[#92272D]/10 text-[#92272D]" : "border-gray-200 hover:border-gray-300"
                   }`}>
-                  <Banknote size={18} /> Naqd pul
+                  <Banknote size={18} /> {c.cash}
                 </button>
                 <button type="button" onClick={() => setPayment("card")}
                   className={`flex items-center justify-center gap-2 py-3 rounded-2xl border-2 font-semibold text-sm transition-all ${
-                    paymentMethod === "card" ? "border-red-500 bg-red-50 text-red-700" : "border-gray-200 hover:border-gray-300"
+                    paymentMethod === "card" ? "border-[#92272D] bg-[#92272D]/10 text-[#92272D]" : "border-gray-200 hover:border-gray-300"
                   }`}>
-                  <CreditCard size={18} /> Karta
+                  <CreditCard size={18} /> {c.card}
                 </button>
               </div>
             </div>
@@ -480,9 +497,9 @@ export default function Order() {
 
             <button type="submit" disabled={!canSubmit}
               className={`w-full inline-flex items-center justify-center gap-2 px-6 py-4 rounded-2xl font-bold text-base transition-all ${
-                canSubmit ? "bg-red-600 text-white hover:bg-red-700 shadow-sm hover:shadow-lg active:scale-98" : "bg-gray-200 text-gray-500 cursor-not-allowed"
+                canSubmit ? "bg-[#92272D] text-white hover:bg-[#781D23] shadow-sm hover:shadow-lg active:scale-98" : "bg-[#D8C9B8] text-[#73695E] cursor-not-allowed"
               }`}>
-              {sending ? (<><Loader2 size={18} className="animate-spin" />Yuborilmoqda...</>) : "✅ Buyurtmani tasdiqlash"}
+              {sending ? (<><Loader2 size={18} className="animate-spin" />{c.sending}</>) : `✅ ${c.submit}`}
             </button>
 
             <button type="button" onClick={onCopy}
@@ -491,6 +508,7 @@ export default function Order() {
             </button>
           </form>
         </div>
+      </div>
       </div>
     </div>
   );

@@ -57,3 +57,194 @@ body {
 /* Kategoriya scroll */
 .cats-scroll { scrollbar-width: none; -ms-overflow-style: none; }
 .cats-scroll::-webkit-scrollbar { display: none; }
+/* Holland 2.0 — Signature Premium */
+:root {
+  --holland-ivory: #F8F5EF;
+  --holland-red: #A91F23;
+  --holland-charcoal: #171719;
+  --holland-gold: #D8A65A;
+}
+
+body {
+  background: var(--holland-ivory);
+  color: var(--holland-charcoal);
+}
+
+::selection {
+  background: var(--holland-red);
+  color: white;
+}
+
+button, a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:not(:disabled) {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+:focus-visible {
+  outline: 3px solid var(--holland-gold);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+@keyframes hollandReveal {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@keyframes hollandReveal {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Holland 2.0 typography */
+
+
+:root {
+  font-family: "DM Sans", sans-serif;
+  font-synthesis: none;
+}
+
+body,
+button,
+input,
+textarea,
+select {
+  font-family: "DM Sans", sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Manrope", sans-serif;
+  letter-spacing: -0.035em;
+}
+
+/* Holland 2.0 — Global warm beige theme */
+:root {
+  --holland-bg: #EDE2D3;
+  --holland-surface: #DCC9B3;
+  --holland-burgundy: #92272D;
+  --holland-gold: #C79B64;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+html,
+body {
+  background-color: var(--holland-bg);
+}
+
+#root {
+  background-color: var(--holland-bg);
+}
+
+
+/* Holland 2.0 — responsive foundations */
+html {
+  overflow-x: clip;
+}
+
+body {
+  margin: 0;
+  background: #EDE2D3;
+}
+
+#root {
+  min-height: 100dvh;
+  background: #EDE2D3;
+}
+
+@media (max-width: 639px) {
+  input,
+  textarea,
+  select {
+    font-size: 16px;
+  }
+}
+
+/* Holland 2.0 — Telegram Mini App viewport */
+:root {
+  --tg-viewport-height: 100dvh;
+  --tg-safe-top: 0px;
+  --tg-safe-bottom: 0px;
+  --tg-content-safe-top: 0px;
+  --tg-content-safe-bottom: 0px;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+#root {
+  min-height: var(--tg-viewport-height);
+}
+
+body {
+  overscroll-behavior-y: none;
+}
+
+@supports (padding: max(0px)) {
+  #root {
+    padding-bottom: max(
+      env(safe-area-inset-bottom, 0px),
+      var(--tg-safe-bottom),
+      var(--tg-content-safe-bottom)
+    );
+  }
+}
+
+input,
+textarea,
+select {
+  scroll-margin-top: 90px;
+  scroll-margin-bottom: 100px;
+}
