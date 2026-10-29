@@ -5,13 +5,13 @@ import { CartContext } from "./CartContextValue.js";
 
 // ✅ FIX 3: Faqat id + qty saqlanadi, narx katalogdan olinadi
 // Shunda narx o'zgarsa eski savatdagi mijoz ham yangi narxni ko'radi
-const PRODUCT_MAP = Object.fromEntries(getFallbackMenu().products.map(p => [p.id, p]));
+// Mahsulot mavjudligi reducer ichida emas, API katalogi asosida tekshiriladi.
 
 function cartReducer(state, action) {
   switch (action.type) {
     case "ADD": {
       const { productId, qty = 1 } = action;
-      if (!PRODUCT_MAP[productId]) return state;
+      if (!action.validProduct) return state;
       const existing = state.items[productId];
       const nextQty  = Math.min(20, Math.max(0, (existing?.qty ?? 0) + Number(qty || 0)));
       return { ...state, items: { ...state.items, [productId]: { qty: nextQty } } };
@@ -48,7 +48,8 @@ function loadInitialCart() {
     // ✅ Katalogda yo'q mahsulotlarni tozalash
     const clean = {};
     for (const [id, item] of Object.entries(parsed.items)) {
-      if (PRODUCT_MAP[id] && Number.isFinite(Number(item?.qty)) && Number(item.qty) > 0) clean[id] = { qty: Math.min(20, Math.floor(Number(item.qty))) };
+      if (Number.isSafeInteger(Number(item?.qty)) && Number(item.qty) > 0)
+      clean[id] = { qty: Math.min(20, Math.floor(Number(item.qty))) };
     }
     return { items: clean };
   } catch {
@@ -84,6 +85,16 @@ export function CartProvider({ children }) {
     [catalog.products]
   );
   useEffect(() => {
+    if (menuStatus !== "ready") return;
+
+    for (const id of Object.keys(state.items)) {
+      if (!catalogMap[id] || catalogMap[id].available === false) {
+        dispatch({ type: "REMOVE", productId: id });
+      }
+    }
+  }, [catalogMap, menuStatus, state.items]);
+
+  useEffect(() => {
     if (saveTimeoutRef.current) clearTimeout(saveTimeoutRef.current);
     saveTimeoutRef.current = setTimeout(() => {
       try { localStorage.setItem("cart_v2", JSON.stringify(state)); } catch (error) { console.warn("Cart storage unavailable:", error); }
@@ -112,7 +123,14 @@ export function CartProvider({ children }) {
       menuStatus,
       totalItems,
       totalPrice,
-      addToCart:      (product, qty = 1) => dispatch({ type: "ADD", productId: product.id, qty }),
+      addToCart:      (product, qty = 1) => dispatch({
+        type: "ADD",
+        productId: String(product.id),
+        qty,
+        validProduct: menuStatus === "ready" &&
+          catalogMap[String(product.id)]?.available !== false &&
+          Boolean(catalogMap[String(product.id)]),
+      }),
       removeFromCart: (productId)        => dispatch({ type: "REMOVE", productId }),
       setQty:         (productId, qty)   => dispatch({ type: "SET_QTY", productId, qty }),
       clearCart:      ()                 => dispatch({ type: "CLEAR" }),
