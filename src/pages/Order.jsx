@@ -237,16 +237,18 @@ function buildTelegramMessage({ name, fullPhone, address, gps, itemsArray, total
 }
 
 // ── Backendga saqlash ───────────────────────────────────────
-async function saveOrderToBackend({ name, fullPhone, address, gps, itemsArray, paymentMethod }) {
+async function saveOrderToBackend({ name, fullPhone, address, gps, itemsArray, paymentMethod, requestId }) {
   const tgUser = window.Telegram?.WebApp?.initDataUnsafe?.user || {};
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), 8000);
+
   try {
-    const ctrl = new AbortController();
-    const timer = setTimeout(() => ctrl.abort(), 8000); // 8s timeout
     const res = await fetch(`${API_URL}/api/orders`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       signal: ctrl.signal,
       body: JSON.stringify({
+        requestId,
         userId:        tgUser.id || 0,
         name,
         phone:         fullPhone, // ← kod bilan
@@ -259,12 +261,27 @@ async function saveOrderToBackend({ name, fullPhone, address, gps, itemsArray, p
         initData:      window.Telegram?.WebApp?.initData || "",
       }),
     });
-    clearTimeout(timer);
     const data = await res.json();
+
+    if (!res.ok) {
+      return {
+        success: false,
+        status: res.status,
+        uncertain: res.status >= 500 || res.status === 429,
+        error: data?.error || "Buyurtmani yuborishda xatolik yuz berdi.",
+      };
+    }
+
     return data;
   } catch (e) {
     console.warn("Backend saqlash xatosi:", e.message);
-    return { success: false };
+    return {
+      success: false,
+      uncertain: true,
+      error: "Server javobi olinmadi. Buyurtma saqlangan bo'lishi mumkin. Iltimos, ayni buyurtmani qayta yuborishdan oldin tekshiring.",
+    };
+  } finally {
+    clearTimeout(timer);
   }
 }
 
@@ -281,6 +298,7 @@ export default function Order() {
   const [paymentMethod, setPayment]   = useState("cash");
   const [error, setError]             = useState("");
   const [sending, setSending]         = useState(false);
+  const submittingRef = useRef(false);
   const [success, setSuccess]         = useState(false);
   const [showFallback, setShowFallback] = useState(false);
 
@@ -295,8 +313,31 @@ export default function Order() {
     [name, fullPhone, address, gps, itemsArray, totalPrice, paymentMethod]
   );
 
+  // Buyurtma qayta yuborilganda bir xil requestId ishlatiladi.
+  const getRequestId = (orderData) => {
+    const key = "holland_pending_order";
+    const fingerprint = JSON.stringify(orderData);
+
+    try {
+      const saved = JSON.parse(sessionStorage.getItem(key) || "null");
+
+      if (saved?.fingerprint === fingerprint && saved?.requestId) {
+        return saved.requestId;
+      }
+
+      const requestId = crypto.randomUUID();
+      sessionStorage.setItem(key, JSON.stringify({ fingerprint, requestId }));
+      return requestId;
+    } catch {
+      return crypto.randomUUID();
+    }
+  };
+
   const onSubmit = async (e) => {
     e.preventDefault();
+
+    if (submittingRef.current) return;
+
     if (menuStatus !== "ready") {
       setError(c.menuUnavailable);
       return;
@@ -312,18 +353,58 @@ export default function Order() {
     // ✅ FIX 2h: Manzil validatsiyasi
     if (address.trim().length < 5) { setError(c.addressError); return; }
 
+    submittingRef.current = true;
     setSending(true);
+    setShowFallback(false);
 
     // ✅ FIX 2c: Javob tekshiriladi
-    const result = await saveOrderToBackend({
-      name: name.trim(), fullPhone, address: address.trim(), gps, itemsArray, paymentMethod,
-    });
+    const orderData = {
+      name: name.trim(),
+      fullPhone,
+      address: address.trim(),
+      gps,
+      items: itemsArray.map((it) => ({
+        id: it.product.id,
+        qty: it.qty,
+      })),
+      paymentMethod,
+    };
 
-    setSending(false);
+    let result;
+
+    try {
+      const requestId = getRequestId(orderData);
+
+      result = await saveOrderToBackend({
+        name: orderData.name,
+        fullPhone: orderData.fullPhone,
+        address: orderData.address,
+        gps: orderData.gps,
+        itemsArray,
+        paymentMethod: orderData.paymentMethod,
+        requestId,
+      });
+    } catch (err) {
+      console.error("Buyurtma yuborish xatosi:", err);
+      result = {
+        success: false,
+        uncertain: true,
+        error: "Buyurtma holatini aniqlab bo'lmadi. Qayta urinishdan oldin tekshiring.",
+      };
+    } finally {
+      submittingRef.current = false;
+      setSending(false);
+    }
 
     // ✅ FIX 4: Dublikat buyurtma muammosi hal qilindi
     // Backend allaqachon adminga xabar yuboradi — deep link ochilmaydi
     if (result?.success) {
+      try {
+        sessionStorage.removeItem("holland_pending_order");
+      } catch (err) {
+        console.warn("Pending order tozalanmadi:", err);
+      }
+
       clearCart();
       setSuccess(true);
       // Muvaffaqiyat xabari ekranda qoladi.
@@ -331,15 +412,18 @@ export default function Order() {
     } else {
       // Backend ishlamadi — mijozga aniq xabar, Telegram fallback taklif qilinadi
       setError(result?.error || c.serverError);
-      setShowFallback(true);
+      setShowFallback(
+        !result?.uncertain &&
+        result?.status === 503
+      );
     }
   };
 
   // Backend ishlamagan holatda qo'lda Telegram'ga yuborish
   const sendViaTelegram = () => {
     window.open(getTelegramDeepLink(telegramText), "_blank", "noopener,noreferrer");
-    clearCart();
-    setSuccess(true);
+    // Telegram oynasi ochilgani xabar yuborilganini anglatmaydi.
+    // Shuning uchun savatcha saqlanadi va success ko'rsatilmaydi.
   };
 
   const onCopy = async () => {

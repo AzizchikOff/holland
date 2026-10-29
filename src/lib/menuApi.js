@@ -31,22 +31,28 @@ export function normalizeMenu(payload) {
     const id = String(item.id ?? "");
     const existing = extrasById[id];
     const price = Number(item.price);
-    if (!id || !existing || !Number.isSafeInteger(price) || price < 0) return null;
+    if (!id || !Number.isSafeInteger(price) || price < 0) return null;
     const category = String(item.cat ?? item.category ?? "");
-    if (!fallbackCategories.some((c) => c.id === category)) return null;
+    if (!payload.categories.some((c) => String(c.id) === category)) return null;
     return {
-      ...existing,
+      ...(existing || {}),
       id,
-      name: String(item.name ?? existing.name).slice(0, 120),
+      name: String(item.name ?? existing?.name ?? "Mahsulot").slice(0, 120),
       category,
       price,
-      image: safeImage(item.image ?? (item.img ? `/images/${item.img}` : null), imageById[id]),
+      image: safeImage(
+        item.image ?? (item.img ? `/images/${item.img}` : null),
+        imageById[id] || "/images/free-classik.jpg"
+      ),
       available: item.available !== false,
     };
   }).filter(Boolean);
   if (!products.length) throw new Error("Menu API bo'sh");
   return {
-    categories: fallbackCategories,
+    categories: payload.categories.map((c) => ({
+      id: String(c.id),
+      label: String(c.label ?? c.name ?? c.id).slice(0, 80),
+    })),
     products,
   };
 }
