@@ -201,6 +201,12 @@ body {
   background: #EDE2D3;
 }
 
+@media (min-width: 96rem) {
+  .max-w-7xl {
+    max-width: min(90vw, 112rem);
+  }
+}
+
 @media (max-width: 639px) {
   input,
   textarea,
